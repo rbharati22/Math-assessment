@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +29,8 @@
         * { box-sizing: border-box; }
         body {font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 40px 5px; user-select: none; -webkit-user-select: none; }
         
-        .test-container { background-color: var(--container-bg); max-width: 900px; width: 100%; margin: 0 auto; padding: 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); position: relative; }
+        /* Adjusted padding to avoid content getting hidden behind the fixed elements */
+        .test-container { background-color: var(--container-bg); max-width: 900px; width: 100%; margin: 0 auto; padding: 140px 20px 180px 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); position: relative; min-height: 100vh; }
         
         h1 { text-align: center; font-size: 28px; margin-top: 0; margin-bottom: 5px; }
         .sub-header { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 14px; }
@@ -63,7 +64,26 @@
         
         #quiz-section, #loading-spinner, #lockout-screen { display: none; }
         
-        .timer-container { text-align: right; font-size: 18px; font-weight: bold; color: var(--timer-color); margin-bottom: 25px; padding: 12px; background: rgba(251, 191, 36, 0.1); border-radius: 6px; border: 1px solid rgba(251, 191, 36, 0.3); }
+        /* Fixed Header Container for Timer & Palette */
+        .quiz-header-fixed {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 900px;
+            background: rgba(18, 43, 54, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+            padding: 15px 20px 5px 20px;
+            z-index: 100;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .timer-container { text-align: right; font-size: 18px; font-weight: bold; color: var(--timer-color); margin-bottom: 12px; padding: 12px; background: rgba(251, 191, 36, 0.1); border-radius: 6px; border: 1px solid rgba(251, 191, 36, 0.3); }
         .module-section { margin-bottom: 30px; padding: 25px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border-left: 5px solid var(--mod2-color); }
         .module-title { font-size: 20px; margin-top: 0; margin-bottom: 20px; }
         .question-block { margin-bottom: 25px; }
@@ -75,7 +95,7 @@
         .math-preview { display: none; margin-top: 8px; padding: 12px; background: #0f172a; border: 1px dashed #475569; border-radius: 6px; font-size: 18px; color: var(--mod2-color); min-height: 45px; text-align: center; overflow-x: auto; }
         
         .feedback { display: none; margin-top: 10px; font-size: 15px; line-height: 1.5; padding: 10px; border-radius: 6px; }
-        .submit-btn { width: 100%; padding: 16px; font-size: 18px; font-weight: bold; color: white; background-color: var(--btn-bg); border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .submit-btn { width: 100%; padding: 16px; font-size: 18px; font-weight: bold; color: white; background-color: var(--btn-bg); border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         .submit-btn:hover { background-color: var(--btn-hover); }
         .submit-btn:disabled { background-color: #64748b; cursor: not-allowed; }
         
@@ -94,7 +114,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             justify-content: center;
             padding: 12px;
             background: rgba(255, 255, 255, 0.02);
@@ -119,14 +139,31 @@
         .palette-btn.review { background-color: rgba(251, 191, 36, 0.15); border-color: var(--timer-color); color: #fff; }
         .palette-btn.active { transform: scale(1.1); border-color: var(--btn-bg); box-shadow: 0 0 10px var(--btn-bg); }
         
+        /* Fixed Footer Container for Navigation & Submission Controls */
+        .quiz-footer-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 900px;
+            background: rgba(18, 43, 54, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(56, 189, 248, 0.15);
+            padding: 15px 20px 20px 20px;
+            z-index: 100;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
         .nav-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
             gap: 10px;
+            margin-bottom: 10px;
         }
         .nav-btn {
             padding: 12px 20px;
@@ -209,12 +246,14 @@
 
         @media (max-width: 600px) {
             body { padding: 10px 0px; } 
-            .test-container { padding: 20px 8px; border-radius: 8px; } 
+            .test-container { padding: 160px 8px 210px 8px; border-radius: 8px; } 
             h1 { font-size: 24px; }
             .module-section { padding: 15px; border-left-width: 4px; }
             .timer-container { text-align: center; font-size: 16px; }
             .answer-input, .reg-input { font-size: 16px; padding: 12px; }
             .nav-btn { padding: 10px 14px; font-size: 14px; }
+            .quiz-header-fixed { border-radius: 0; padding: 10px 10px 5px 10px; }
+            .quiz-footer-fixed { border-radius: 0; padding: 10px 10px 15px 10px; }
         }
     </style>
     
@@ -223,7 +262,6 @@
 </head>
 <body>
 
-<!-- --- PRE-TEST INTERACTIVE SHIELD OVERLAY (UPDATED TO REFLECT 2 WARNING STRIKES) --- -->
 <div id="fullscreen-notice-modal" class="modal-overlay" style="display: none;">
     <div class="modal-card">
         <h3 class="modal-title-warn">⚠️ STRICT FULLSCREEN SECURITY MODE</h3>
@@ -235,7 +273,6 @@
     </div>
 </div>
 
-<!-- --- ESCAPE INTERACTIVE BREAKOUT LOCKOUT SCREEN (UPDATED FOR DYNAMIC WARNING STRIKES) --- -->
 <div id="fullscreen-lockout-modal" class="modal-overlay" style="display: none;">
     <div class="modal-card">
         <h3 class="modal-title-danger">🚨 INTEGRITY VIOLATION LOGGED</h3>
@@ -247,7 +284,6 @@
     </div>
 </div>
 
-<!-- --- VERIFICATION CONFIRMATION INTERFACE --- -->
 <div id="submit-confirm-modal" class="modal-overlay" style="display: none;">
     <div class="modal-card">
         <h3 class="modal-title-warn">📝 CONFIRM ASSESSMENT SUBMISSION</h3>
@@ -306,14 +342,21 @@
     </div>
 
     <div id="quiz-section">
-        <div class="timer-container">⏱️ Time Remaining: <span id="time-display">30:00</span></div>
+        <div class="quiz-header-fixed">
+            <div class="timer-container">⏱️ Time Remaining: <span id="time-display">30:00</span></div>
+            <div class="palette-container" id="question-palette-placeholder"></div>
+        </div>
         
         <form id="assessment-form"></form>
 
-        <button type="button" class="submit-btn" id="final-submit-btn" onclick="showSubmitConfirmation()">Submit Assessment</button>
-        <div id="loading-spinner" class="loading-text">Saving your results & sending email... Please wait.</div>
+        <div class="quiz-footer-fixed">
+            <div id="pagination-menu-placeholder"></div>
+            <button type="button" class="submit-btn" id="final-submit-btn" onclick="showSubmitConfirmation()">Submit Assessment</button>
+        </div>
         
-        <div id="final-score" class="score-display"></div>
+        <div id="loading-spinner" class="loading-text" style="margin-bottom: 40px;">Saving your results & sending email... Please wait.</div>
+        
+        <div id="final-score" class="score-display" style="margin-bottom: 40px;"></div>
     </div>
 </div>
 
@@ -411,7 +454,10 @@
             `;
         });
         
-        formContainer.innerHTML = paletteHtml + html + `
+        formContainer.innerHTML = html;
+        
+        document.getElementById('question-palette-placeholder').innerHTML = paletteHtml;
+        document.getElementById('pagination-menu-placeholder').innerHTML = `
             <div class="nav-controls" id="pagination-menu">
                 <button type="button" class="nav-btn" id="prev-btn" onclick="navigateQuestion(-1)">← Previous</button>
                 <button type="button" class="nav-btn review-toggle-btn" id="review-btn" onclick="toggleReviewFlag()">⭐ Mark for Review</button>
@@ -800,6 +846,15 @@
             exitReq.call(document).catch(e => {});
         }
         
+        // Remove fixed headers/footers to reveal standard scrolling summary details smoothly
+        let fixedHeader = document.querySelector('.quiz-header-fixed');
+        if (fixedHeader) fixedHeader.style.position = 'static';
+        let fixedFooter = document.querySelector('.quiz-footer-fixed');
+        if (fixedFooter) fixedFooter.style.position = 'static';
+        
+        let containerWrap = document.getElementById('main-test-element');
+        if (containerWrap) containerWrap.style.padding = '20px';
+
         QUESTION_BANK.forEach((q, i) => {
             let pane = document.getElementById(`pane-${i}`);
             if (pane) pane.style.display = 'block';
