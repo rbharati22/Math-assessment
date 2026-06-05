@@ -349,10 +349,7 @@
 
         <div id="reg-error" style="color: #ef4444; text-align: center; margin-bottom: 15px; font-weight: bold; display: none;"></div>
         
-        <div style="display: flex; gap: 10px;">
-            <button type="button" id="start-btn" class="submit-btn" onclick="startTest()" style="background-color: #3b82f6; flex: 2;">Start Test</button>
-            <button type="button" id="dev-bypass-btn" class="submit-btn" onclick="launchDeveloperPreview()" style="background-color: #475569; flex: 1; font-size: 14px;">🛠️ Dev Preview</button>
-        </div>
+        <button type="button" id="start-btn" class="submit-btn" onclick="startTest()" style="background-color: #3b82f6;">Start Test</button>
     </div>
 
     <div id="quiz-section">
@@ -451,7 +448,7 @@
         placeholder: "e.g., -x^2/2-x",
         type: "math",
         vars: ["x"],
-        answer: "-x^2/2-x",
+        answer: "-x^2/2-x", 
         marks: 4,
         explanation: "<b>Step 1: Extract the Lowest Degree Operator</b><br>Factor out $-D$ from the denominator to create an evaluable series base:<br>$$P.I. = \\frac{1}{-D(1-D)}x = -\\frac{1}{D}(1-D)^{-1}x$$<br><b>Step 2: Expand the Operator Polynomial</b><br>Using the classic geometric power expansion series $(1-D)^{-1} = 1 + D + D^2 + \\dots$:<br>$$P.I. = -\\frac{1}{D}[1 + D](x) = -\\frac{1}{D}[x + 1]$$<br><b>Step 3: Evaluate the Integration Operator</b><br>The operator $\\frac{1}{D}$ denotes a direct indefinite integration with respect to $x$:<br>$$P.I. = -\\int(x+1)dx = -\\left(\\frac{x^2}{2} + x\\right) = -\\frac{x^2}{2} - x$$"
       },
