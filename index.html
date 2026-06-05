@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Engineering Mathematics Test</title>
+    <title>Online Assessment-1</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -330,7 +330,7 @@
         <div class="instructions" style="text-align: left;">
             <h3 style="margin-top: 0; color: #7dd3fc; border-bottom: 1px solid rgba(56, 189, 248, 0.3); padding-bottom: 8px; font-size: 16px;">⚠️ Assessment Rules</h3>
             <ul style="padding-left: 20px; margin-bottom: 20px;">
-                <li><strong>Time Limit:</strong> You have exactly <strong>30 minutes</strong> to complete this test. It will submit automatically when time is up.</li>
+               <li><strong>Time Limit:</strong> You have exactly <strong>1 hour (60 minutes)</strong> to complete this test. It will submit automatically when time is up.</li>
                 <li><strong>Academic Integrity:</strong> You must solve these questions independently. The use of AI, external websites, or unauthorized tools is strictly prohibited.</li>
                 <li><strong>Anti-Cheating Active:</strong> Do NOT switch browser tabs or leave this window. The system monitors tab activity and will force a submission if you leave the page.</li>
                 <li><strong>Fullscreen Enforcement:</strong> The test runs in a dedicated fullscreen environment. Escape detection parameters allow exactly two warning strikes before immediate server submittal.</li>
@@ -354,7 +354,7 @@
 
     <div id="quiz-section">
         <div class="quiz-header-fixed">
-            <div class="timer-container">⏱️ Time Remaining: <span id="time-display">30:00</span></div>
+           <div class="timer-container">⏱️ Time Remaining: <span id="time-display">60:00</span></div>
             <div class="palette-container" id="question-palette-placeholder"></div>
         </div>
         
@@ -492,16 +492,16 @@
         marks: 4,
         explanation: "<b>Step 1: Convert Using Legendre Substitutions</b><br>Apply the coordinate transformation $(1+x) = e^t$, meaning $t = \\ln(1+x)$. The operators transform as follows:<br>$$(1+x)\\frac{dy}{dx} = Dy, \\quad (1+x)^2\\frac{d^2y}{dx^2} = D(D-1)y$$<br>Rewriting the equation with the exponential driving function ($e^{3t}$) yields:<br>$$[D(D-1) - 4D + 6]y = e^{3t} \\implies (D^2 - 5D + 6)y = e^{3t}$$<br><b>Step 2: Solve Using Shifting Failure Operations</b><br>Set up the inverse operator expression:<br>$$P.I. = \\frac{1}{(D-3)(D-2)}e^{3t}$$<br>Substituting $D = 3$ makes the factor $(D-3)$ zero. Evaluate the non-zero factor at $D = 3$ first:<br>$$P.I. = \\frac{1}{3-2} \\cdot \\frac{1}{D-3}e^{3t} = \\frac{1}{D-3}e^{3t}$$<br>Applying the standard case of failure shifting rules yields: $t \\cdot e^{3t}$.<br><br><b>Step 3: Convert Back to the $x$ Variable Domain</b><br>Replace $t$ with $\\ln(1+x)$ and $e^{3t}$ with $(1+x)^3$ to find the final layout expression:<br>$$P.I. = (1+x)^3\\ln(1+x)$$"
       },
-      {
-        module: "Module 2: Higher Order ODEs",
-        question: "Find the transformed operator polynomial $f(D)$ resulting from changing variables on the left-hand side of the Legendre linear equation:<br>$$(1+x)^{2}\\frac{d^{2}y}{dx^{2}}-4(1+x)\\frac{dy}{dx}+6y=0$$",
-        placeholder: "e.g., D^20-20*D+10",
-        type: "math",
-        vars: ["D"],
-        answer: "D^2-5*D+6",
-        marks: 4,
-        explanation: "<b>Step 1: Recall Legendre Operator Identifications</b><br>Under the transformation framework $(1+x) = e^t$, the variable coefficient operations map directly to constant differential operators where $D = \\frac{d}{dt}$:<br>$$(1+x)\\frac{dy}{dx} = Dy, \\quad (1+x)^2\\frac{d^2y}{dx^2} = D(D-1)y = (D^2 - D)y$$<br><b>Step 2: Substitute and Form the Transformed Polynomial</b><br>Substitute these operator forms into the differential equation layout:<br>$$\\left[D(D-1) - 4D + 6\\right]y = 0 \\implies \\left[D^2 - D - 4D + 6\\right]y = 0$$<br>Collecting like terms yields:<br>$$\\left[D^2 - 5D + 6\\right]y = 0$$<br>The characteristic constant operator expression polynomial is:<br>$$f(D) = D^2 - 5D + 6$$"
-      }
+    {
+    module: "Module 2: Higher Order ODEs",
+    question: "Find the Particular Integral (P.I.) for the Legendre linear differential equation:<br>$$(1+x)^{2}\\frac{d^{2}y}{dx^{2}}+(1+x)\\frac{dy}{dx}+y=4\\sin(\\ln(1+x))$$",
+    placeholder: "e.g., 4*log(x)*5+3*sin(log(x))",
+    type: "math",
+    vars: ["x"],
+    answer: "-2*log(1+x)*cos(log(1+x))",
+    marks: 4,
+    explanation: "<b>Step 1: Convert Using Legendre Substitutions</b><br>Transform the coordinate framework by setting $(1+x) = e^t$, which means $t = \\ln(1+x)$. The corresponding constant coefficient operators map as follows:<br>$$(1+x)\\frac{dy}{dx} = Dy, \\quad (1+x)^2\\frac{d^2y}{dx^2} = D(D-1)y$$<br>Substituting these operational definitions and rewriting the right-hand driving function yields:<br>$$[D(D-1) + D + 1]y = 4\\sin(t) \\implies (D^2 + 1)y = 4\\sin(t)$$<br><b>Step 2: Solve for the Particular Integral (Case of Failure)</b><br>Set up the inverse operator expression in the transformed $t$-domain:<br>$$P.I. = \\frac{1}{D^2 + 1}(4\\sin(t))$$<br>Substituting $D^2 = -a^2 = -1^2 = -1$ yields a denominator of zero, indicating a standard sinusoidal case of failure. Applying the derivative extension rule (or the classic identity $\\frac{1}{D^2+a^2}\\sin(at) = -\\frac{t}{2a}\\cos(at)$) gives:<br>$$P.I. = 4 \\cdot \\left( -\\frac{t}{2(1)}\\cos(t) \\right) = -2t\\cos(t)$$<br><b>Step 3: Revert Back to the Original Variable Domain ($x$)</b><br>Substitute $t = \\ln(1+x)$ back into the expression to yield your final textbook-style answer:<br>$$P.I. = -2\\ln(1+x)\\cos(\\ln(1+x))$$"
+  }
     ];
     // =========================================================================
 
@@ -857,11 +857,11 @@
             section: "DEV-X",
             roll: "999"
         };
-        cachedServerResponseData = {
-            status: "new",
-            remaining: 1800000, 
-            draft: "{}"
-        };
+     cachedServerResponseData = {
+    status: "new",
+    remaining: 3600000, // 1 hour in milliseconds
+    draft: "{}"
+};
 
         let noticeModal = document.getElementById('fullscreen-notice-modal');
         if (noticeModal) noticeModal.style.display = 'none';
@@ -991,8 +991,9 @@
         let paletteGrid = document.getElementById('question-palette');
         if (paletteGrid) paletteGrid.style.display = 'none';
         
-        let totalElapsedSec = Math.floor(((30 * 60 * 1000) - (testEndTime - Date.now())) / 1000);
-        if(totalElapsedSec < 0) totalElapsedSec = 0; if(totalElapsedSec > 1800) totalElapsedSec = 1800;
+       let totalElapsedSec = Math.floor(((60 * 60 * 1000) - (testEndTime - Date.now())) / 1000);
+if(totalElapsedSec < 0) totalElapsedSec = 0; if(totalElapsedSec > 3600) totalElapsedSec = 3600;
+
         let formattedTimeTaken = Math.floor(totalElapsedSec / 60) + "m " + (totalElapsedSec % 60) + "s";
         
         let totalScore = 0;
