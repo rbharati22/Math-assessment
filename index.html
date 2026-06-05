@@ -6,7 +6,7 @@
     <title>Advanced Engineering Mathematics Test</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
+    <style> 
       :root {
             /* Backgrounds: Deep oceanic teal */
             --bg-color: #081c24; 
@@ -295,7 +295,7 @@
             <button type="button" class="modal-btn modal-btn-cancel" onclick="closeSubmitConfirmation()">Return to Test</button>
             <button type="button" class="modal-btn modal-btn-confirm" onclick="confirmFinalEvaluation()">Yes, Submit Exam</button>
         </div>
-    </div>
+    </div> 
 </div>
 
 <div class="test-container" id="main-test-element">
@@ -369,42 +369,101 @@
     // =========================================================================
     // THE QUESTION BANK: 5 Questions (4 Marks Each) = 20 Total Marks
     // =========================================================================
-    const QUESTION_BANK = [
-        {
-            module: "Linear Differential Equations",
-            question: "Find the Particular Integral (P.I.) for the differential equation \\(\\frac{d^3y}{dx^3} + 6\\frac{d^2y}{dx^2} + 11\\frac{dy}{dx} + 6y = e^{2x}\\).",
-            placeholder: "e.g., exp(2*x)/10",
-            type: "math", vars: ["x"], answer: "exp(2*x)/60", marks: 4,
-            explanation: "Step 1: The differential equation in operator form is \\((D^3 + 6D^2 + 11D + 6)y = e^{2x}\\).<br>Step 2: The Particular Integral is \\(P.I. = \\frac{1}{D^3 + 6D^2 + 11D + 6}e^{2x}\\).<br>Step 3: For \\(e^{ax}\\), substitute \\(D = a = 2\\).<br>Step 4: \\(P.I. = \\frac{1}{2^3 + 6(2)^2 + 11(2) + 6}e^{2x} = \\frac{1}{8 + 24 + 22 + 6}e^{2x} = \\frac{e^{2x}}{60}\\)."
-        },
-        {
-            module: "Method of Variation of Parameters",
-            question: "Consider the differential equation \\(y'' + 4y = 4\\sec^2 2x\\). Find the exact numerical value of the Wronskian, \\(W\\), for the fundamental solutions \\(y_1 = \\cos 2x\\) and \\(y_2 = \\sin 2x\\).",
-            placeholder: "Type exact number...",
-            type: "exact", vars: [], answer: "2", marks: 4,
-            explanation: "Step 1: The fundamental solutions are \\(y_1 = \\cos 2x\\) and \\(y_2 = \\sin 2x\\).<br>Step 2: Their derivatives are \\(y_1' = -2\\sin 2x\\) and \\(y_2' = 2\\cos 2x\\).<br>Step 3: The Wronskian formula is \\(W = y_1y_2' - y_2y_1'\\).<br>Step 4: \\(W = (\\cos 2x)(2\\cos 2x) - (\\sin 2x)(-2\\sin 2x) = 2(\\cos^2 2x + \\sin^2 2x) = 2\\)."
-        },
-        {
-            module: "Method of Variation of Parameters",
-            question: "In solving \\(y'' + y = \\tan x\\) by the method of variation of parameters (where \\(y_1 = \\cos x\\) and \\(y_2 = \\sin x\\)), find the expression for the derivative of the first parameter, \\(u_1'\\). (Recall that \\(u_1' = \\frac{-y_2 X}{W}\\)).",
-            placeholder: "e.g., -sin(x)*tan(x)",
-            type: "math", vars: ["x"], answer: "-sin(x)*tan(x)", marks: 4,
-            explanation: "Step 1: Identify \\(X = \\tan x\\), \\(y_1 = \\cos x\\), and \\(y_2 = \\sin x\\).<br>Step 2: Calculate the Wronskian \\(W = (\\cos x)(\\cos x) - (\\sin x)(-\\sin x) = 1\\).<br>Step 3: The formula for \\(u_1'\\) is \\(\\frac{-y_2 X}{W}\\).<br>Step 4: Substituting the values, \\(u_1' = \\frac{-\\sin x \\cdot \\tan x}{1} = -\\sin x \\tan x\\)."
-        },
-        {
-            module: "Cauchy-Euler Linear Equations",
-            question: "Convert the Cauchy-Euler equation \\(x^2 y'' - 2xy' + 2y = x^{-2}\\) into a linear differential equation with constant coefficients using the substitution \\(x = e^t\\). Find the transformed Particular Integral (P.I.) as a function of \\(t\\).",
-            placeholder: "e.g., exp(-2*t)/12",
-            type: "math", vars: ["t"], answer: "exp(-2*t)/12", marks: 4,
-            explanation: "Step 1: Substitute \\(x = e^t\\), so \\(x\\frac{dy}{dx} = \\theta y\\) and \\(x^2\\frac{d^2y}{dx^2} = \\theta(\\theta-1)y\\) where \\(\\theta = \\frac{d}{dt}\\).<br>Step 2: The equation becomes \\([\\theta(\\theta-1) - 2\\theta + 2]y = e^{-2t}\\), which simplifies to \\((\\theta^2 - 3\\theta + 2)y = e^{-2t}\\).<br>Step 3: \\(P.I. = \\frac{1}{\\theta^2 - 3\\theta + 2}e^{-2t}\\).<br>Step 4: Substitute \\(\\theta = -2\\): \\(P.I. = \\frac{1}{(-2)^2 - 3(-2) + 2}e^{-2t} = \\frac{1}{4 + 6 + 2}e^{-2t} = \\frac{e^{-2t}}{12}\\)."
-        },
-        {
-            module: "Cauchy-Euler Linear Equations",
-            question: "Consider the equation \\(x^2y'' + xy' + 9y = 3x^2 + \\sin(3\\log x)\\). Using the substitution \\(x = e^t\\), find the Particular Integral (P.I.) corresponding *only* to the polynomial term \\(3x^2\\), expressed in terms of \\(x\\).",
-            placeholder: "e.g., (3/13)*x^2",
-            type: "math", vars: ["x"], answer: "(3/13)*x^2", marks: 4,
-            explanation: "Step 1: Substitute \\(x = e^t\\). The LHS becomes \\([\\theta(\\theta-1) + \\theta + 9]y = (\\theta^2 + 9)y\\).<br>Step 2: The RHS term \\(3x^2\\) becomes \\(3e^{2t}\\).<br>Step 3: The \\(P.I.\\) for this specific part is \\(\\frac{1}{\\theta^2 + 9}(3e^{2t})\\).<br>Step 4: Substitute \\(\\theta = 2\\): \\(P.I. = \\frac{3}{2^2 + 9}e^{2t} = \\frac{3}{13}e^{2t}\\).<br>Step 5: Convert back to the original variable \\(x\\): \\(P.I. = \\frac{3}{13}x^2\\)."
-        }
+   const QUESTION_BANK = [
+     {
+        module: "Hom Linear ODEs",
+        question: "Find the Complementary Function (C.F.) of the differential equation: \\(\\frac{d^2y}{dx^2} - 5\\frac{dy}{dx} + 6y = 0\\).",
+        placeholder: "e.g., c1* sin(2x)+ c2*exp(7*x) + c3*exp(6*x)",
+        type: "math",
+        vars: [
+            "x",
+            "c1",
+            "c2"],
+        answer: "c1*e^(2x) + c2*e^(3x)",
+        marks:4,
+        explanation: "<b>Step 1:</b> The auxiliary equation is \\(m^2 - 5m + 6 = 0\\).<br><b>Step 2:</b> Factoring gives \\((m-2)(m-3) = 0\\), yielding real and distinct roots \\(m_1 = 2\\) and \\(m_2 = 3\\).<br><b>Step 3:</b> Therefore, the complementary function is \\(y_c = c_1e^{2x} + c_2e^{3x}\\)."
+    },
+    {
+        module: "Inverse Operator Method (Exponential)",
+        question: "Find the Particular Integral (P.I.) for the differential equation: \\((D^2 - 3D + 2)y = e^{4x}\\).",
+        placeholder: "e.g., c1*exp(2*x)/9",
+        type: "math",
+        vars: [
+            "x"
+        ],
+        answer: "(1/6)e^(4*x)",
+        marks:4,
+        explanation: "<b>Step 1:</b> The Particular Integral is given by \\(P.I. = \\frac{1}{D^2 - 3D + 2}e^{4x}\\).<br><b>Step 2:</b> Substituting the operator root value \\(D = a = 4\\) into the polynomial yields \\(\\frac{1}{4^2 - 3(4) + 2}e^{4x}\\).<br><b>Step 3:</b> Simplifying the numeric value: \\(16 - 12 + 2 = 6\\). Thus, \\(P.I. = \\frac{e^{4x}}{6}\\)."
+    },
+    {
+        module: "Inverse Operator Method (Trigonometric)",
+        question: "Find the Particular Integral (P.I.) for the differential equation: \\((D^2 + 2D + 2)y = \\sin(x)\\).",
+        placeholder: "e.g., (1/5)*sin(6x) - (1/7)*sec(8x) + (3/5)*cos(9x)",
+        type: "math",
+        vars: [
+            "x"
+        ],
+        answer: "(1/5)*sin(x) - (2/5)*cos(x)",
+        marks:4,
+        "explanation": "<b>Step 1:</b> \\(P.I. = \\frac{1}{D^2 + 2D + 2}\\sin(x)\\). Substituting \\(D^2 = -1^2 = -1\\), the expression turns into \\(\\frac{1}{-1 + 2D + 2}\\sin(x) = \\frac{1}{2D + 1}\\sin(x)\\).<br><b>Step 2:</b> Multiply numerator and denominator bounds by the conjugate operational balance \\((2D-1)\\) to construct \\(\\frac{2D - 1}{4D^2 - 1}\\sin(x)\\).<br><b>Step 3:</b> Substituting \\(D^2 = -1\\) transforms the tracking denominator to \\(4(-1)-1 = -5\\). The operational numerator expands to \\(2\\cos(x) - \\sin(x)\\).<br><b>Step 4:</b> Merging the signs transforms the statement to \\(\\frac{2\\cos x - \\sin x}{-5} = \\frac{1}{5}\\sin x - \\frac{2}{5}\\cos x\\)."
+    },
+    {
+        module: "Inverse Operator Method (Polynomial)",
+        question: "Find the Particular Integral (P.I.) for the differential equation: \\((D^2 + 3D + 2)y = 4x^2\\).",
+        placeholder: "e.g., 3*x^3 + 2*x - 1 + sin(x)",
+        type: "math",
+        vars: [
+            "x"
+        ],
+        answer: "2*x^2 - 6*x + 7",
+        marks:4,
+        explanation: "<b>Step 1:</b> Factor out the lowest degree term: \\(P.I. = \\frac{1}{2(1 + \\frac{3D}{2} + \\frac{D^2}{2})}(4x^2) = 2 [1 + (\\frac{3D}{2} + \\frac{D^2}{2})]^{-1}(x^2)\\).<br><b>Step 2:</b> Expanding through binomial series expansion properties up to the operational order of \\(D^2\\) fields: \\(2 \\left[1 - \\frac{3}{2}D + \\frac{7}{4}D^2\\right](x^2)\\).<br><b>Step 3:</b> Running successive derivatives on the core polynomial bounds: \\(2 [x^2 - \\frac{3}{2}(2x) + \\frac{7}{4}(2)] = 2[x^2 - 3x + \\frac{7}{2}] = 2x^2 - 6x + 7\\)."
+    },
+    {
+        module: "Method of Variation of Parameters",
+        question: "Find the exact numerical value of the Wronskian \\(W\\) for the fundamental solutions \\(y_1 = \\cos(x)\\) and \\(y_2 = \\sin(x)\\) used to solve the equation \\(\\frac{d^2y}{dx^2} + y = \\tan(x)\\).",
+        placeholder: "Type exact number...",
+        type: "exact",
+        vars: [],
+        answer: "1",
+        marks:4,
+        explanation: "<b>Step 1:</b> The fundamental solutions are given as \\(y_1 = \\cos x\\) and \\(y_2 = \\sin x\\). Their respective derivatives map out as \\(y_1' = -\\sin x\\) and \\(y_2' = \\cos x\\).<br><b>Step 2:</b> The evaluation matrix for the Wronskian states: \\(W = y_1y_2' - y_2y_1'\\).<br><b>Step 3:</b> Substitution yields: \\(W = (\\cos x)(\\cos x) - (\\sin x)(-\\sin x) = \\cos^2 x + \\sin^2 x = 1\\)."
+    },
+    {
+        module: "Method of Variation of Parameters",
+        question: "Find the exact numerical value of the Wronskian \\(W\\) evaluated explicitly at \\(x = 0\\) for the fundamental solutions \\(y_1\\) and \\(y_2\\) linked to the expression \\(y'' - 3y' + 2y = \\frac{e^x}{1 + e^x}\\).",
+        placeholder: "Type exact number...",
+        type: "exact",
+        vars: [],
+        answer: "1",
+        marks:4,
+        explanation: "<b>Step 1:</b> Auxiliary Equation: \\(m^2-3m +2=0.\\) <br> \n<b>Step 1:</b> C.F = \\(c_1 e^x+c_2 e^{2x}\\)<br>\n<b>Step 1:</b> \\(y_1=e^x\\) and \\(y_2=e^{2x}\\)<br> \n<b>Step 2:</b> Wronskian: \\(W = y_1y_2' - y_2y_1' = (e^x)(2e^{2x}) - (e^{2x})(e^x) = e^{3x}\\).<br><b>Step 3:</b> Calculating \\(W\\) specifically at  \\(x = 0\\): \\(W(0) = e^0 = 1\\)."
+    },
+    {
+        module: "Cauchy-Euler Linear Equations",
+        question: "Find the Particular Integral (P.I.) for the Cauchy-Euler equation \\(x^2\\frac{d^2y}{dx^2} - 3x\\frac{dy}{dx} + 3y = x^2\\).",
+        placeholder: "e.g., -exp(5*t)",
+        type: "math",
+        vars: [
+            "t",
+            "x"
+        ],
+        answer: "-x^2",
+        marks:4,
+        explanation: "<b>Step 1:</b> Substitute \\(x=e^t\\) and \\(D=\\dfrac{d}{dt}\\) <br>\n<b>Step 2:</b> Converting parameters via transformation rules yields \\([D(D-1) - 3D + 3]y = e^{2t} \\implies (D^2 - 4D + 3)y = e^{2t}\\).<br>\n\n<b>Step 3:</b> P.I. : \\(P.I. = \\frac{1}{D^2 - 4D + 3}e^{2t}\\).<br><b>Step 3:</b> Substituting \\(D = a = 2\\) gives \\(\\frac{1}{2^2 - 4(2) + 3}e^{2t} = \\frac{1}{4 - 8 + 3}e^{2t} = -e^{2t}\\).<br>\n\n<b>Step 4:</b> Therefore P.I.=\\(y_p\\)= \\(-x^2\\) <br>"
+    },
+    {
+        module: "Legendre's Linear Equations",
+        question: "Find the transformed Particular Integral (P.I.) as a function of variable \\(t\\) for the Legendre differential equation \\((1+x)^2\\frac{d^2y}{dx^2} - 4(1+x)\\frac{dy}{dx} + 6y = (1+x)^3\\) after processing transformation matrix parameters \\(1+x = e^t\\).",
+        placeholder: "(5x^4) *ln(sin(x))",
+        type: "math",
+        vars: [
+            "t"
+        ],
+        answer: "(x^2) *ln(x)",
+        marks:4,
+        explanation: "<b>Step 1:</b> Substitute \\(x=e^t\\) and \\(D=\\dfrac{d}{dt}\\) <br>\n<b>Step 2:</b> Converting parameters via transformation rules yields \\([D(D-1) - 4D + 6]y = e^{3t} \\implies (D^2 - 5D + 6)y = e^{3t}\\).<br><br>\n\n\n<b>Step 2:</b> \\(P.I. = \\frac{1}{(D-3)(D-2)}e^{3t}=\\frac{1}{(D-3)(3-2)}e^{3t}=t\\frac{1}{1\\cdot1}e^{3t}=t e^{3t}\\).<br>\nTherefore \\(P.I.= x^2\\ln(x)\\)\n"
+    }
     ];
     // =========================================================================
 
