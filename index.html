@@ -860,11 +860,16 @@ const QUESTION_BANK = [
                         startBtn.innerText = "Start Test";
                         startBtn.disabled = false;
                     } else {
-                        let h = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        let m = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
-                        let s = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
-                        
-                        errorMsg.innerText = `⏳ The test has not started yet.\nOpening in: ${h}h ${m}m ${s}s`;
+                        let days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
+let h = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+let m = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
+let s = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
+
+if (days > 0) {
+    errorMsg.innerText = `⏳ The test has not started yet.\nOpening in: ${days}d ${h}h ${m}m ${s}s`;
+} else {
+    errorMsg.innerText = `⏳ The test has not started yet.\nOpening in: ${h}h ${m}m ${s}s`;
+}
                     }
                 }, 1000); 
                 
