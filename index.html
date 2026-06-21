@@ -104,10 +104,8 @@
         
         .test-container { background-color: var(--container-bg); width: 100%; margin: 0 auto; border-radius: 12px; position: relative; transition: filter 0.3s ease, max-width 0.3s ease, padding 0.3s ease; }
         
-        /* NEW: BEAUTIFUL COMPACT REGISTRATION CARD */
         .reg-mode { max-width: 650px; padding: 40px; background: var(--reg-bg); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); margin-top: 5vh; min-height: auto; }
         
-        /* EXAM MODE LAYOUT */
         .exam-mode { max-width: 1000px; padding: 120px 20px 140px 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); min-height: 100vh; }
         
         .blur-active { filter: blur(15px); pointer-events: none; user-select: none; }
@@ -171,7 +169,6 @@
         .module-title { font-size: 20px; margin-top: 0; margin-bottom: 20px; color: var(--text-color); }
         .question-block { margin-bottom: 25px; }
         
-        /* NEW: MATH OVERFLOW FIXES */
         .question-text { font-size: 16px; line-height: 1.8; margin-bottom: 12px; overflow-x: auto; max-width: 100%; color: var(--text-color); padding-bottom: 5px; } 
         mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
         
@@ -223,7 +220,6 @@
 
         @keyframes slideInLeft { from { opacity: 0; transform: translate(-20px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
 
-        /* THE SPLIT-SCREEN PINNED LAYOUT ENGINE */
         @media (min-width: 801px) {
             body.sidebar-pinned { padding-left: 320px; }
             body.sidebar-pinned .quiz-header-fixed,
@@ -235,14 +231,12 @@
             body.sidebar-pinned .sidebar-handle { display: none; }
         }
 
-        /* NEW: RESPONSIVE MOBILE FIXES */
         @media (max-width: 800px) {
             body { padding: 10px 0px; } 
             
             .reg-mode { padding: 30px 20px; margin-top: 20px; }
             .grid-2 { grid-template-columns: 1fr; gap: 10px; }
             
-            /* Drastically increased padding to prevent header overlap */
             .exam-mode { padding: 220px 10px 160px 10px !important; }
             
             h1.reg-title { font-size: 24px; }
@@ -259,7 +253,6 @@
             .timer-container { order: 3; justify-content: center; width: 100%; font-size: 16px; }
             #pin-sidebar-btn { display: none !important; }
             
-            /* Mobile Slider Handle Lowered & Shadow Removed */
             .sidebar-handle { top: 75%; box-shadow: none !important; border-right: 2px solid var(--border-color); background: var(--nav-bg); }
         }
     </style>
@@ -283,6 +276,7 @@
                 <li><strong>Trigonometry:</strong> You MUST use parentheses! Type <code>sin(x)</code> or <code>cos(x)</code></li>
                 <li><strong>Logarithms:</strong> Type <code>log(x)</code> or <code>ln(x)</code></li>
                 <li><strong>Constants:</strong> Type <code>pi</code> for π.</li>
+                <li><strong>Equations:</strong> You can type full equations using <code>=</code> (e.g., <code>y*sin(x) = c</code>)</li>
             </ul>
         </div>
         <button type="button" class="modal-btn modal-btn-confirm" style="width: 100%;" onclick="showFullscreenNotice()">I Understand → Proceed</button>
@@ -497,7 +491,6 @@
     let lastQuestionEntryTime = 0;
     let isSidebarPinned = false;
 
-    // --- THEME ENGINE ---
     function changeTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('lms_student_theme', theme);
@@ -665,62 +658,253 @@
     }
     function updatePaletteStatusAll() { QUESTION_BANK.forEach((q, i) => { updateQuestionPaletteState(i); }); updateSidebarStats(); }
 
-   function sanitizeMath(input) {
+    function sanitizeMath(input) {
         let str = input.toLowerCase();
-        str = str.replace(/ln\s*\(/g, 'log(').replace(/(\d)([a-z])/g, '$1*$2').replace(/([a-z0-9])\s*\(/g, '$1*(');
-        ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'ln', 'exp', 'sqrt'].forEach(func => { str = str.split(func + '*(').join(func + '('); });
+        
+        str = str.replace(/cosec/g, 'csc');
+        str = str.replace(/(sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt)\^([0-9a-z\.\-\+]+)\s*([a-z0-9]+|\([^\)]+\))/g, '($1($3))^$2');
+        str = str.replace(/(sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt)\s+([a-z0-9]+(?:\^[0-9a-z\.\-\+]+)?)/g, '$1($2)');
+        str = str.replace(/ln\s*\(/g, 'log(');
+        str = str.replace(/([a-z0-9])\s*(sin|cos|tan|sec|csc|cot|log|exp|sqrt)/g, '$1*$2');
+        str = str.replace(/(\d)\s*([a-z\(])/g, '$1*$2');
+        str = str.replace(/([a-z])\s*\(/g, '$1*(');
+        ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'exp', 'sqrt'].forEach(func => { 
+            str = str.split(func + '*(').join(func + '('); 
+        });
+        
+        str = str.replace(/([xyztckmab])([xyztckmab])/g, '$1*$2');
+        str = str.replace(/([xyztckmab])([xyztckmab])/g, '$1*$2'); 
+        
         return str;
     }
 
-   function checkMathEquivalence(userStr, correctStr, vars) {
+    function checkMathEquivalence(userStr, correctStr, manualVars) {
         try {
             if(!userStr || userStr.trim() === "") return false;
-            let uStr = sanitizeMath(userStr); let cStr = sanitizeMath(correctStr);
-            let uniqueSymbols = [];
-            try {
-                let node = math.parse(uStr); let symbols = [];
-                node.traverse(function (n) { if (n.isSymbolNode) symbols.push(n.name); });
-                uniqueSymbols = [...new Set(symbols)];
-            } catch(e) { return false; }
+            
+            function processEquation(str) {
+                if (str.includes('=')) {
+                    let parts = str.split('=');
+                    return `(${parts[0]}) - (${parts[1]})`;
+                }
+                return str;
+            }
 
-            let exclusions = ['pi', 'e', 'i', 'inf', 'nan', 'true', 'false'];
-            let customConstants = uniqueSymbols.filter(sym => !vars.includes(sym) && !exclusions.includes(sym) && typeof math[sym] !== 'function');
+            let isUserEq = userStr.includes('=');
+            let isKeyEq = correctStr.includes('=');
 
-            let targetConstants = vars.filter(v => v === 'c1' || v === 'c2');
-            let missingTargets = targetConstants.filter(t => !uniqueSymbols.includes(t));
+            let uStr = processEquation(sanitizeMath(userStr)); 
+            let cStr = processEquation(sanitizeMath(correctStr));
+
+            let compiledUser = math.compile(uStr);
+            let compiledKey = math.compile(cStr);
+
+            let uSym = new Set(), cSym = new Set();
+            try { math.parse(uStr).traverse(n => { if (n.isSymbolNode) uSym.add(n.name); }); } catch(e){}
+            try { math.parse(cStr).traverse(n => { if (n.isSymbolNode) cSym.add(n.name); }); } catch(e){}
+            
+            let exclusions = ['pi', 'e', 'i', 'inf', 'nan', 'true', 'false', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'ln', 'exp', 'sqrt'];
+            
+            let uVars = [...uSym].filter(v => !exclusions.includes(v) && typeof math[v] !== 'function');
+            let kVars = [...cSym].filter(v => !exclusions.includes(v) && typeof math[v] !== 'function');
+            
+            let standardVars = ['x', 'y', 't', 'z'];
+            let uConsts = uVars.filter(v => !standardVars.includes(v));
+            let kConsts = kVars.filter(v => !standardVars.includes(v));
+            let kIndVars = kVars.filter(v => standardVars.includes(v));
+            
+            function findRoot(compiledEq, targetVar, scope) {
+                let x0 = scope[targetVar] || (Math.random() * 2 + 0.1);
+                let x1 = x0 + 0.1;
+                for (let i = 0; i < 30; i++) {
+                    scope[targetVar] = x0; let f0 = compiledEq.evaluate(scope);
+                    scope[targetVar] = x1; let f1 = compiledEq.evaluate(scope);
+                    if (Math.abs(f1) < 1e-6) return x1;
+                    if (f1 - f0 === 0) break;
+                    let x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
+                    x0 = x1; x1 = x2;
+                    if (isNaN(x1) || !isFinite(x1)) break;
+                }
+                for(let j=0; j<5; j++) {
+                    x0 = Math.random() * 10 - 5; x1 = x0 + 0.1;
+                    for (let i = 0; i < 30; i++) {
+                        scope[targetVar] = x0; let f0 = compiledEq.evaluate(scope);
+                        scope[targetVar] = x1; let f1 = compiledEq.evaluate(scope);
+                        if (Math.abs(f1) < 1e-6) return x1;
+                        if (f1 - f0 === 0) break;
+                        let x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
+                        x0 = x1; x1 = x2;
+                        if (isNaN(x1) || !isFinite(x1)) break;
+                    }
+                }
+                return null;
+            }
+
+            // NEW: MULTI-CONSTANT PERMUTATION ENGINE (For 1st, 2nd, 3rd Order ODEs)
+            if (uConsts.length === kConsts.length && kConsts.length >= 1 && kConsts.length <= 4) {
+                const getPerms = arr => {
+                    if (arr.length <= 1) return [arr];
+                    let perms = [];
+                    for (let i = 0; i < arr.length; i++) {
+                        let rest = getPerms(arr.slice(0, i).concat(arr.slice(i + 1)));
+                        for (let j = 0; j < rest.length; j++) { perms.push([arr[i]].concat(rest[j])); }
+                    }
+                    return perms;
+                };
+
+                let kPerms = getPerms(kConsts);
+                let activeVarsAll = [...new Set([...uVars, ...kVars])];
+                
+                const getSignPerms = num => {
+                    let signs = [];
+                    for(let i=0; i<Math.pow(2, num); i++) {
+                        let current = [];
+                        for(let j=0; j<num; j++) {
+                            current.push((i & (1 << j)) ? -1 : 1);
+                        }
+                        signs.push(current);
+                    }
+                    return signs;
+                };
+                let signPerms = getSignPerms(kConsts.length);
+
+                for (let perm of kPerms) {
+                    for (let signs of signPerms) {
+                        let permMatch = true;
+                        for(let i=0; i<3; i++) {
+                            let scope = {};
+                            activeVarsAll.forEach(v => { scope[v] = Math.random() * 1.5 + 0.1; });
+                            
+                            let cVal = compiledKey.evaluate(scope);
+                            
+                            let uScope = { ...scope };
+                            for (let j = 0; j < uConsts.length; j++) {
+                                uScope[uConsts[j]] = scope[perm[j]] * signs[j]; 
+                            }
+                            let uVal = compiledUser.evaluate(uScope);
+                            
+                            let diff1 = Math.abs(uVal - cVal); let diff2 = Math.abs(uVal + cVal);
+                            let denom = Math.abs(cVal) + 1e-10;
+                            if (!((diff1 <= 1e-5 || diff1 / denom <= 1e-5) || (diff2 <= 1e-5 || diff2 / denom <= 1e-5))) {
+                                permMatch = false; break;
+                            }
+                        }
+                        if (permMatch) return true;
+                    }
+                }
+            }
+
+            // ARBITRARY CONSTANT MAPPING ENGINE (Root Finder for Non-Linear Constants)
+            if (isUserEq && isKeyEq && uConsts.length === 1 && kConsts.length === 1) {
+                let Kc = kConsts[0];
+                let Uc = uConsts[0];
+                let solveVar = kIndVars.length > 0 ? kIndVars[0] : 'x';
+                let otherVars = kIndVars.filter(v => v !== solveVar);
+                if (otherVars.length === 0 && solveVar !== 'x') otherVars = ['x']; 
+                if (otherVars.length === 0) otherVars = ['y'];
+
+                let masterMatch = false;
+                for (let masterAttempt = 0; masterAttempt < 3; masterAttempt++) {
+                    let validPoints = [];
+                    let attempts = 0;
+                    let testKc = Math.random() * 5 + 1; 
+                    
+                    while(validPoints.length < 3 && attempts < 80) {
+                        attempts++;
+                        let scope = {};
+                        scope[Kc] = testKc;
+                        otherVars.forEach(v => scope[v] = Math.random() * 6 - 3); 
+                        
+                        let root = findRoot(compiledKey, solveVar, scope);
+                        if (root !== null) {
+                            scope[solveVar] = root;
+                            if (Math.abs(compiledKey.evaluate(scope)) < 1e-4) {
+                                validPoints.push({...scope});
+                            }
+                        }
+                    }
+                    
+                    if (validPoints.length >= 3) {
+                        let scope0 = {...validPoints[0]};
+                        delete scope0[Kc];
+                        let userRoot = findRoot(compiledUser, Uc, scope0);
+                        
+                        if (userRoot !== null) {
+                            let allMatch = true;
+                            for(let i=1; i<validPoints.length; i++) {
+                                let testScope = {...validPoints[i]};
+                                delete testScope[Kc];
+                                testScope[Uc] = userRoot;
+                                let uVal = compiledUser.evaluate(testScope);
+                                if (Math.abs(uVal) > 1e-3) { allMatch = false; break; }
+                            }
+                            if (allMatch) { masterMatch = true; break; }
+                        }
+                    }
+                }
+                if (masterMatch) return true;
+            }
+
+            // FALLBACK TO STANDARD NUMERICAL EVALUATION
+            let activeVars = [...new Set([...uVars, ...kVars])];
+            if (activeVars.length === 0) {
+                let fallback = manualVars; 
+                if (typeof manualVars === 'string') fallback = manualVars.split(',').map(s=>s.trim());
+                activeVars = fallback;
+            }
+
+            if (isUserEq && isKeyEq) {
+                let validPoints = [];
+                let attempts = 0;
+                
+                while (validPoints.length < 3 && attempts < 80) {
+                    attempts++;
+                    let scope = {};
+                    activeVars.forEach(v => scope[v] = Math.random() * 2.0 + 0.5); 
+                    
+                    let solveVar = activeVars[Math.floor(Math.random() * activeVars.length)];
+                    if (!solveVar) break;
+                    
+                    let root = findRoot(compiledKey, solveVar, scope);
+                    if (root !== null) {
+                        scope[solveVar] = root;
+                        validPoints.push({...scope});
+                    }
+                }
+                
+                if (validPoints.length >= 3) {
+                    let allMatch = true;
+                    for(let i=0; i<validPoints.length; i++) {
+                        let uVal = compiledUser.evaluate(validPoints[i]);
+                        if (Math.abs(uVal) > 1e-3) { allMatch = false; break; }
+                    }
+                    if (allMatch) return true; 
+                }
+            }
 
             for(let i=0; i<3; i++) {
-                let scope = {}; vars.forEach(v => { scope[v] = Math.random() * 1.5 + 0.1; });
-                let cVal = math.evaluate(cStr, scope); let matchFound = false;
-
-                if (customConstants.length > 0 && customConstants.length === missingTargets.length) {
-                    if (customConstants.length === 1) {
-                        let testScope = { ...scope }; testScope[customConstants[0]] = scope[missingTargets[0]];
-                        let uVal = math.evaluate(uStr, testScope); let diff = Math.abs(uVal - cVal);
-                        if (diff <= 1e-5 || diff / (Math.abs(cVal) + 1e-10) <= 1e-5) matchFound = true;
-                    } 
-                    else if (customConstants.length === 2) {
-                        let scope1 = { ...scope }; scope1[customConstants[0]] = scope[missingTargets[0]]; scope1[customConstants[1]] = scope[missingTargets[1]];
-                        let uVal1 = math.evaluate(uStr, scope1); let diff1 = Math.abs(uVal1 - cVal);
-                        let scope2 = { ...scope }; scope2[customConstants[0]] = scope[missingTargets[1]]; scope2[customConstants[1]] = scope[missingTargets[0]];
-                        let uVal2 = math.evaluate(uStr, scope2); let diff2 = Math.abs(uVal2 - cVal);
-                        if ((diff1 <= 1e-5 || diff1 / (Math.abs(cVal) + 1e-10) <= 1e-5) || (diff2 <= 1e-5 || diff2 / (Math.abs(cVal) + 1e-10) <= 1e-5)) matchFound = true;
-                    }
-                } 
-                else if (customConstants.length === 0) {
-                    let uValNormal = math.evaluate(uStr, scope); let diffNormal = Math.abs(uValNormal - cVal);
-                    let isMatchNormal = (diffNormal <= 1e-5 || diffNormal / (Math.abs(cVal) + 1e-10) <= 1e-5);
-                    let isMatchSwapped = false;
-                    if (scope.hasOwnProperty('c1') && scope.hasOwnProperty('c2')) {
-                        let swappedScope = { ...scope }; swappedScope['c1'] = scope['c2']; swappedScope['c2'] = scope['c1'];
-                        let uValSwapped = math.evaluate(uStr, swappedScope); let diffSwapped = Math.abs(uValSwapped - cVal);
-                        isMatchSwapped = (diffSwapped <= 1e-5 || diffSwapped / (Math.abs(cVal) + 1e-10) <= 1e-5);
-                    }
-                    if (isMatchNormal || isMatchSwapped) matchFound = true;
+                let scope = {}; activeVars.forEach(v => { scope[v] = Math.random() * 1.5 + 0.1; });
+                let cVal = compiledKey.evaluate(scope);
+                let uVal = compiledUser.evaluate(scope);
+                
+                function checkMatch(u, c) {
+                    let diff1 = Math.abs(u - c); let diff2 = Math.abs(u + c);
+                    let denom = Math.abs(c) + 1e-10;
+                    return (diff1 <= 1e-5 || diff1 / denom <= 1e-5) || (diff2 <= 1e-5 || diff2 / denom <= 1e-5);
                 }
+
+                let matchFound = checkMatch(uVal, cVal);
+                
+                if (!matchFound && scope.hasOwnProperty('c1') && scope.hasOwnProperty('c2')) {
+                    let swappedScope = { ...scope }; swappedScope['c1'] = scope['c2']; swappedScope['c2'] = scope['c1'];
+                    let uValSwapped = compiledUser.evaluate(swappedScope); 
+                    matchFound = checkMatch(uValSwapped, cVal);
+                }
+                
                 if (!matchFound) return false;
             }
             return true;
+
         } catch(e) { return false; }
     }
 
@@ -734,8 +918,20 @@
 
         previewBox.style.display = "block";
         try {
-            let sanitized = sanitizeMath(inputVal); let node = math.parse(sanitized);
-            previewBox.innerHTML = '\\( ' + node.toTex({parenthesis: 'auto'}) + ' \\)';
+            let texStr = "";
+            let parsedStr = sanitizeMath(inputVal); 
+            if (inputVal.includes('=')) {
+                let parts = inputVal.split('=');
+                let lhs = math.parse(sanitizeMath(parts[0])).toTex({parenthesis: 'auto'});
+                let rhs = math.parse(sanitizeMath(parts[1])).toTex({parenthesis: 'auto'});
+                texStr = lhs + ' = ' + rhs;
+            } else {
+                texStr = math.parse(parsedStr).toTex({parenthesis: 'auto'});
+            }
+            
+            texStr = texStr.replace(/\\(sin|cos|tan|sec|csc|cot)\\left\((.*?)\\right\)\^\{?([^}]+)\}?/g, '\\left(\\$1\\left($2\\right)\\right)^{$3}');
+
+            previewBox.innerHTML = '\\( ' + texStr + ' \\)';
             MathJax.typesetPromise([previewBox]).catch(function (err) { });
         } catch (e) { previewBox.innerHTML = '<span style="color: var(--muted-text); font-size: 14px;"><i>...</i></span>'; }
         updateQuestionPaletteState(index);
@@ -908,7 +1104,6 @@
             document.getElementById('fullscreen-notice-modal').style.display = 'none';
             studentDetails = cachedStudentRegistrationPackage; testEndTime = Date.now() + data.remaining;
             
-            // TRANSITION TO EXAM UI
             let testElem = document.getElementById('main-test-element');
             testElem.classList.remove('reg-mode'); testElem.classList.add('exam-mode');
             
@@ -934,7 +1129,6 @@
 
         initializeQuiz(); testEndTime = Date.now() + data.remaining;
         
-        // TRANSITION TO EXAM UI
         let testElem = document.getElementById('main-test-element');
         testElem.classList.remove('reg-mode'); testElem.classList.add('exam-mode');
         
@@ -1042,7 +1236,9 @@
             container.classList.remove('status-correct', 'status-incorrect'); inputField.readOnly = true; 
             let isCorrect = false;
 
-            if (q.type === "math") { isCorrect = checkMathEquivalence(rawUserAns, q.answer, q.vars); } 
+            if (q.type === "math") { 
+                isCorrect = checkMathEquivalence(rawUserAns, q.answer, q.vars); 
+            } 
             else {
                 if (q.tolerance !== undefined && rawUserAns.trim() !== "" && !isNaN(parseFloat(rawUserAns))) {
                     let userNum = parseFloat(rawUserAns); let correctNum = parseFloat(q.answer);
@@ -1050,7 +1246,6 @@
                 } else { isCorrect = (rawUserAns.toLowerCase() === q.answer.toLowerCase()); }
             }
 
-            // ACCORDION SOLUTION LOGIC
             let solBtn = `<button type="button" style="background: var(--input-bg); color: var(--mod2-color); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 6px; width: 100%; text-align: left; font-weight: bold; font-family: 'Poppins', sans-serif; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;" onclick="let c=this.nextElementSibling; if(c.style.display==='none'){c.style.display='block'; this.innerHTML='🙈 Hide Detailed Solution'; this.style.borderBottomLeftRadius='0'; this.style.borderBottomRightRadius='0';} else {c.style.display='none'; this.innerHTML='👁️ View Detailed Solution'; this.style.borderBottomLeftRadius='6px'; this.style.borderBottomRightRadius='6px';}">👁️ View Detailed Solution</button>`;
             let solContent = `<div style="display:none; background: var(--card-bg); padding: 15px; border: 1px solid var(--border-color); border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; overflow-x: auto; max-width: 100%; width: 100%; box-sizing: border-box; font-size: 14px; color: var(--text-color);"><strong>Solution:</strong><br>${q.explanation || '<em style="color: var(--muted-text);">No detailed explanation available.</em>'}</div>`;
             let accordionHtml = `<div style="margin-top: 15px;">${solBtn}${solContent}</div>`;
