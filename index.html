@@ -3,301 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Assessment-Module 5</title>
+    <title>Online Assessment</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
       :root {
-            /* Backgrounds: Deep oceanic teal */
             --bg-color: #081c24; 
             --container-bg: #122b36; 
             --input-bg: #1d3b48; 
-            
-            /* Text & Accents: Soft whites and muted blues */ 
             --text-color: #e2e8f0; 
+            --muted-text: #94a3b8;
+            --border-color: #475569;
             --mod2-color: #38bdf8; 
             --mod5-color: #818cf8; 
-            
-            /* Buttons & Status: Gentle green and amber */
             --btn-bg: #0ea5e9; 
             --btn-hover: #0284c7; 
             --correct-color: #10b981; 
             --incorrect-color: #ef4444; 
             --timer-color: #fbbf24;
+            --nav-bg: rgba(18, 43, 54, 0.85);
+            --nav-btn-bg: #334155;
+            --nav-btn-hover: #475569;
+            --preview-bg: #0f172a;
+            --card-bg: rgba(0,0,0,0.2);
+            --divider-bg: rgba(56, 189, 248, 0.2);
+            --reg-bg: linear-gradient(145deg, #122b36, #081c24);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f1f5f9; 
+            --container-bg: #ffffff; 
+            --input-bg: #f8fafc; 
+            --text-color: #0f172a; 
+            --muted-text: #64748b;
+            --border-color: #cbd5e1;
+            --mod2-color: #0284c7; 
+            --mod5-color: #4f46e5; 
+            --btn-bg: #2563eb; 
+            --btn-hover: #1d4ed8; 
+            --correct-color: #059669; 
+            --incorrect-color: #dc2626; 
+            --timer-color: #d97706;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-btn-bg: #e2e8f0;
+            --nav-btn-hover: #cbd5e1;
+            --preview-bg: #f8fafc;
+            --card-bg: #f1f5f9;
+            --divider-bg: rgba(0,0,0,0.1);
+            --reg-bg: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+        }
+
+        [data-theme="zen"] {
+            --bg-color: #f4f1ea; 
+            --container-bg: #ffffff; 
+            --input-bg: #faf9f6; 
+            --text-color: #334155; 
+            --muted-text: #827e75;
+            --border-color: #e5e0d8;
+            --mod2-color: #c98a44; 
+            --mod5-color: #8c7853; 
+            --btn-bg: #809671; 
+            --btn-hover: #6a7c5c; 
+            --correct-color: #6b8e23; 
+            --incorrect-color: #cc5500; 
+            --timer-color: #d2a65a;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-btn-bg: #fdfbf7;
+            --nav-btn-hover: #f0ebe1;
+            --preview-bg: #faf9f6;
+            --card-bg: #ffffff;
+            --divider-bg: #e5e0d8;
+            --reg-bg: linear-gradient(135deg, #ffffff 0%, #f0ede6 100%);
+        }
+
+        [data-theme="midnight"] {
+            --bg-color: #020617; 
+            --container-bg: #0f172a; 
+            --input-bg: #1e293b; 
+            --text-color: #f8fafc; 
+            --muted-text: #94a3b8;
+            --border-color: #334155;
+            --mod2-color: #38bdf8; 
+            --mod5-color: #818cf8; 
+            --btn-bg: #6366f1; 
+            --btn-hover: #4f46e5; 
+            --correct-color: #10b981; 
+            --incorrect-color: #ef4444; 
+            --timer-color: #f59e0b;
+            --nav-bg: rgba(15, 23, 42, 0.95);
+            --nav-btn-bg: #1e293b;
+            --nav-btn-hover: #334155;
+            --preview-bg: #020617;
+            --card-bg: rgba(255,255,255,0.02);
+            --divider-bg: rgba(255,255,255,0.05);
+            --reg-bg: linear-gradient(135deg, #0f172a 0%, #020617 100%);
         }
 
         * { box-sizing: border-box; }
-        body {font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 40px 5px; user-select: none; -webkit-user-select: none; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px 5px; user-select: none; -webkit-user-select: none; overflow-x: hidden; transition: background-color 0.3s, color 0.3s, padding-left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
         
-        /* Adjusted padding to avoid content getting hidden behind the fixed elements */
-        .test-container { background-color: var(--container-bg); max-width: 900px; width: 100%; margin: 0 auto; padding: 140px 20px 180px 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); position: relative; min-height: 100vh; }
+        .test-container { background-color: var(--container-bg); width: 100%; margin: 0 auto; border-radius: 12px; position: relative; transition: filter 0.3s ease, max-width 0.3s ease, padding 0.3s ease; }
         
-        h1 { text-align: center; font-size: 28px; margin-top: 0; margin-bottom: 5px; }
-        .sub-header { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 14px; }
+        /* NEW: BEAUTIFUL COMPACT REGISTRATION CARD */
+        .reg-mode { max-width: 650px; padding: 40px; background: var(--reg-bg); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); margin-top: 5vh; min-height: auto; }
         
-        .instructions { 
-            background-color: var(--input-bg); 
-            border: 1px solid rgba(56, 189, 248, 0.2); 
-            padding: 25px 20px; 
-            border-radius: 8px; 
-            margin-bottom: 30px; 
-            font-size: 15px; 
-            color: #bae6fd; 
-            line-height: 1.8; 
-            text-align: left; 
-        }
-        .instructions h3 { 
-            margin-top: 0; 
-            color: #38bdf8; 
-            border-bottom: 1px solid rgba(56, 189, 248, 0.2); 
-            padding-bottom: 10px; 
-            margin-bottom: 15px; 
-            font-size: 18px; 
-        }
-        .instructions ul { padding-left: 20px; margin-top: 0; margin-bottom: 25px; }
-        .instructions ul:last-child { margin-bottom: 0; }
+        /* EXAM MODE LAYOUT */
+        .exam-mode { max-width: 1000px; padding: 120px 20px 140px 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); min-height: 100vh; }
+        
+        .blur-active { filter: blur(15px); pointer-events: none; user-select: none; }
+
+        .theme-select { width: auto; min-width: 100px; padding: 6px 10px; border-radius: 6px; background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; outline: none; transition: 0.3s; }
+        .theme-select:hover { border-color: var(--mod2-color); }
+
+        h1.reg-title { font-size: 26px; margin: 0; color: var(--text-color); }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .instructions { background-color: var(--card-bg); border: 1px solid var(--border-color); border-left: 4px solid var(--mod2-color); padding: 25px 20px; border-radius: 8px; margin-bottom: 25px; font-size: 14px; color: var(--text-color); line-height: 1.8; text-align: left; }
+        .instructions h3 { margin-top: 0; color: var(--mod2-color); border-bottom: 1px solid var(--divider-bg); padding-bottom: 10px; margin-bottom: 15px; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .instructions ul { padding-left: 20px; margin-top: 0; margin-bottom: 0; }
         .instructions li { margin-bottom: 10px; }
         
         .reg-group { margin-bottom: 15px; }
-        .reg-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .reg-input { width: 100%; padding: 12px; border-radius: 6px; background-color: var(--input-bg); color: white; border: 1px solid #475569; outline: none; font-size: 16px; }
-        
+        .reg-group label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--text-color); font-size: 13px; }
+        .reg-input { width: 100%; padding: 12px; border-radius: 6px; background-color: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); outline: none; font-size: 15px; }
+        .reg-input:focus { border-color: var(--mod2-color); box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1); }
+
         #quiz-section, #loading-spinner, #lockout-screen { display: none; }
         
-        /* Fixed Header Container for Timer & Palette */
-        .quiz-header-fixed {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 900px;
-            background: rgba(18, 43, 54, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
-            padding: 15px 20px 5px 20px;
-            z-index: 100;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
+        .quiz-header-fixed { position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; width: 100%; max-width: 1000px; background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--divider-bg); padding: 12px 20px; z-index: 100; border-top-left-radius: 12px; border-top-right-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
 
-        .timer-container { text-align: right; font-size: 18px; font-weight: bold; color: var(--timer-color); margin-bottom: 12px; padding: 12px; background: rgba(251, 191, 36, 0.1); border-radius: 6px; border: 1px solid rgba(251, 191, 36, 0.3); }
-        .module-section { margin-bottom: 30px; padding: 25px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border-left: 5px solid var(--mod2-color); }
-        .module-title { font-size: 20px; margin-top: 0; margin-bottom: 20px; }
+        .header-top-row { display: flex; justify-content: space-between; align-items: center; }
+        .header-titles { text-align: left; width: 25%; }
+        .fixed-title { font-size: 18px; margin: 0 0 2px 0; color: var(--text-color); font-weight: bold; white-space: nowrap; }
+        .fixed-score { font-size: 13px; color: var(--mod2-color); margin: 0; font-weight: 600; }
+        .timer-container { text-align: center; font-size: 18px; font-weight: bold; color: var(--timer-color); padding: 8px 12px; background: var(--card-bg); border-radius: 6px; border: 1px solid var(--border-color); margin: 0; width: 25%; }
+
+        #mini-palette-placeholder { display: flex; gap: 8px; align-items: center; justify-content: center; flex-grow: 1; }
+
+        .question-sidebar { position: fixed; left: -320px; top: 0; width: 320px; height: 100vh; background: var(--nav-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-right: 1px solid var(--divider-bg); z-index: 1005; transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
+        .question-sidebar:hover { left: 0; }
+        .sidebar-handle { position: absolute; right: -28px; top: 50%; transform: translateY(-50%); width: 28px; height: 80px; background: var(--container-bg); border: 1px solid var(--border-color); border-left: none; border-radius: 0 8px 8px 0; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 4px 0 10px rgba(0,0,0,0.3); color: var(--mod2-color); transition: 0.2s; }
+        .question-sidebar:hover .sidebar-handle { background: var(--btn-bg); color: white; border-color: var(--btn-bg); }
+        
+        .sidebar-content { padding: 25px 20px; overflow-y: auto; flex-grow: 1; }
+        .sidebar-title-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--divider-bg); padding-bottom: 10px; margin-bottom: 20px; color: var(--text-color); font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        .palette-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .palette-btn { width: 40px; height: 40px; border-radius: 6px; border: 2px solid var(--border-color); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .palette-btn.unanswered { background-color: var(--nav-btn-bg); color: var(--muted-text); border-color: var(--border-color); }
+        .palette-btn.answered { background-color: rgba(16, 185, 129, 0.15); border-color: var(--correct-color); color: var(--correct-color); }
+        .palette-btn.review { background-color: rgba(251, 191, 36, 0.15); border-color: var(--timer-color); color: var(--timer-color); }
+        .palette-btn.active { transform: scale(1.1); border-color: var(--btn-bg); box-shadow: 0 0 10px var(--btn-bg); color: white; background-color: var(--btn-bg); }
+        
+        .sidebar-content::-webkit-scrollbar { width: 6px; }
+        .sidebar-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .sidebar-content::-webkit-scrollbar-thumb { background: var(--mod2-color); border-radius: 4px; }
+
+        .sidebar-footer { padding: 20px; background: var(--container-bg); border-top: 1px solid var(--divider-bg); box-shadow: 0 -4px 15px rgba(0,0,0,0.2); }
+        .stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 12px; color: var(--text-color); font-weight: 600; }
+        .stat-badge { padding: 4px 10px; border-radius: 4px; font-size: 13px; font-weight: bold; min-width: 35px; text-align: center; }
+        .stat-badge.answered { background: rgba(16, 185, 129, 0.15); color: var(--correct-color); border: 1px solid var(--correct-color); }
+        .stat-badge.flagged { background: rgba(251, 191, 36, 0.15); color: var(--timer-color); border: 1px solid var(--timer-color); }
+        .stat-badge.remaining { background: var(--nav-btn-bg); color: var(--muted-text); border: 1px solid var(--border-color); }
+
+        .module-section { margin-bottom: 30px; padding: 25px; border-radius: 8px; background: var(--card-bg); border-left: 5px solid var(--mod2-color); }
+        .module-title { font-size: 20px; margin-top: 0; margin-bottom: 20px; color: var(--text-color); }
         .question-block { margin-bottom: 25px; }
-        .question-text { font-size: 16px; line-height: 1.8; margin-bottom: 12px; overflow: visible; } 
         
-        .answer-input { width: 100%; padding: 14px; border: 2px solid transparent; border-radius: 6px; background-color: var(--input-bg); color: white; font-size: 16px; outline: none; font-family: monospace; }
-        .answer-input:focus { border-color: #64748b; }
+        /* NEW: MATH OVERFLOW FIXES */
+        .question-text { font-size: 16px; line-height: 1.8; margin-bottom: 12px; overflow-x: auto; max-width: 100%; color: var(--text-color); padding-bottom: 5px; } 
+        mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
         
-        .math-preview { display: none; margin-top: 8px; padding: 12px; background: #0f172a; border: 1px dashed #475569; border-radius: 6px; font-size: 18px; color: var(--mod2-color); min-height: 45px; text-align: center; overflow-x: auto; }
+        .answer-input { width: 100%; padding: 14px; border: 2px solid transparent; border-radius: 6px; background-color: var(--input-bg); color: var(--text-color); font-size: 16px; outline: none; font-family: monospace; border: 1px solid var(--border-color); overflow-x: auto;}
+        .answer-input:focus { border-color: var(--mod2-color); box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1); }
         
-        .feedback { display: none; margin-top: 10px; font-size: 15px; line-height: 1.5; padding: 10px; border-radius: 6px; }
-        .submit-btn { width: 100%; padding: 16px; font-size: 18px; font-weight: bold; color: white; background-color: var(--btn-bg); border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .submit-btn:hover { background-color: var(--btn-hover); }
-        .submit-btn:disabled { background-color: #64748b; cursor: not-allowed; }
+        .math-preview { display: none; margin-top: 8px; padding: 12px; background: var(--preview-bg); border: 1px dashed var(--border-color); border-radius: 6px; font-size: 18px; color: var(--mod2-color); min-height: 45px; text-align: center; overflow-x: auto; max-width: 100%; }
         
-        .score-display { display: none; text-align: center; font-size: 24px; font-weight: bold; margin-top: 30px; padding: 20px; border-radius: 8px; background: rgba(0,0,0,0.2); }
+        .feedback { display: none; margin-top: 10px; font-size: 15px; line-height: 1.5; padding: 15px; border-radius: 6px; overflow-x: auto; max-width: 100%; box-sizing: border-box; }
+        .submit-btn { width: 100%; padding: 16px; font-size: 18px; font-weight: bold; color: white; background-color: var(--btn-bg); border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .submit-btn:hover { background: var(--btn-hover); }
+        .submit-btn:disabled { background-color: var(--muted-text); cursor: not-allowed; box-shadow: none; }
         
-        .status-correct .answer-input { border-color: var(--correct-color); background-color: rgba(34, 197, 94, 0.1); }
-        .status-correct .feedback { display: block; color: var(--correct-color); background: rgba(34, 197, 94, 0.05); }
+        .score-display { display: none; text-align: center; font-weight: bold; padding: 25px; border-radius: 8px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 20px; }
         
-         .status-incorrect .answer-input { border-color: var(--incorrect-color); background-color: rgba(239, 68, 68, 0.1); }
-        .status-incorrect .feedback { display: block; color: var(--incorrect-color); background: rgba(239, 68, 68, 0.05); }
+        .status-correct .answer-input { border-color: var(--correct-color); background-color: rgba(34, 197, 94, 0.05); }
+        .status-correct .feedback { display: block; color: var(--correct-color); background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); }
+        .status-incorrect .answer-input { border-color: var(--incorrect-color); background-color: rgba(239, 68, 68, 0.05); }
+        .status-incorrect .feedback { display: block; color: var(--incorrect-color); background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); }
         
-        .loading-text { text-align: center; color: #38bdf8; font-weight: bold; margin-top: 20px;}
+        .loading-text { text-align: center; color: var(--mod2-color); font-weight: bold; margin-top: 20px;}
         .lockout-msg { text-align: center; color: var(--incorrect-color); font-size: 18px; font-weight: bold; padding: 40px 20px; }
 
-        .palette-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-            justify-content: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-            border: 1px solid rgba(56, 189, 248, 0.1);
-        }
-        .palette-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
-            border: 2px solid #475569;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        .palette-btn.unanswered { background-color: #334155; color: #94a3b8; border-color: #475569; }
-        .palette-btn.answered { background-color: rgba(16, 185, 129, 0.15); border-color: var(--correct-color); color: #fff; }
-        .palette-btn.review { background-color: rgba(251, 191, 36, 0.15); border-color: var(--timer-color); color: #fff; }
-        .palette-btn.active { transform: scale(1.1); border-color: var(--btn-bg); box-shadow: 0 0 10px var(--btn-bg); }
-        
-        /* Fixed Footer Container for Navigation & Submission Controls */
-        .quiz-footer-fixed {
-             position: fixed;
-            bottom: 0; 
-            left: 50%;
-            transform: translateX(-50%);  
-             width: 100%;
-             max-width: 900px;
-            background: rgba(18, 43, 54, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(56, 189, 248, 0.15);
-            padding: 15px 20px 20px 20px;
-            z-index: 100;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-        }
+        .quiz-footer-fixed { position: fixed; bottom: 0; left: 0; right: 0; margin: 0 auto; width: 100%; max-width: 1000px; background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--divider-bg); padding: 12px 20px; z-index: 100; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3); display: flex; justify-content: space-between; align-items: center; gap: 15px; transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
 
-        .nav-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .nav-btn {
-            padding: 12px 20px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            transition: 0.2s;
-        }
-        .nav-btn:hover:not(:disabled) { background-color: #244859; }
+        .nav-controls { display: flex; gap: 10px; flex-grow: 1; margin: 0; }
+        .nav-btn { padding: 10px 16px; font-size: 14px; font-weight: 600; border-radius: 6px; border: none; cursor: pointer; background-color: var(--nav-btn-bg); color: var(--text-color); transition: 0.2s; white-space: nowrap; border: 1px solid transparent; }
+        .nav-btn:hover:not(:disabled) { background-color: var(--nav-btn-hover); border-color: var(--border-color); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        
         .review-toggle-btn { background-color: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.3); color: var(--timer-color); }
-        .review-toggle-btn.active-review { background-color: var(--timer-color); color: #081c24; }
+        .review-toggle-btn.active-review { background-color: var(--timer-color); color: #ffffff; }
+        #final-submit-btn { margin-top: 0; width: auto; padding: 10px 20px; font-size: 15px; white-space: nowrap; flex-shrink: 0; }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(8, 28, 36, 0.96);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-card {
-            background-color: var(--container-bg);
-            border: 2px solid rgba(56, 189, 248, 0.3);
-            border-radius: 12px;
-            max-width: 550px;
-            width: 100%;
-            padding: 35px 25px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            text-align: center;
-        }
-        .modal-title-warn {
-            color: var(--timer-color);
-            font-size: 22px;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .modal-title-danger {
-            color: var(--incorrect-color);
-            font-size: 22px;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .modal-text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--text-color);
-            margin-bottom: 25px;
-        }
-        .modal-btn-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-        .modal-btn {
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
-        }     
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(8, 28, 36, 0.96); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; }
+        
+        .modal-card { background-color: var(--container-bg); border: 1px solid var(--border-color); border-radius: 12px; max-width: 550px; width: 100%; padding: 35px 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); text-align: center; }
+        .modal-title-warn { color: var(--timer-color); font-size: 22px; margin-top: 0; margin-bottom: 15px; font-weight: bold; border-bottom: 1px solid var(--divider-bg); padding-bottom: 10px;}
+        .modal-title-danger { color: var(--incorrect-color); font-size: 22px; margin-top: 0; margin-bottom: 15px; font-weight: bold; border-bottom: 1px solid var(--divider-bg); padding-bottom: 10px;}
+        .modal-text { font-size: 15px; line-height: 1.6; color: var(--text-color); margin-bottom: 25px; }
+        .modal-btn-group { display: flex; gap: 15px; justify-content: center; }
+        .modal-btn { padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; border: none; cursor: pointer; transition: 0.2s; }     
         .modal-btn-confirm { background-color: var(--btn-bg); color: white; }
         .modal-btn-confirm:hover { background-color: var(--btn-hover); }
-        .modal-btn-cancel { background-color: #334155; color: #94a3b8; }
-        .modal-btn-cancel:hover { background-color: #475569; }
+        .modal-btn-cancel { background-color: var(--nav-btn-bg); color: var(--text-color); }
+        .modal-btn-cancel:hover { background-color: var(--nav-btn-hover); }
         .modal-btn-danger { background-color: var(--incorrect-color); color: white; }
         .modal-btn-danger:hover { opacity: 0.9; }
 
-        @media (max-width: 600px) {
+        @keyframes slideInLeft { from { opacity: 0; transform: translate(-20px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
+
+        /* THE SPLIT-SCREEN PINNED LAYOUT ENGINE */
+        @media (min-width: 801px) {
+            body.sidebar-pinned { padding-left: 320px; }
+            body.sidebar-pinned .quiz-header-fixed,
+            body.sidebar-pinned .quiz-footer-fixed { 
+                left: 320px; 
+                width: auto; 
+            }
+            body.sidebar-pinned .question-sidebar { left: 0; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
+            body.sidebar-pinned .sidebar-handle { display: none; }
+        }
+
+        /* NEW: RESPONSIVE MOBILE FIXES */
+        @media (max-width: 800px) {
             body { padding: 10px 0px; } 
-            .test-container { padding: 160px 8px 210px 8px; border-radius: 8px; } 
-            h1 { font-size: 24px; }
+            
+            .reg-mode { padding: 30px 20px; margin-top: 20px; }
+            .grid-2 { grid-template-columns: 1fr; gap: 10px; }
+            
+            /* Drastically increased padding to prevent header overlap */
+            .exam-mode { padding: 220px 10px 160px 10px !important; }
+            
+            h1.reg-title { font-size: 24px; }
             .module-section { padding: 15px; border-left-width: 4px; }
-            .timer-container { text-align: center; font-size: 16px; }
             .answer-input, .reg-input { font-size: 16px; padding: 12px; }
-            .nav-btn { padding: 10px 14px; font-size: 14px; }
             .quiz-header-fixed { border-radius: 0; padding: 10px 10px 5px 10px; }
-            .quiz-footer-fixed { border-radius: 0; padding: 10px 10px 15px 10px; }
+            .quiz-footer-fixed { border-radius: 0; flex-wrap: wrap; padding: 12px; gap: 10px; }
+            .nav-controls { width: 100%; justify-content: space-between; }
+            .nav-btn { padding: 8px 10px; font-size: 12px; }
+            #final-submit-btn { width: 100%; margin-top: 0px; padding: 14px; font-size: 16px; }
+            .header-top-row { flex-wrap: wrap; gap: 8px; justify-content: center; }
+            .header-titles { text-align: center; width: 100%; order: 1; margin-bottom: 5px; }
+            #mini-palette-placeholder { order: 2; width: 100%; margin-bottom: 5px;}
+            .timer-container { order: 3; justify-content: center; width: 100%; font-size: 16px; }
+            #pin-sidebar-btn { display: none !important; }
+            
+            /* Mobile Slider Handle Lowered & Shadow Removed */
+            .sidebar-handle { top: 75%; box-shadow: none !important; border-right: 2px solid var(--border-color); background: var(--nav-bg); }
         }
     </style>
-    
     <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-            }
-        };
+        window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] } };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
 </head>
 <body>
 
-<div id="fullscreen-notice-modal" class="modal-overlay" style="display: none;">
+<div id="math-guide-modal" class="modal-overlay">
+    <div class="modal-card">
+        <h3 class="modal-title-warn" style="color: var(--mod2-color);">📝 Mathematical Input Guide</h3>
+        <p class="modal-text" style="font-size: 14px; margin-bottom: 15px;">Please review how to format your mathematical expressions before beginning the assessment.</p>
+        
+        <div style="text-align: left; background: var(--input-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+            <ul style="padding-left: 20px; margin-bottom: 0; color: var(--text-color); line-height: 1.8; font-size: 14px;">
+                <li><strong>Powers & Exponents:</strong> Use <code>^</code> (e.g., type <code>x^2</code> or <code>e^x</code>)</li>
+                <li><strong>Multiplication:</strong> Use <code>*</code> (e.g., type <code>2*x</code>)</li>
+                <li><strong>Trigonometry:</strong> You MUST use parentheses! Type <code>sin(x)</code> or <code>cos(x)</code></li>
+                <li><strong>Logarithms:</strong> Type <code>log(x)</code> or <code>ln(x)</code></li>
+                <li><strong>Constants:</strong> Type <code>pi</code> for π.</li>
+            </ul>
+        </div>
+        <button type="button" class="modal-btn modal-btn-confirm" style="width: 100%;" onclick="showFullscreenNotice()">I Understand → Proceed</button>
+    </div>
+</div>
+
+<div id="fullscreen-notice-modal" class="modal-overlay">
     <div class="modal-card">
         <h3 class="modal-title-warn">⚠️ STRICT FULLSCREEN SECURITY MODE</h3>
         <p class="modal-text">
             This examination utilizes strict server-side integrity controls.<br><br>
-            Clicking the button below will securely configure your viewport to <strong>Fullscreen Mode</strong>. Hitting <code>Esc</code>, minimizing, or adjusting browser bounds will trigger immediate penalties. You are permitted exactly <strong>2 escape warning strikes</strong> before the portal automatically files an absolute test cancellation and submittal.
+            Clicking the button below will securely configure your viewport to <strong>Fullscreen Mode</strong>. Hitting <code>Esc</code>, minimizing, or adjusting browser bounds will trigger immediate penalties.
         </p>
         <button type="button" class="modal-btn modal-btn-confirm" onclick="acceptFullscreenAndStart()">Acknowledge & Launch Assessment</button>
     </div>
 </div>
 
-<div id="fullscreen-lockout-modal" class="modal-overlay" style="display: none;">
+<div id="standard-warning-modal" class="modal-overlay" style="z-index: 9999999;">
     <div class="modal-card">
-        <h3 class="modal-title-danger">🚨 INTEGRITY VIOLATION LOGGED</h3>
-        <p class="modal-text" id="fullscreen-warn-text">
-            Fullscreen Mode Escape Detected!<br><br>
-            Your browser access has been temporarily suspended. You must click the button below to re-establish a secure fullscreen environment. Attempting another escape will result in an immediate penalty or automatic submission.
+        <h3 class="modal-title-warn">⚠️ SECURITY VIOLATION ⚠️</h3>
+        <p class="modal-text" style="font-size: 16px;">
+            <span id="warning-reason-text">You have clicked away from the exam window or exited fullscreen mode.</span> This is a strict violation of anti-cheat protocols.<br><br>
+            <span style="font-size: 20px; font-weight: bold;">Security Strikes: <span id="strike-count-display">0</span> / 3</span><br><br>
+            <span style="font-size: 14px; color: var(--muted-text);">Upon reaching 3 strikes, you will receive a mandatory 5-minute timeout penalty.</span>
         </p>
-        <button type="button" class="modal-btn modal-btn-danger" onclick="reEngageFullscreenLock()">Re-Lock Fullscreen Mode</button>
+        <button type="button" class="modal-btn modal-btn-cancel" onclick="resumeFromWarning()">Acknowledge & Return to Exam</button>
     </div>
 </div>
 
-<div id="submit-confirm-modal" class="modal-overlay" style="display: none;">
+<div id="timeout-lockout-modal" class="modal-overlay" style="z-index: 99999999;">
     <div class="modal-card">
-        <h3 class="modal-title-warn">📝 CONFIRM ASSESSMENT SUBMISSION</h3>
+        <h3 class="modal-title-danger">🚨 SECURITY LOCKOUT ACTIVE 🚨</h3>
+        <p class="modal-text" style="font-size: 15px; margin-bottom: 15px;">
+            You have repeatedly violated the assessment security protocols (Window Focus Loss or Fullscreen Escape). As a penalty, you are locked out of the exam for <strong>5 minutes</strong>.
+        </p>
+        
+        <div class="instructions" style="text-align: left; margin-bottom: 20px; background: var(--input-bg); border-color: var(--incorrect-color);">
+            <h3 style="color: var(--timer-color); font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-top:0;">Testing Protocols to Remember:</h3>
+            <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 0;">
+                <li>Do not exit <strong>Fullscreen Mode</strong> by pressing Escape or minimizing the browser.</li>
+                <li>Do not switch to other tabs, applications, or click outside the test window.</li>
+                <li>Ensure notifications from other apps do not steal your screen focus.</li>
+                <li>Repeated violations will trigger this timeout penalty again.</li>
+            </ul>
+        </div>
+
+        <div style="font-size: 24px; font-weight: bold; color: var(--timer-color); margin-bottom: 20px; padding: 15px; background: var(--input-bg); border-radius: 8px; border: 1px solid var(--border-color);">
+            Time Remaining: <span id="lockout-countdown">05:00</span>
+        </div>
+        
+        <button type="button" id="lockout-resume-btn" class="modal-btn modal-btn-danger" style="display: none; width: 100%;" onclick="resumeFromLockout()">Acknowledge & Resume Assessment</button>
+    </div>
+</div>
+
+<div id="submit-confirm-modal" class="modal-overlay">
+    <div class="modal-card">
+        <h3 class="modal-title-warn" style="color: var(--mod2-color);">📝 CONFIRM ASSESSMENT SUBMISSION</h3>
         <p class="modal-text">
             Are you absolutely certain you want to finalize and submit your answers?<br><br>
             Verify your completed palette markers. Once finalized, input fields lock permanently, grading routines calculate, and results are piped to the master Google Sheets ledger. This action cannot be revoked.
@@ -309,200 +351,255 @@
     </div>
 </div>
 
-<div class="test-container" id="main-test-element">
-    <h1>Online Assessment-Modulo 5</h1>
-    <div class="sub-header" id="score-header">Total Marks: --</div>
+<div id="navigator-tip" style="display: none; position: fixed; left: 40px; top: 50%; transform: translateY(-50%); background: var(--btn-bg); color: white; padding: 15px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 99999; max-width: 250px; text-align: left; animation: slideInLeft 0.5s ease;">
+    <div style="font-weight: bold; margin-bottom: 5px;">💡 Question Navigator</div>
+    <div style="font-size: 13px; margin-bottom: 10px;">Hover over or click the edge panel to view all questions. Click the 🔓 lock icon to pin it permanently!</div>
+    <button onclick="document.getElementById('navigator-tip').style.display='none'" style="background: white; color: var(--btn-bg); border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; width: 100%;">Got it!</button>
+    <div style="position: absolute; left: -8px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid var(--btn-bg);"></div>
+</div>
 
-    <div id="lockout-screen" class="lockout-msg">
-        🔒 Access Denied.<br><br><span style="font-size:16px; font-weight:normal; color:#94a3b8;">Our records show that this account has already submitted an assessment.</span>
+<div class="question-sidebar" id="question-sidebar" style="display: none;">
+    <div class="sidebar-handle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </div>
+    
+    <div class="sidebar-content">
+        <div class="sidebar-title-row">
+            <span>Question Navigator</span>
+            <button id="pin-sidebar-btn" onclick="toggleSidebarPin()" title="Pin Sidebar" style="background:none; border:none; color: var(--muted-text); cursor:pointer; padding: 5px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: 0.2s;">
+                <svg id="icon-unlock" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+                <svg id="icon-lock" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </button>
+        </div>
+        <div class="palette-container" id="sidebar-palette-grid"></div>
+    </div>
+    
+    <div class="sidebar-footer">
+        <div class="stat-row">
+            <span>Answered:</span>
+            <span class="stat-badge answered" id="stat-answered">0</span>
+        </div>
+        <div class="stat-row">
+            <span>Flagged:</span>
+            <span class="stat-badge flagged" id="stat-flagged">0</span>
+        </div>
+        <div class="stat-row">
+            <span>Remaining:</span>
+            <span class="stat-badge remaining" id="stat-remaining">0</span>
+        </div>
+        
+        <div style="display: flex; justify-content: center; margin-top: 15px; border-top: 1px solid var(--divider-bg); padding-top: 15px;">
+            <select class="theme-select" style="width:100%; margin:0;" onchange="changeTheme(this.value)">
+                <option value="zen" selected>🌅 Zen Light</option>
+                <option value="light">☀️ Light</option>
+                <option value="default">🌊 Oceanic</option>
+                <option value="midnight">🌙 Midnight</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="test-container reg-mode" id="main-test-element">
+    <div id="lockout-screen" class="lockout-msg">🔒 Access Denied.<br><br><span style="font-size:16px; font-weight:normal; color:var(--muted-text);">Our records show that this account has already submitted an assessment.</span></div>
 
     <div id="registration-section">
-        <h2 style="text-align: center; color: #94a3b8; margin-top: 0;">Student Details</h2>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--divider-bg); padding-bottom: 15px;">
+            <h1 class="reg-title">Online Assessment</h1>
+            <select class="theme-select" id="theme-selector-reg" onchange="changeTheme(this.value)">
+                <option value="light" selected>☀️ Light</option>
+                <option value="zen">🌅 Zen Light</option>   
+                <option value="default">🌊 Oceanic</option>
+                <option value="midnight">🌙 Midnight</option>
+            </select>
+        </div>
+        
+        <h2 style="text-align: left; color: var(--muted-text); margin-top: 0; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">Student Details</h2>
 
-        <div class="reg-group"><label>Full Name</label><input type="text" id="reg-name" class="reg-input" placeholder="e.g., Rakesh Bharati" required></div>
-        <div class="reg-group"><label>Email Address</label><input type="email" id="reg-email" class="reg-input" placeholder="Enter your institution email" required></div>
-        <div class="reg-group"><label>USN</label><input type="text" id="reg-usn" class="reg-input" placeholder="Enter your USN" required></div>
-        <div class="reg-group"><label>Branch & Section</label><input type="text" id="reg-section" class="reg-input" placeholder="e.g., CSE 99" required></div>
-        <div class="reg-group"><label>Roll Number</label><input type="text" id="reg-roll" class="reg-input" placeholder="Enter your Roll Number" required></div>
-        <div class="reg-group"><label>Secret Password</label><input type="password" id="reg-password" class="reg-input" placeholder="Create or enter your password" required></div>
+        <div class="grid-2">
+            <div class="reg-group"><label>Exam Code</label><input type="text" id="reg-examcode" class="reg-input" placeholder="e.g., MATH101" required style="border-color: var(--timer-color);"></div>
+            <div class="reg-group"><label>Full Name</label><input type="text" id="reg-name" class="reg-input" placeholder="e.g., Rakesh Bharati" required></div>
+            <div class="reg-group"><label>Email Address</label><input type="email" id="reg-email" class="reg-input" placeholder="Enter personal email" required></div>
+            <div class="reg-group"><label>USN</label><input type="text" id="reg-usn" class="reg-input" placeholder="Enter your USN" required></div>
+            <div class="reg-group"><label>Branch & Section</label><input type="text" id="reg-section" class="reg-input" placeholder="e.g., CSE 99" required></div>
+            <div class="reg-group"><label>Roll Number</label><input type="text" id="reg-roll" class="reg-input" placeholder="Enter Roll Number" required></div>
+        </div>
+        
+        <div class="reg-group" style="margin-top: 5px;"><label>Secret Password</label><input type="password" id="reg-password" class="reg-input" placeholder="Create or enter your secure password" required></div>
 
-        <div class="instructions" style="text-align: left;">
-            <h3 style="margin-top: 0; color: #7dd3fc; border-bottom: 1px solid rgba(56, 189, 248, 0.3); padding-bottom: 8px; font-size: 16px;">⚠️ Assessment Rules</h3>
-            <ul style="padding-left: 20px; margin-bottom: 20px;">
-               <li><strong>Time Limit:</strong> You have exactly <strong id="rule-time-display">-- minutes</strong> to complete this test. It will submit automatically when time is up.</li>
-                <li><strong>Academic Integrity:</strong> You must solve these questions independently. The use of AI, external websites, or unauthorized tools is strictly prohibited.</li>
-                <li><strong>Anti-Cheating Active:</strong> Do NOT switch browser tabs or leave this window. The system monitors tab activity and will force a submission if you leave the page.</li>
-                <li><strong>Fullscreen Enforcement:</strong> The test runs in a dedicated fullscreen environment. Escape detection parameters allow exactly two warning strikes before immediate server submittal.</li>
-                <li><strong>Single Attempt:</strong> You may only submit this assessment once.</li>
-            </ul>
-
-            <h3 style="color: #7dd3fc; border-bottom: 1px solid rgba(56, 189, 248, 0.3); padding-bottom: 8px; font-size: 16px;">📝 How to type mathematical answers</h3>
-            <ul style="padding-left: 20px; margin-bottom: 0;">
-                <li><strong>Basic Math:</strong> Use <code>^</code> for powers (e.g., <code>x^2</code>), <code>*</code> for multiplication (e.g., <code>2*x</code>), and <code>/</code> for division.</li>
-                <li><strong>Trigonometry:</strong> You MUST use parentheses! Type <code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code> (<strong>not</strong> <code>sin x</code>).</li>
-                <li><strong>Logarithms:</strong> Type <code>log(x)</code> or <code>ln(x)</code>.</li>
-                <li><strong>Exponentials:</strong> Type <code>exp(x)</code> or <code>e^x</code>.</li>
-                <li><strong>Constants:</strong> Type <code>pi</code> for \(\pi\).</li>
+        <div class="instructions">
+            <h3>⚠️ Assessment Rules & Protocols</h3>
+            <ul>
+                <li><strong>Time Allocation:</strong> You are strictly allotted <strong id="rule-time-display">-- minutes</strong>. The system will automatically submit your assessment upon timer expiration, provided this test window remains actively open.</li>
+                <li><strong>Proctoring & Focus:</strong> Window focus is actively monitored. Navigating to other tabs, opening external applications, or exiting Fullscreen Mode will register as an academic integrity violation.</li>
+                <li><strong>Violation Protocol:</strong> You are permitted two warning strikes. Triggering a third strike incurs a mandatory 5-minute security lockout penalty.</li>
+                <li><strong>Interface Capabilities:</strong> Utilize the Theme Switcher for visual comfort and the Sidebar Navigator (left edge) to dynamically traverse questions.</li>
+                <li><strong>Attempt Policy:</strong> Submission is final. Only one definitive attempt is authorized per designated Exam Code.</li>
             </ul>
         </div>
 
-        <div id="reg-error" style="color: #ef4444; text-align: center; margin-bottom: 15px; font-weight: bold; display: none;"></div>
-     <!-- ========================================== -->
-<!-- --- Developer View: need to test formatting arrays again, open the file and change display: none; back to display: block;.--- -->
-<!-- ========================================== -->  
- 
-
+        <div id="reg-error" style="color: var(--incorrect-color); text-align: center; margin-bottom: 15px; font-weight: bold; display: none;"></div>
         <div style="display: flex; gap: 10px;">
-            <button type="button" id="start-btn" class="submit-btn" onclick="startTest()" style="background-color: #3b82f6;">Start Test</button>
-            <button type="button" id="dev-bypass-btn" class="submit-btn" onclick="launchDeveloperPreview()" style="background-color: #64748b; display: none;">Developer Bypass</button>
+            <button type="button" id="start-btn" class="submit-btn" onclick="startTest()">Start Assessment</button>
+            <button type="button" id="dev-bypass-btn" class="submit-btn" onclick="launchDeveloperPreview()" style="display: none; background-color: var(--nav-btn-bg); color: var(--text-color); border: 1px solid var(--border-color); box-shadow: none;">Developer Bypass</button>
         </div>
     </div>
 
     <div id="quiz-section">
         <div class="quiz-header-fixed">
-           <div class="timer-container">⏱️ Time Remaining: <span id="time-display">00:00</span></div>
-            <div class="palette-container" id="question-palette-placeholder"></div>
+            <div class="header-top-row">
+                <div class="header-titles">
+                    <h1 class="fixed-title">Online Assessment</h1>
+                    <div class="fixed-score" id="score-header">Total Marks: --</div>
+                </div>
+                
+                <div id="mini-palette-placeholder"></div>
+                
+                <div class="timer-container">⏱️ Time <span style="margin-left: 5px;" id="time-display">00:00</span></div>
+            </div>
         </div>
+        
+        <div id="final-score" class="score-display"></div>
         
         <form id="assessment-form"></form>
 
         <div class="quiz-footer-fixed">
-            <div id="pagination-menu-placeholder"></div>
+            <div class="nav-controls" id="pagination-menu-placeholder"></div>
             <button type="button" class="submit-btn" id="final-submit-btn" onclick="showSubmitConfirmation()">Submit Assessment</button>
         </div>
         
         <div id="loading-spinner" class="loading-text" style="margin-bottom: 40px;">Saving your results & sending email... Please wait.</div>
-        
-        <div id="final-score" class="score-display" style="margin-bottom: 40px;"></div>
     </div>
 </div>
 
 <script>
-    // =========================================================================
-    // GLOBAL CONFIGURATION MATRIX (EASILY UPDATE EXAM PARAMS HERE)
-    // =========================================================================
-    const EXAM_DURATION_MINUTES = 60; // Just update this single number to re-scale the assessment duration!
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyd2VSNc-TOOT8CQe2oyLQ5tu2PUiWwRaHmSyvUpH5rE6QFqGmaVJv3QsEW5taHouVs/exec"; 
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyxSXd3ZQQAwzwqLobOUwYNPCYkSeRDLJ685a3nJypnUdt5GEcZqKHREeS7o34BTwW_pQ/exec"; 
      
-    // ========================================================================= 
-    // THE 12-QUESTION BANK
-    // =========================================================================
-const QUESTION_BANK = [
-  {
-    module: "Module 3: Interpolation Techniques",
-    question: "Using Newton's forward interpolation formula, calculate the exact value of $y(1.5)$ from the following equally spaced dataset:<br><br>$$\\begin{array}{|c|c|c|c|c|} \\hline x & 1 & 2 & 3 & 4 \\\\ \\hline y & 10 & 24 & 52 & 100 \\\\ \\hline \\end{array}$$",
-    placeholder: "e.g., 13.329",
-    type: "exact",
-    vars: [],
-    answer: "15.625",
-    marks: 5,
-    explanation: "<b>Step 1: Construct the Forward Difference Table</b><br>Calculate differences sequentially:<br>$\\Delta y_0 = 24 - 10 = 14$<br>$\\Delta y_1 = 52 - 24 = 28 \\implies \\Delta^2 y_0 = 28 - 14 = 14$<br>$\\Delta y_2 = 100 - 52 = 48 \\implies \\Delta^2 y_1 = 48 - 28 = 20 \\implies \\Delta^3 y_0 = 20 - 14 = 6$<br><br><b>Step 2: Determine Interpolation Parameter $p$</b><br>Given interval $h = 1$ and initial point $x_0 = 1$:<br>$$p = \\frac{x - x_0}{h} = \\frac{1.5 - 1}{1} = 0.5$$<br><b>Step 3: Apply Newton's Forward Formula</b><br>$$y(1.5) = y_0 + p\\Delta y_0 + \\frac{p(p-1)}{2!}\\Delta^2 y_0 + \\frac{p(p-1)(p-2)}{3!}\\Delta^3 y_0$$<br>$$y(1.5) = 10 + 0.5(14) + \\frac{0.5(-0.5)}{2}(14) + \\frac{0.5(-0.5)(-1.5)}{6}(6)$$$$y(1.5) = 10 + 7 - 1.75 + 0.375 = 15.625$$"
-  },
-  {
-    module: "Module 3: Interpolation Techniques",
-    question: "Using Newton's backward interpolation formula, determine the value of $y(3.5)$ from the following given data grid:<br><br>$$\\begin{array}{|c|c|c|c|c|} \\hline x & 1 & 2 & 3 & 4 \\\\ \\hline y & 10 & 24 & 52 & 100 \\\\ \\hline \\end{array}$$",
-    placeholder: "e.g., 0.000",
-    type: "exact",
-    vars: [],
-    answer: "73.125",
-    marks: 5,
-    explanation: "<b>Step 1: Extract Backward Difference Elements</b><br>From the table, the base terminal elements are located at $x_n = 4$ and $y_n = 100$.<br>The respective backward differences compute as:<br>$\\nabla y_3 = 48$, $\\nabla^2 y_3 = 20$, and $\\nabla^3 y_3 = 6$.<br><br><b>Step 2: Calculate Backward Parameter $p$</b><br>With a common difference of $h = 1$ and target boundary value $x = 3.5$:<br>$$p = \\frac{x - x_n}{h} = \\frac{3.5 - 4}{1} = -0.5$$<br><b>Step 3: Evaluate via Newton's Backward Series</b><br>$$y(3.5) = y_n + p\\nabla y_n + \\frac{p(p+1)}{2!}\\nabla^2 y_n + \\frac{p(p+1)(p+2)}{3!}\\nabla^3 y_n$$<br>$$y(3.5) = 100 + (-0.5)(48) + \\frac{(-0.5)(0.5)}{2}(20) + \\frac{(-0.5)(0.5)(1.5)}{6}(6)$$$$y(3.5) = 100 - 24 - 2.5 - 0.375 = 73.125$$"
-  },
-  {
-    module: "Module 3: Interpolation Techniques",
-    question: "Apply Lagrange's interpolation formula to compute the exact integer value of $y(2)$ from the following unequally spaced experimental nodes:<br><br>$$\\begin{array}{|c|c|c|c|c|} \\hline x & 0 & 1 & 3 & 4 \\\\ \\hline y & 5 & 6 & 50 & 105 \\\\ \\hline \\end{array}$$",
-    placeholder: "Type exact integer...",
-    type: "exact",
-    vars: [],
-    answer: "19",
-    marks: 5,
-    explanation: "<b>Step 1: Write down Lagrange Coefficients at $x = 2$</b><br>$$L_0(2) = \\frac{(2-1)(2-3)(2-4)}{(0-1)(0-3)(0-4)} = \\frac{2}{-12} = -\\frac{1}{6}$$$$L_1(2) = \\frac{(2-0)(2-3)(2-4)}{(1-0)(1-3)(1-4)} = \\frac{4}{6} = \\frac{2}{3}$$$$L_2(2) = \\frac{(2-0)(2-1)(2-4)}{(3-0)(3-1)(3-4)} = \\frac{-4}{-6} = \\frac{2}{3}$$$$L_3(2) = \\frac{(2-0)(2-1)(2-3)}{(4-0)(4-1)(4-3)} = \\frac{-2}{12} = -\\frac{1}{6}$$<br><b>Step 2: Aggregate Terms</b><br>$$y(2) = y_0L_0(2) + y_1L_1(2) + y_2L_2(2) + y_3L_3(2)$$$$y(2) = 5\\left(-\\frac{1}{6}\\right) + 6\\left(\\frac{2}{3}\\right) + 50\\left(\\frac{2}{3}\\right) + 105\\left(-\\frac{1}{6}\\right)$$$$y(2) = -\\frac{5}{6} + 4 + \\frac{100}{3} - \\frac{105}{6} = \\frac{114}{6} = 19$$"
-  },
-  {
-    module: "Module 3: Interpolation Techniques",
-    question: "Using Newton's divided difference interpolation formula, compute the final value of $y(5)$ from the following asymmetrical coordination map:<br><br>$$\\begin{array}{|c|c|c|c|c|} \\hline x & 2 & 4 & 7 & 8 \\\\ \\hline y & 5 & 17 & 50 & 65 \\\\ \\hline \\end{array}$$",
-    placeholder: "Type exact integer...",
-    type: "exact",
-    vars: [],
-    answer: "26",
-    marks: 5,
-    explanation: "<b>Step 1: Compute Divided Differences Table</b><br>First-order divided differences:<br>$f[2,4] = \\frac{17-5}{4-2} = 6$; $f[4,7] = \\frac{50-17}{7-4} = 11$; $f[7,8] = \\frac{65-50}{8-7} = 15$<br><br>Second-order divided differences:<br>$f[2,4,7] = \\frac{11-6}{7-2} = 1$; $f[4,7,8] = \\frac{15-11}{8-4} = 1$<br>Third-order divided difference falls to zero ($f[2,4,7,8] = 0$).<br><br><b>Step 2: Solve Using Divided Difference Polynomial</b><br>$$y(x) = f(x_0) + (x-x_0)f[x_0,x_1] + (x-x_0)(x-x_1)f[x_0,x_1,x_2]$$$$y(5) = 5 + (5-2)(6) + (5-2)(5-4)(1)$$$$y(5) = 5 + 18 + 3 = 26$$"
-  },
-  {
-    module: "Module 3: Interpolation Techniques",
-    question: "Find the calculated spatial value of $x$ for which $y = 15$ from the following dataset using Lagrange's inverse interpolation technique (Correct to 4 decimal places):<br><br>$$\\begin{array}{|c|c|c|c|} \\hline x & 2 & 3 & 4 \\\\ \\hline y & 10 & 19 & 34 \\\\ \\hline \\end{array}$$",
-    placeholder: "e.g., 2.2233",
-    type: "exact",
-    vars: [],
-    answer: "2.5926",
-    marks: 5,
-    tolerance: 0.00018, // <-- ADD THIS LINE HERE! 
-    explanation: "<b>Step 1: State Formula for Inverse Lagrange Map</b><br>By interchanging roles, $y$ acts as our variable driver:<br>$$x = \\frac{(y-y_1)(y-y_2)}{(y_0-y_1)(y_0-y_2)}x_0 + \\frac{(y-y_0)(y-y_2)}{(y_1-y_0)(y_1-y_2)}x_1 + \\frac{(y-y_0)(y-y_1)}{(y_2-y_0)(y_2-y_1)}x_2$$<br><b>Step 2: Evaluate Terms Using 6 Decimal Places</b><br>$$x_0 \\text{ term} = \\frac{(15-19)(15-34)}{(10-19)(10-34)}(2) = \\frac{76}{216}(2) \\approx 0.703704$$$$x_1 \\text{ term} = \\frac{(15-10)(15-34)}{(19-10)(19-34)}(3) = \\frac{-95}{-135}(3) \\approx 2.111111$$$$x_2 \\text{ term} = \\frac{(15-10)(15-19)}{(34-10)(34-19)}(4) = \\frac{-20}{360}(4) \\approx -0.222222$$<br><b>Step 3: Aggregate and Round to 4 Decimals</b><br>$$x = 0.703704 + 2.111111 - 0.222222 = 2.592593 \\approx 2.5926$$"
-  },
-  {
-    module: "Module 4: Numerical Integration",
-    question: "Evaluate the definite calculus integral $I = \\int_{0}^{1} \\frac{1}{1+x} \\, dx$ by partitioning the area into $4$ equal strips ($n=4$) using <b>Simpson's 1/3 Rule</b> (Correct to 4 decimal places).",
-    placeholder: "e.g., 6.665",
-    type: "exact",
-    vars: [],
-    answer: "0.6933",
-    marks: 5,
-    tolerance: 0.0001, // <-- ADD THIS LINE HERE! Allows answers from 2.5925 to 2.5927
-    explanation: "<b>Step 1: Generate Node Intervals to 6 Decimal Places</b><br>Step size $h = \\frac{1-0}{4} = 0.25$. Nodes compute as follows:<br>$y_0 = f(0) = 1.000000$<br>$y_1 = f(0.25) = \\frac{1}{1.25} = 0.800000$<br>$y_2 = f(0.50) = \\frac{1}{1.50} = 0.666667$<br>$y_3 = f(0.75) = \\frac{1}{1.75} = 0.571429$<br>$y_4 = f(1.00) = \\frac{1}{2.00} = 0.500000$<br><br><b>Step 2: Apply Simpson's 1/3 Integration Rule</b><br>$$I = \\frac{h}{3} \\left[ (y_0 + y_4) + 4(y_1 + y_3) + 2y_2 \\right]$$$$I = \\frac{0.25}{3} \\left[ (1.000000 + 0.500000) + 4(0.800000 + 0.571429) + 2(0.666667) \\right]$$$$I = \\frac{0.25}{3} \\left[ 1.500000 + 5.485716 + 1.333334 \\right]$$$$I = \\frac{0.25}{3} \\left[ 8.319050 \\right] = 0.693254 \\approx 0.6933$$"
-  },
-  {
-    module: "Module 4: Numerical Integration",
-    question: "Evaluate the exponential value of $\\int_{0}^{0.6} e^{-x^2} \\, dx$ by mapping $3$ equal subintervals ($n=3$) via <b>Simpson's 3/8 Rule</b> (Correct to 4 decimal places).",
-    placeholder: "e.g., 1.3332",
-    type: "exact",
-    vars: [],
-    answer: "0.5352",
-    marks: 5,
-    tolerance: 0.0001, // <-- ADD THIS LINE HERE! Allows answers from 2.5925 to 2.5927
-    explanation: "<b>Step 1: Define Table Matrix to 6 Decimal Places</b><br>With step length $h = \\frac{0.6-0}{3} = 0.2$:<br>$y_0 = e^{-(0)^2} = 1.000000$<br>$y_1 = e^{-(0.2)^2} = e^{-0.04} = 0.960789$<br>$y_2 = e^{-(0.4)^2} = e^{-0.16} = 0.852144$<br>$y_3 = e^{-(0.6)^2} = e^{-0.36} = 0.697676$<br><br><b>Step 2: Apply Simpson's 3/8 Integral Formula</b><br>$$I = \\frac{3h}{8} \\left[ (y_0 + y_3) + 3(y_1 + y_2) \\right]$$$$I = \\frac{3(0.2)}{8} \\left[ (1.000000 + 0.697676) + 3(0.960789 + 0.852144) \\right]$$$$I = 0.075000 \\left[ 1.697676 + 3(1.812933) \\right]$$$$I = 0.075000 \\left[ 1.697676 + 5.438799 \\right] = 0.075000 [7.136475] = 0.535236 \\approx 0.5352$$"
-  }
-];
-    // =========================================================================
+    let QUESTION_BANK = [];
+    let EXAM_DURATION_MINUTES = 60; 
 
     let studentDetails = {};
     let timerInterval; 
     let testActive = false;
-    let tabSwitchCount = 0;
-    let fullscreenExitCount = 0; // Tracks strict fullscreen breakout attempts
+    let focusDetectionActive = false; 
     let testEndTime = 0;
     let totalMaxScore = 0;
     let currentQuestionIndex = 0;
     let markedForReview = {};
     
+    let securityStrikes = 0;
+    let isLockedOut = false;
+    let lockoutTimerInterval = null;
+
     let cachedServerResponseData = null;
     let cachedStudentRegistrationPackage = null;
+    let questionTimes = {}; 
+    let lastQuestionEntryTime = 0;
+    let isSidebarPinned = false;
+
+    // --- THEME ENGINE ---
+    function changeTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('lms_student_theme', theme);
+        
+        let regSelector = document.getElementById('theme-selector-reg');
+        let sidebarSelector = document.getElementById('theme-selector-sidebar');
+        if(regSelector) regSelector.value = theme;
+        if(sidebarSelector) sidebarSelector.value = theme;
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        let savedTheme = localStorage.getItem('lms_student_theme') || 'light';
+        changeTheme(savedTheme);
+    });
+
+    function toggleSidebarPin() {
+        if (window.innerWidth <= 800) return; 
+        isSidebarPinned = !isSidebarPinned;
+        let btn = document.getElementById('pin-sidebar-btn');
+        let iconUnlock = document.getElementById('icon-unlock');
+        let iconLock = document.getElementById('icon-lock');
+        let tip = document.getElementById('navigator-tip');
+        
+        if (isSidebarPinned) {
+            document.body.classList.add('sidebar-pinned');
+            btn.style.color = "var(--mod2-color)"; btn.style.background = "var(--card-bg)";
+            iconUnlock.style.display = "none"; iconLock.style.display = "block";
+            if(tip) tip.style.display = 'none'; 
+        } else {
+            document.body.classList.remove('sidebar-pinned');
+            btn.style.color = "var(--muted-text)"; btn.style.background = "none";
+            iconUnlock.style.display = "block"; iconLock.style.display = "none";
+        }
+    }
 
     function safeStorageSet(key, value) { try { localStorage.setItem(key, value); } catch(e) {} }
     function safeStorageGet(key) { try { return localStorage.getItem(key); } catch(e) { return null; } }
     function safeStorageClear() { try { localStorage.clear(); } catch(e) {} }
 
+    function getPaletteStateClass(index) {
+        let qId = "q" + (index + 1);
+        let inputField = document.getElementById(qId);
+        if (!inputField) return 'unanswered';
+        let val = inputField.value.trim();
+        if (markedForReview[index]) return 'review';
+        if (val !== "") return 'answered';
+        return 'unanswered';
+    }
+
+    function updateSidebarStats() {
+        if (!QUESTION_BANK || QUESTION_BANK.length === 0) return;
+        
+        let answered = 0; let flagged = 0; let total = QUESTION_BANK.length;
+
+        QUESTION_BANK.forEach((q, i) => {
+            let input = document.getElementById("q" + (i + 1));
+            if (input && input.value.trim() !== "") answered++;
+            if (markedForReview[i]) flagged++;
+        });
+
+        document.getElementById('stat-answered').innerText = answered;
+        document.getElementById('stat-flagged').innerText = flagged;
+        document.getElementById('stat-remaining').innerText = total - answered;
+    }
+
+    function renderMiniPalette() {
+        let html = ""; let total = QUESTION_BANK.length; if(total === 0) return;
+        
+        let start = Math.max(0, currentQuestionIndex - 2);
+        let end = Math.min(total - 1, start + 4);
+        start = Math.max(0, end - 4);
+
+        for (let i = start; i <= end; i++) { html += createMiniButton(i); }
+        document.getElementById('mini-palette-placeholder').innerHTML = html;
+    }
+
+    function createMiniButton(index) {
+        let stateClass = getPaletteStateClass(index);
+        let activeClass = (index === currentQuestionIndex) ? " active" : "";
+        return `<button type="button" class="palette-btn ${stateClass}${activeClass}" id="mini-btn-${index}" onclick="jumpToQuestion(${index})">${index + 1}</button>`;
+    }
+
     function initializeQuiz() {
         let formContainer = document.getElementById('assessment-form');
-        let html = "";
-        totalMaxScore = 0;
+        let html = ""; let sidebarHtml = ""; totalMaxScore = 0;
 
-        let paletteHtml = `<div class="palette-container" id="question-palette">`;
         QUESTION_BANK.forEach((q, index) => {
-            paletteHtml += `<button type="button" class="palette-btn unanswered" id="palette-btn-${index}" onclick="jumpToQuestion(${index})">${index + 1}</button>`;
+            sidebarHtml += `<button type="button" class="palette-btn unanswered" id="sidebar-btn-${index}" onclick="jumpToQuestion(${index})">${index + 1}</button>`;
         });
-        paletteHtml += `</div>`;
+        document.getElementById('sidebar-palette-grid').innerHTML = sidebarHtml;
 
         QUESTION_BANK.forEach((q, index) => {
-            let qId = "q" + (index + 1);
-            totalMaxScore += q.marks;
+            let qId = "q" + (index + 1); totalMaxScore += q.marks;
+            let moduleHtml = (q.showModule) ? `<h2 class="module-title">${q.module}</h2>` : "";
+            let cleanQuestionHTML = String(q.question).replace(/#1d3b48/g, 'var(--input-bg)').replace(/#475569/g, 'var(--border-color)').replace(/#38bdf8/g, 'var(--mod2-color)').replace(/#94a3b8/g, 'var(--muted-text)');
 
             html += `
                 <div class="question-pane" id="pane-${index}" style="display: none;">
                     <div class="module-section">
-                        <h2 class="module-title">${q.module}</h2>
+                        ${moduleHtml}
                         <div class="question-block" id="${qId}-container">
-                            <div class="question-text"><strong>Q${index + 1}.</strong> ${q.question}</div>
+                            <div class="question-text"><strong>Q${index + 1}.</strong> ${cleanQuestionHTML}</div>
                             <input type="text" class="answer-input" id="${qId}" placeholder="${q.placeholder || ''}" oninput="updatePreview('${qId}', ${index})">
                             <div class="math-preview" id="${qId}-preview"></div>
                             <div class="feedback" id="${qId}-feedback"></div>
@@ -513,247 +610,136 @@ const QUESTION_BANK = [
         });
         
         formContainer.innerHTML = html;
-        
-        document.getElementById('question-palette-placeholder').innerHTML = paletteHtml;
         document.getElementById('pagination-menu-placeholder').innerHTML = `
-            <div class="nav-controls" id="pagination-menu">
-                <button type="button" class="nav-btn" id="prev-btn" onclick="navigateQuestion(-1)">← Previous</button>
-                <button type="button" class="nav-btn review-toggle-btn" id="review-btn" onclick="toggleReviewFlag()">⭐ Mark for Review</button>
-                <button type="button" class="nav-btn" id="next-btn" onclick="navigateQuestion(1)">Next →</button>
-            </div>
+            <button type="button" class="nav-btn" id="prev-btn" onclick="navigateQuestion(-1)">← Prev</button>
+            <button type="button" class="nav-btn review-toggle-btn" id="review-btn" onclick="toggleReviewFlag()">🚩 Flag</button>
+            <button type="button" class="nav-btn" id="next-btn" onclick="navigateQuestion(1)">Next →</button>
         `;
-        
         document.getElementById('score-header').innerText = `Total Marks: ${totalMaxScore} (${QUESTION_BANK.length} Questions)`;
-        
-        // Dynamically parse text settings to reflect central timing variables
         document.getElementById('rule-time-display').innerText = `${EXAM_DURATION_MINUTES} minutes`;
         const displayMinStr = EXAM_DURATION_MINUTES < 10 ? "0" + EXAM_DURATION_MINUTES : EXAM_DURATION_MINUTES;
         document.getElementById('time-display').textContent = displayMinStr + ":00";
+        
+        updateSidebarStats();
     }
-
-    document.addEventListener("DOMContentLoaded", initializeQuiz);
 
     function showQuestion(index) {
         if (index < 0 || index >= QUESTION_BANK.length) return;
-        
-        let oldPane = document.getElementById(`pane-${currentQuestionIndex}`);
-        if (oldPane) oldPane.style.display = 'none';
-        let oldBtn = document.getElementById(`palette-btn-${currentQuestionIndex}`);
-        if (oldBtn) oldBtn.classList.remove('active');
+        let now = Date.now();
+        if (testActive && lastQuestionEntryTime > 0) {
+            if (!questionTimes[currentQuestionIndex]) questionTimes[currentQuestionIndex] = 0;
+            questionTimes[currentQuestionIndex] += (now - lastQuestionEntryTime);
+        }
 
-        currentQuestionIndex = index;
+        let oldPane = document.getElementById(`pane-${currentQuestionIndex}`); if (oldPane) oldPane.style.display = 'none';
+        let oldSidebarBtn = document.getElementById(`sidebar-btn-${currentQuestionIndex}`); if (oldSidebarBtn) oldSidebarBtn.classList.remove('active');
 
-        let newPane = document.getElementById(`pane-${currentQuestionIndex}`);
-        if (newPane) newPane.style.display = 'block';
-        let newBtn = document.getElementById(`palette-btn-${currentQuestionIndex}`);
-        if (newBtn) newBtn.classList.add('active');
+        currentQuestionIndex = index; lastQuestionEntryTime = Date.now();
+
+        let newPane = document.getElementById(`pane-${currentQuestionIndex}`); if (newPane) newPane.style.display = 'block';
+        let newSidebarBtn = document.getElementById(`sidebar-btn-${currentQuestionIndex}`); if (newSidebarBtn) newSidebarBtn.classList.add('active');
 
         document.getElementById('prev-btn').disabled = (currentQuestionIndex === 0);
-        
         let nextBtn = document.getElementById('next-btn');
-        if (currentQuestionIndex === QUESTION_BANK.length - 1) {
-            nextBtn.innerText = "Final Question Panel";
-            nextBtn.disabled = true;
-        } else {
-            nextBtn.innerText = "Next →";
-            nextBtn.disabled = false;
-        }
+        if (currentQuestionIndex === QUESTION_BANK.length - 1) { nextBtn.innerText = "End of Test"; nextBtn.disabled = true; } 
+        else { nextBtn.innerText = "Next →"; nextBtn.disabled = false; }
 
         let reviewBtn = document.getElementById('review-btn');
-        if (markedForReview[currentQuestionIndex]) {
-            reviewBtn.classList.add('active-review');
-            reviewBtn.innerText = "★ Marked for Review";
-        } else {
-            reviewBtn.classList.remove('active-review');
-            reviewBtn.innerText = "⭐ Mark for Review";
-        }
+        if (markedForReview[currentQuestionIndex]) { reviewBtn.classList.add('active-review'); reviewBtn.innerText = "🚩 Flagged"; } 
+        else { reviewBtn.classList.remove('active-review'); reviewBtn.innerText = "🚩 Flag"; }
 
-        MathJax.typesetPromise([newPane]).catch(e => {});
+        renderMiniPalette(); MathJax.typesetPromise([newPane]).catch(e => {});
     }
 
-    function navigateQuestion(direction) {
-        navigateQuestionIndex(currentQuestionIndex + direction);
-    }
-
-    function navigateQuestionIndex(targetIndex) {
-        if (targetIndex >= 0 && targetIndex < QUESTION_BANK.length) {
-            showQuestion(targetIndex);
-        }
-    }
-
-    function jumpToQuestion(index) {
-        showQuestion(index);
-    }
-
-    function toggleReviewFlag() {
-        markedForReview[currentQuestionIndex] = !markedForReview[currentQuestionIndex];
-        updateQuestionPaletteState(currentQuestionIndex);
-        showQuestion(currentQuestionIndex);
-    }
+    function navigateQuestion(direction) { navigateQuestionIndex(currentQuestionIndex + direction); }
+    function navigateQuestionIndex(targetIndex) { if (targetIndex >= 0 && targetIndex < QUESTION_BANK.length) { showQuestion(targetIndex); } }
+    function jumpToQuestion(index) { showQuestion(index); }
+    function toggleReviewFlag() { markedForReview[currentQuestionIndex] = !markedForReview[currentQuestionIndex]; updateQuestionPaletteState(currentQuestionIndex); updateSidebarStats(); showQuestion(currentQuestionIndex); }
 
     function updateQuestionPaletteState(index) {
-        let qId = "q" + (index + 1);
-        let inputField = document.getElementById(qId);
-        let btn = document.getElementById(`palette-btn-${index}`);
-        if (!btn || !inputField) return;
-
-        let val = inputField.value.trim();
-        btn.classList.remove('unanswered', 'answered', 'review');
-
-        if (markedForReview[index]) {
-            btn.classList.add('review');
-        } else if (val !== "") {
-            btn.classList.add('answered');
-        } else {
-            btn.classList.add('unanswered');
-        }
+        let stateClass = getPaletteStateClass(index);
+        let sidebarBtn = document.getElementById(`sidebar-btn-${index}`);
+        if (sidebarBtn) sidebarBtn.className = `palette-btn ${stateClass}` + (index === currentQuestionIndex ? " active" : "");
+        let miniBtn = document.getElementById(`mini-btn-${index}`);
+        if (miniBtn) miniBtn.className = `palette-btn ${stateClass}` + (index === currentQuestionIndex ? " active" : "");
     }
-
-    function updatePaletteStatusAll() {
-        QUESTION_BANK.forEach((q, i) => {
-            updateQuestionPaletteState(i);
-        });
-    }
+    function updatePaletteStatusAll() { QUESTION_BANK.forEach((q, i) => { updateQuestionPaletteState(i); }); updateSidebarStats(); }
 
    function sanitizeMath(input) {
-    let str = input.toLowerCase();
-    
-    // Equivalence Fix: Map all natural log variants to 'log(' so math.js treats them identically
-    str = str.replace(/ln\s*\(/g, 'log(');
-    
-    str = str.replace(/(\d)([a-z])/g, '$1*$2');
-    str = str.replace(/([a-z0-9])\s*\(/g, '$1*(');
-    const mathFuncs = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'ln', 'exp', 'sqrt'];
-    mathFuncs.forEach(func => { str = str.split(func + '*(').join(func + '('); });
-    return str;
-}
+        let str = input.toLowerCase();
+        str = str.replace(/ln\s*\(/g, 'log(').replace(/(\d)([a-z])/g, '$1*$2').replace(/([a-z0-9])\s*\(/g, '$1*(');
+        ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'ln', 'exp', 'sqrt'].forEach(func => { str = str.split(func + '*(').join(func + '('); });
+        return str;
+    }
 
    function checkMathEquivalence(userStr, correctStr, vars) {
         try {
             if(!userStr || userStr.trim() === "") return false;
-            let uStr = sanitizeMath(userStr);
-            let cStr = sanitizeMath(correctStr);
-            
-            // 1. Extract all unique alphanumeric symbols typed by the student
+            let uStr = sanitizeMath(userStr); let cStr = sanitizeMath(correctStr);
             let uniqueSymbols = [];
             try {
-                let node = math.parse(uStr);
-                let symbols = [];
-                node.traverse(function (n) {
-                    if (n.isSymbolNode) symbols.push(n.name);
-                });
+                let node = math.parse(uStr); let symbols = [];
+                node.traverse(function (n) { if (n.isSymbolNode) symbols.push(n.name); });
                 uniqueSymbols = [...new Set(symbols)];
-            } catch(e) {
-                return false;
-            }
+            } catch(e) { return false; }
 
             let exclusions = ['pi', 'e', 'i', 'inf', 'nan', 'true', 'false'];
-            
-            // Identify custom symbols that represent alternative arbitrary constants
-            let customConstants = uniqueSymbols.filter(sym => 
-                !vars.includes(sym) && 
-                !exclusions.includes(sym) &&
-                typeof math[sym] !== 'function'
-            );
+            let customConstants = uniqueSymbols.filter(sym => !vars.includes(sym) && !exclusions.includes(sym) && typeof math[sym] !== 'function');
 
-            // Isolate the core arbitrary constants expected by the key
             let targetConstants = vars.filter(v => v === 'c1' || v === 'c2');
             let missingTargets = targetConstants.filter(t => !uniqueSymbols.includes(t));
 
-            // Run randomized numerical cross-validation loops
             for(let i=0; i<3; i++) {
-                let scope = {};
-                vars.forEach(v => { scope[v] = Math.random() * 1.5 + 0.1; });
-                
-                let cVal = math.evaluate(cStr, scope);
-                let matchFound = false;
+                let scope = {}; vars.forEach(v => { scope[v] = Math.random() * 1.5 + 0.1; });
+                let cVal = math.evaluate(cStr, scope); let matchFound = false;
 
-                // Scenario A: Student utilized custom constants (e.g., A and B)
                 if (customConstants.length > 0 && customConstants.length === missingTargets.length) {
                     if (customConstants.length === 1) {
-                        let testScope = { ...scope };
-                        testScope[customConstants[0]] = scope[missingTargets[0]];
-                        
-                        let uVal = math.evaluate(uStr, testScope);
-                        let diff = Math.abs(uVal - cVal);
+                        let testScope = { ...scope }; testScope[customConstants[0]] = scope[missingTargets[0]];
+                        let uVal = math.evaluate(uStr, testScope); let diff = Math.abs(uVal - cVal);
                         if (diff <= 1e-5 || diff / (Math.abs(cVal) + 1e-10) <= 1e-5) matchFound = true;
                     } 
                     else if (customConstants.length === 2) {
-                        // Test Permutation 1: Map custom[0] -> c1, custom[1] -> c2
-                        let scope1 = { ...scope };
-                        scope1[customConstants[0]] = scope[missingTargets[0]];
-                        scope1[customConstants[1]] = scope[missingTargets[1]];
-                        let uVal1 = math.evaluate(uStr, scope1);
-                        let diff1 = Math.abs(uVal1 - cVal);
-                        
-                        // Test Permutation 2: Map custom[0] -> c2, custom[1] -> c1
-                        let scope2 = { ...scope };
-                        scope2[customConstants[0]] = scope[missingTargets[1]];
-                        scope2[customConstants[1]] = scope[missingTargets[0]];
-                        let uVal2 = math.evaluate(uStr, scope2);
-                        let diff2 = Math.abs(uVal2 - cVal);
-                        
-                        if ((diff1 <= 1e-5 || diff1 / (Math.abs(cVal) + 1e-10) <= 1e-5) ||
-                            (diff2 <= 1e-5 || diff2 / (Math.abs(cVal) + 1e-10) <= 1e-5)) {
-                            matchFound = true;
-                        }
+                        let scope1 = { ...scope }; scope1[customConstants[0]] = scope[missingTargets[0]]; scope1[customConstants[1]] = scope[missingTargets[1]];
+                        let uVal1 = math.evaluate(uStr, scope1); let diff1 = Math.abs(uVal1 - cVal);
+                        let scope2 = { ...scope }; scope2[customConstants[0]] = scope[missingTargets[1]]; scope2[customConstants[1]] = scope[missingTargets[0]];
+                        let uVal2 = math.evaluate(uStr, scope2); let diff2 = Math.abs(uVal2 - cVal);
+                        if ((diff1 <= 1e-5 || diff1 / (Math.abs(cVal) + 1e-10) <= 1e-5) || (diff2 <= 1e-5 || diff2 / (Math.abs(cVal) + 1e-10) <= 1e-5)) matchFound = true;
                     }
                 } 
-                // Scenario B: Student utilized standard c1/c2 but potentially altered their sequence order
                 else if (customConstants.length === 0) {
-                    let uValNormal = math.evaluate(uStr, scope);
-                    let diffNormal = Math.abs(uValNormal - cVal);
+                    let uValNormal = math.evaluate(uStr, scope); let diffNormal = Math.abs(uValNormal - cVal);
                     let isMatchNormal = (diffNormal <= 1e-5 || diffNormal / (Math.abs(cVal) + 1e-10) <= 1e-5);
-                    
                     let isMatchSwapped = false;
                     if (scope.hasOwnProperty('c1') && scope.hasOwnProperty('c2')) {
-                        let swappedScope = { ...scope };
-                        swappedScope['c1'] = scope['c2'];
-                        swappedScope['c2'] = scope['c1'];
-                        
-                        let uValSwapped = math.evaluate(uStr, swappedScope);
-                        let diffSwapped = Math.abs(uValSwapped - cVal);
+                        let swappedScope = { ...scope }; swappedScope['c1'] = scope['c2']; swappedScope['c2'] = scope['c1'];
+                        let uValSwapped = math.evaluate(uStr, swappedScope); let diffSwapped = Math.abs(uValSwapped - cVal);
                         isMatchSwapped = (diffSwapped <= 1e-5 || diffSwapped / (Math.abs(cVal) + 1e-10) <= 1e-5);
                     }
-                    
                     if (isMatchNormal || isMatchSwapped) matchFound = true;
                 }
-
                 if (!matchFound) return false;
             }
             return true;
-        } catch(e) { 
-            return false; 
-        }
+        } catch(e) { return false; }
     }
 
     function updatePreview(qId, index) {
-        let inputVal = document.getElementById(qId).value;
-        safeStorageSet('ans_' + qId, inputVal);
-
+        let inputVal = document.getElementById(qId).value; safeStorageSet('ans_' + qId, inputVal);
         let qData = QUESTION_BANK[index];
-        if(qData.type !== "math") {
-            updateQuestionPaletteState(index);
-            return;
-        }
+        if(qData.type !== "math") { updateQuestionPaletteState(index); updateSidebarStats(); return; }
 
         let previewBox = document.getElementById(qId + '-preview');
-        if (inputVal.trim() === "") { 
-            previewBox.style.display = "none"; 
-            updateQuestionPaletteState(index);
-            return; 
-        }
+        if (inputVal.trim() === "") { previewBox.style.display = "none"; updateQuestionPaletteState(index); updateSidebarStats(); return; }
 
         previewBox.style.display = "block";
         try {
-            let sanitized = sanitizeMath(inputVal);
-            let node = math.parse(sanitized);
+            let sanitized = sanitizeMath(inputVal); let node = math.parse(sanitized);
             previewBox.innerHTML = '\\( ' + node.toTex({parenthesis: 'auto'}) + ' \\)';
             MathJax.typesetPromise([previewBox]).catch(function (err) { });
-        } catch (e) {
-            previewBox.innerHTML = '<span style="color: #64748b; font-size: 14px;"><i>...</i></span>';
-        }
+        } catch (e) { previewBox.innerHTML = '<span style="color: var(--muted-text); font-size: 14px;"><i>...</i></span>'; }
         updateQuestionPaletteState(index);
+        updateSidebarStats();
     }
 
     document.addEventListener('contextmenu', event => event.preventDefault()); 
@@ -761,56 +747,70 @@ const QUESTION_BANK = [
     document.addEventListener('paste', event => event.preventDefault());       
     document.addEventListener('cut', event => event.preventDefault());         
 
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden' && testActive) {
-            tabSwitchCount++;
-            if (tabSwitchCount >= 3) {
-                alert("Security Violation: You have left the test tab too many times. Your test is being automatically submitted.");
-                evaluateTest(); 
-            } else {
-                alert(`WARNING ${tabSwitchCount}/3: Please do not leave this tab during the test.`);
-            }
+    window.addEventListener('blur', () => {
+        if (testActive && focusDetectionActive && !isLockedOut && document.getElementById('submit-confirm-modal').style.display !== 'flex') {
+            registerSecurityStrike("Window focus lost (switched tabs or applications).");
         }
     });
 
     function handleFullscreenBreakout() {
-        if (testActive && !document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
-            fullscreenExitCount++;
-            if (fullscreenExitCount >= 3) { 
-                document.getElementById('fullscreen-lockout-modal').style.display = 'none';
-                alert("Security Violation: You have escaped strict fullscreen mode multiple times. Your exam is now being permanently submitted.");
-                evaluateTest();
-            } else {
-                let warnText = document.getElementById('fullscreen-warn-text');
-                if (warnText) {
-                    warnText.innerHTML = `Fullscreen Mode Escape Detected! This constitutes security warning <strong>Strike ${fullscreenExitCount}/2</strong>.<br><br>Your browser access has been temporarily suspended. You must click the button below to re-establish a secure fullscreen environment. Attempting another escape will result in immediate penalty and automatic submission.`;
-                }
-                document.getElementById('fullscreen-lockout-modal').style.display = 'flex';
-            }
+        if (testActive && focusDetectionActive && !isLockedOut && document.getElementById('submit-confirm-modal').style.display !== 'flex') {
+            let isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+            if (!isFullscreen) { registerSecurityStrike("Fullscreen Mode unexpectedly exited."); }
         }
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenBreakout); document.addEventListener('webkitfullscreenchange', handleFullscreenBreakout);
+    document.addEventListener('mozfullscreenchange', handleFullscreenBreakout); document.addEventListener('MSFullscreenChange', handleFullscreenBreakout);
+
+    function registerSecurityStrike(reason) {
+        securityStrikes++; document.getElementById('main-test-element').classList.add('blur-active');
+        if (securityStrikes >= 3) { triggerLockoutPenalty(); } 
+        else {
+            document.getElementById('warning-reason-text').innerText = reason;
+            document.getElementById('strike-count-display').innerText = securityStrikes;
+            document.getElementById('standard-warning-modal').style.display = 'flex';
+        }
+    }
+
+    function resumeFromWarning() {
+        document.getElementById('standard-warning-modal').style.display = 'none';
+        document.getElementById('main-test-element').classList.remove('blur-active');
+        focusDetectionActive = false; triggerFullscreenFocus(); setTimeout(() => { focusDetectionActive = true; }, 3000);
+    }
+
+    function triggerLockoutPenalty() {
+        isLockedOut = true;
+        document.getElementById('standard-warning-modal').style.display = 'none';
+        document.getElementById('timeout-lockout-modal').style.display = 'flex';
+        document.getElementById('lockout-resume-btn').style.display = 'none';
+        
+        let timeLeft = 300; let display = document.getElementById('lockout-countdown'); display.innerText = "05:00";
+        
+        lockoutTimerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60); let s = timeLeft % 60;
+            display.innerText = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+            if (timeLeft <= 0) {
+                clearInterval(lockoutTimerInterval); display.innerText = "00:00 - Penalty Served";
+                document.getElementById('lockout-resume-btn').style.display = 'block';
+            }
+        }, 1000);
+    }
+
+    function resumeFromLockout() {
+        securityStrikes = 0; isLockedOut = false;
+        document.getElementById('timeout-lockout-modal').style.display = 'none';
+        document.getElementById('main-test-element').classList.remove('blur-active');
+        focusDetectionActive = false; triggerFullscreenFocus(); setTimeout(() => { focusDetectionActive = true; }, 3000);
     }
 
     function triggerFullscreenFocus() {
-        let target = document.documentElement;
-        let req = target.requestFullscreen || target.webkitRequestFullscreen || target.mozRequestFullScreen || target.msRequestFullscreen;
-        if (req) {
-            req.call(target).catch(err => {
-                console.log("Fullscreen restriction sandbox entry mapped:", err);
-            });
-        }
+        let target = document.documentElement; let req = target.requestFullscreen || target.webkitRequestFullscreen || target.mozRequestFullScreen || target.msRequestFullscreen;
+        if (req) { req.call(target).catch(err => { console.log("Fullscreen restriction mapped:", err); }); }
     }
-
-    function reEngageFullscreenLock() {
-        document.getElementById('fullscreen-lockout-modal').style.display = 'none';
-        triggerFullscreenFocus();
-    }
-
-    document.addEventListener('fullscreenchange', handleFullscreenBreakout);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenBreakout);
-    document.addEventListener('mozfullscreenchange', handleFullscreenBreakout);
-    document.addEventListener('MSFullscreenChange', handleFullscreenBreakout);
 
     function startTest() {
+        let examCode = document.getElementById('reg-examcode').value.trim();
         let name = document.getElementById('reg-name').value.trim();
         let email = document.getElementById('reg-email').value.trim();
         let usn = document.getElementById('reg-usn').value.trim();
@@ -819,9 +819,10 @@ const QUESTION_BANK = [
         let password = document.getElementById('reg-password').value.trim();
         let errorMsg = document.getElementById('reg-error');
 
-        if(!name || !email || !usn || !section || !roll || !password) {
+        if(!examCode || !name || !email || !usn || !section || !roll || !password) {
             errorMsg.innerText = "⚠️ Please fill in all details before starting."; errorMsg.style.display = "block"; return;
         }
+        if (!/^[A-Za-z0-9-_]+$/.test(examCode)) { errorMsg.innerText = "⚠️ Invalid Exam Code: Letters, numbers, hyphens, or underscores only."; errorMsg.style.display = "block"; return; }
         if (!/^[A-Za-z\s]+$/.test(name)) { errorMsg.innerText = "⚠️ Invalid Name: Please use only letters and spaces."; errorMsg.style.display = "block"; return; }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errorMsg.innerText = "⚠️ Invalid Email: Please enter a proper email address."; errorMsg.style.display = "block"; return; }
         if (!/^[A-Za-z0-9]+$/.test(usn)) { errorMsg.innerText = "⚠️ Invalid USN: Please use only a combination of letters and numbers."; errorMsg.style.display = "block"; return; }
@@ -831,182 +832,152 @@ const QUESTION_BANK = [
         let startBtn = document.getElementById('start-btn');
         startBtn.innerText = "Connecting to Secure Server..."; startBtn.disabled = true; 
 
-        let url = GOOGLE_SHEET_URL + "?usn=" + encodeURIComponent(usn) + "&name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&section=" + encodeURIComponent(section) + "&roll=" + encodeURIComponent(roll) + "&password=" + encodeURIComponent(password);
+        let url = GOOGLE_SHEET_URL + "?usn=" + encodeURIComponent(usn) + "&name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&section=" + encodeURIComponent(section) + "&roll=" + encodeURIComponent(roll) + "&password=" + encodeURIComponent(password) + "&examCode=" + encodeURIComponent(examCode);
 
         fetch(url) 
         .then(response => response.json())
         .then(data => {
+            if(data.status === "error") {
+                errorMsg.innerText = "⚠️ " + data.message;
+                errorMsg.style.display = "block"; startBtn.innerText = "Start Assessment"; startBtn.disabled = false; return;
+            }
             if(data.status === "invalid_credentials") {
                 errorMsg.innerText = "⚠️ Access Denied: Incorrect password for this USN.";
-                errorMsg.style.display = "block";
-                startBtn.innerText = "Start Test";
-                startBtn.disabled = false; 
-                return;
+                errorMsg.style.display = "block"; startBtn.innerText = "Start Assessment"; startBtn.disabled = false; return;
             }
             
             if(data.status === "too_early") {
-                startBtn.innerText = "Waiting for Test...";
-                errorMsg.style.display = "block";
-                errorMsg.style.color = "var(--timer-color)"; 
-                
+                startBtn.innerText = "Waiting for Test..."; errorMsg.style.display = "block"; errorMsg.style.color = "var(--timer-color)"; 
                 let countdownInterval = setInterval(function() {
-                    let now = Date.now();
-                    let timeUntilStart = data.startTime - now;
-                    
+                    let now = Date.now(); let timeUntilStart = data.startTime - now;
                     if (timeUntilStart <= 0) {
-                        clearInterval(countdownInterval);
-                        errorMsg.innerText = "✅ The test is now open! Please click 'Start Test' again.";
-                        errorMsg.style.color = "var(--correct-color)";
-                        startBtn.innerText = "Start Test";
-                        startBtn.disabled = false;
+                        clearInterval(countdownInterval); errorMsg.innerText = "✅ The test is now open! Please click 'Start Assessment' again.";
+                        errorMsg.style.color = "var(--correct-color)"; startBtn.innerText = "Start Assessment"; startBtn.disabled = false;
                     } else {
-                        let days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
-let h = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-let m = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
-let s = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
-
-if (days > 0) {
-    errorMsg.innerText = `⏳ The test has not started yet.\nOpening in: ${days}d ${h}h ${m}m ${s}s`;
-} else {
-    errorMsg.innerText = `⏳ The test has not started yet.\nOpening in: ${h}h ${m}m ${s}s`;
-}
+                        let days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24)); let h = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        let m = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60)); let s = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
+                        if (days > 0) { errorMsg.innerText = `⏳ The test has not started yet.\nOpening in: ${days}d ${h}h ${m}m ${s}s`; } 
+                        else { errorMsg.innerText = `⏳ The test has not started yet.\nOpening in: ${h}h ${m}m ${s}s`; }
                     }
                 }, 1000); 
-                
                 return;
             }
             if(data.status === "too_late") {
                 errorMsg.innerText = "⚠️ The test window has closed. You can no longer start this assessment.";
-                errorMsg.style.display = "block";
-                startBtn.innerText = "Start Test";
-                startBtn.disabled = false;
-                return;
+                errorMsg.style.display = "block"; startBtn.innerText = "Start Assessment"; startBtn.disabled = false; return;
             }
             
             if(data.status === "locked") {
                 document.getElementById('registration-section').style.display = 'none';
                 document.getElementById('lockout-screen').style.display = 'block';
             } else {
-                cachedServerResponseData = data;
-                cachedStudentRegistrationPackage = { name, email, usn, section, roll };
-                startBtn.innerText = "Start Test";
-                startBtn.disabled = false;
-                document.getElementById('fullscreen-notice-modal').style.display = 'flex';
+                cachedServerResponseData = data; cachedStudentRegistrationPackage = { name, email, usn, section, roll, examCode };
+                startBtn.innerText = "Start Assessment"; startBtn.disabled = false;
+                document.getElementById('math-guide-modal').style.display = 'flex';
             }
         }).catch(error => {
             errorMsg.innerText = "⚠️ Could not connect. Please check your internet connection."; errorMsg.style.display = "block";
-            startBtn.innerText = "Start Test"; startBtn.disabled = false;
+            startBtn.innerText = "Start Assessment"; startBtn.disabled = false;
         });
     }
 
+    function showFullscreenNotice() {
+        document.getElementById('math-guide-modal').style.display = 'none'; document.getElementById('fullscreen-notice-modal').style.display = 'flex';
+    }
+
     function launchDeveloperPreview() {
-        console.warn("🔧 DEVELOPER PREVIEW ACTIVE: Bypassing server credential verification rules.");
-        cachedStudentRegistrationPackage = {
-            name: "Developer Admin",
-            email: "dev@institution.edu",
-            usn: "DEVMODE001",
-            section: "DEV-X",
-            roll: "999"
-        };
-        cachedServerResponseData = {
-            status: "new",
-            remaining: EXAM_DURATION_MINUTES * 60 * 1000, // Dynamically computed from central variable setup
-            draft: "{}"
-        };
+        console.warn("🔧 DEVELOPER PREVIEW ACTIVE: Fetching live questions from server while bypassing credentials.");
+        let examCode = document.getElementById('reg-examcode').value.trim();
+        let devBtn = document.getElementById('dev-bypass-btn'); let originalText = devBtn.innerText; devBtn.innerText = "Loading Live Setup..."; devBtn.disabled = true;
 
-        let noticeModal = document.getElementById('fullscreen-notice-modal');
-        if (noticeModal) noticeModal.style.display = 'none';
+        let url = GOOGLE_SHEET_URL + "?developer_bypass=true&examCode=" + encodeURIComponent(examCode);
 
-        let data = cachedServerResponseData;
-        studentDetails = cachedStudentRegistrationPackage;
-        testEndTime = Date.now() + data.remaining;
-        
-        document.getElementById('registration-section').style.display = 'none';
-        document.getElementById('quiz-section').style.display = 'block';
-        testActive = true;
-        
-        showQuestion(0);
-        updatePaletteStatusAll();
-        startCountdown();
-        
-        alert("🔧 Dev Mode Engaged!\nServer validation bypassed. You can now test typesetting rules, pagination, and color arrays freely.");
+        fetch(url) 
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === "error") { alert("⚠️ " + data.message); devBtn.innerText = originalText; devBtn.disabled = false; return; }
+            if (data && data.questions && data.questions.length > 0) { QUESTION_BANK = data.questions; } 
+            else { alert("Configuration Error: No active questions found in the Google Sheet for this Exam Code. Please check the 'Status' column."); devBtn.innerText = originalText; devBtn.disabled = false; return; }
+
+            if (data && data.duration) { EXAM_DURATION_MINUTES = parseInt(data.duration); }
+            initializeQuiz();
+
+            cachedStudentRegistrationPackage = { name: "Developer Admin", email: "dev@institution.edu", usn: "DEVMODE001", section: "DEV-X", roll: "999", examCode: examCode };
+            cachedServerResponseData = data;
+
+            document.getElementById('fullscreen-notice-modal').style.display = 'none';
+            studentDetails = cachedStudentRegistrationPackage; testEndTime = Date.now() + data.remaining;
+            
+            // TRANSITION TO EXAM UI
+            let testElem = document.getElementById('main-test-element');
+            testElem.classList.remove('reg-mode'); testElem.classList.add('exam-mode');
+            
+            document.getElementById('registration-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            document.getElementById('question-sidebar').style.display = 'flex';
+            
+            testActive = true; focusDetectionActive = false; setTimeout(() => { focusDetectionActive = true; }, 3000);
+            showQuestion(0); updatePaletteStatusAll(); startCountdown();
+            
+            setTimeout(() => { document.getElementById('navigator-tip').style.display = 'block'; }, 1000);
+            alert(`🔧 Dev Mode Engaged!\nLive layout loaded for Exam Code [${examCode}]. Passwords bypassed.`);
+        }).catch(error => { alert("⚠️ Could not connect to fetch live questions."); devBtn.innerText = originalText; devBtn.disabled = false; });
     }
 
     function acceptFullscreenAndStart() {
         document.getElementById('fullscreen-notice-modal').style.display = 'none';
+        let data = cachedServerResponseData; studentDetails = cachedStudentRegistrationPackage;
         
-        let data = cachedServerResponseData;
-        studentDetails = cachedStudentRegistrationPackage;
-        testEndTime = Date.now() + data.remaining;
+        if (data && data.questions && data.questions.length > 0) { QUESTION_BANK = data.questions; } 
+        else { alert("Configuration Error: No active questions found for this assessment. Please contact your instructor."); return; }
+        if (data && data.duration) { EXAM_DURATION_MINUTES = parseInt(data.duration); }
+
+        initializeQuiz(); testEndTime = Date.now() + data.remaining;
+        
+        // TRANSITION TO EXAM UI
+        let testElem = document.getElementById('main-test-element');
+        testElem.classList.remove('reg-mode'); testElem.classList.add('exam-mode');
         
         document.getElementById('registration-section').style.display = 'none';
         document.getElementById('quiz-section').style.display = 'block';
-        testActive = true;
+        document.getElementById('question-sidebar').style.display = 'flex';
         
-        triggerFullscreenFocus();
+        testActive = true; focusDetectionActive = false; 
+        triggerFullscreenFocus(); setTimeout(() => { focusDetectionActive = true; }, 3000);
         
         let cloudDraft = {};
         try {
-            if (data.draft && typeof data.draft === 'string' && data.draft !== "{}") {
-                cloudDraft = JSON.parse(data.draft);
-            } else if (data.draft && typeof data.draft === 'object') {
-                cloudDraft = data.draft;
-            }
-        } catch(e) { 
-            console.log("Draft load configuration trace anomaly bypassed.", e); 
-        }
+            if (data.draft && typeof data.draft === 'string' && data.draft !== "{}") { cloudDraft = JSON.parse(data.draft); } 
+            else if (data.draft && typeof data.draft === 'object') { cloudDraft = data.draft; }
+        } catch(e) {}
 
-        if (cloudDraft["_markedForReview"]) {
-            markedForReview = cloudDraft["_markedForReview"];
-        }
+        if (cloudDraft["_markedForReview"]) { markedForReview = cloudDraft["_markedForReview"]; }
 
         QUESTION_BANK.forEach((q, i) => {
             let qId = "q" + (i + 1);
             let savedVal = cloudDraft[qId] || safeStorageGet('ans_' + qId) || ""; 
-            
-            if (savedVal.trim() !== "") {
-                let box = document.getElementById(qId);
-                if (box) {
-                    box.value = savedVal;
-                    updatePreview(qId, i); 
-                }
-            } 
+            if (savedVal.trim() !== "") { let box = document.getElementById(qId); if (box) { box.value = savedVal; updatePreview(qId, i); } } 
         });
 
-        showQuestion(0);
-        updatePaletteStatusAll();
-
+        showQuestion(0); updatePaletteStatusAll();
         if(data.status === "resume") { alert("Session Resumed. Your answers and timer have been recovered from the server."); }
-        
         startCountdown();
+        
+        setTimeout(() => { document.getElementById('navigator-tip').style.display = 'block'; }, 1000);
     }
 
-    function showSubmitConfirmation() {
-        if (!testActive) return;
-        document.getElementById('submit-confirm-modal').style.display = 'flex';
-    }
-
-    function closeSubmitConfirmation() {
-        document.getElementById('submit-confirm-modal').style.display = 'none';
-    }
-
-    function confirmFinalEvaluation() {
-        document.getElementById('submit-confirm-modal').style.display = 'none';
-        evaluateTest();
-    }
+    function showSubmitConfirmation() { if (!testActive) return; document.getElementById('submit-confirm-modal').style.display = 'flex'; }
+    function closeSubmitConfirmation() { document.getElementById('submit-confirm-modal').style.display = 'none'; }
+    function confirmFinalEvaluation() { document.getElementById('submit-confirm-modal').style.display = 'none'; evaluateTest(); }
 
     function startCountdown() {
         let display = document.getElementById('time-display');
         timerInterval = setInterval(function () {
             let timeRemainingSec = Math.floor((testEndTime - Date.now()) / 1000);
             if (timeRemainingSec <= 0) {
-                clearInterval(timerInterval);
-                closeSubmitConfirmation();
-                document.getElementById('fullscreen-lockout-modal').style.display = 'none';
-                
-                alert("Time is up! Submitting automatically.");
-                evaluateTest();
-                return;
+                clearInterval(timerInterval); closeSubmitConfirmation(); 
+                document.getElementById('standard-warning-modal').style.display = 'none'; document.getElementById('timeout-lockout-modal').style.display = 'none';
+                alert("Time is up! Submitting automatically."); evaluateTest(); return;
             }
             let m = Math.floor(timeRemainingSec / 60); let s = timeRemainingSec % 60;
             display.textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
@@ -1015,150 +986,134 @@ if (days > 0) {
     }
 
     function evaluateTest() {
+        if (isSidebarPinned) toggleSidebarPin();
         let formSection = document.getElementById('quiz-section');
         if (formSection && !testActive && formSection.style.display === 'block' && document.getElementById('final-score').style.display === 'block') return;
+
+        document.getElementById('main-test-element').classList.remove('blur-active');
+        document.getElementById('standard-warning-modal').style.display = 'none'; document.getElementById('timeout-lockout-modal').style.display = 'none'; document.getElementById('navigator-tip').style.display = 'none'; 
+
+        if (testActive && lastQuestionEntryTime > 0) {
+            if (!questionTimes[currentQuestionIndex]) questionTimes[currentQuestionIndex] = 0;
+            questionTimes[currentQuestionIndex] += (Date.now() - lastQuestionEntryTime);
+        }
 
         testActive = false; clearInterval(timerInterval); 
         
         let exitReq = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
-        if (exitReq && (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)) {
-            exitReq.call(document).catch(e => {});
+        if (exitReq && (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)) { exitReq.call(document).catch(e => {}); }
+        
+        let fixedHeader = document.querySelector('.quiz-header-fixed'); 
+        if (fixedHeader) { 
+            fixedHeader.style.position = 'static'; 
+            fixedHeader.style.transform = 'none'; 
+            fixedHeader.innerHTML = '<div style="width: 100%; text-align: center; font-size: 20px; font-weight: bold; color: var(--correct-color); padding: 10px 0;">✅ Assessment Successfully Submitted</div>';
         }
         
-        let fixedHeader = document.querySelector('.quiz-header-fixed');
-        if (fixedHeader) fixedHeader.style.position = 'static';
-        let fixedFooter = document.querySelector('.quiz-footer-fixed');
-        if (fixedFooter) fixedFooter.style.position = 'static';
+        let fixedFooter = document.querySelector('.quiz-footer-fixed'); 
+        if (fixedFooter) { 
+            fixedFooter.style.position = 'static'; 
+            fixedFooter.style.transform = 'none'; 
+        }
         
-        let containerWrap = document.getElementById('main-test-element');
-        if (containerWrap) containerWrap.style.padding = '20px';
+        let containerWrap = document.getElementById('main-test-element'); if (containerWrap) containerWrap.style.padding = '20px';
+        document.getElementById('question-sidebar').style.display = 'none';
+        let navContainer = document.getElementById('pagination-menu-placeholder'); if (navContainer) navContainer.style.display = 'none';
 
-        QUESTION_BANK.forEach((q, i) => {
-            let pane = document.getElementById(`pane-${i}`);
-            if (pane) pane.style.display = 'block';
-        });
-        let navContainer = document.getElementById('pagination-menu');
-        if (navContainer) navContainer.style.display = 'none';
-        let paletteGrid = document.getElementById('question-palette');
-        if (paletteGrid) paletteGrid.style.display = 'none';
+        QUESTION_BANK.forEach((q, i) => { let pane = document.getElementById(`pane-${i}`); if (pane) pane.style.display = 'block'; });
         
-        // Dynamically track elapsed timeline metric using the configuration constant limits
         let totalElapsedSec = Math.floor(((EXAM_DURATION_MINUTES * 60 * 1000) - (testEndTime - Date.now())) / 1000);
-        if(totalElapsedSec < 0) totalElapsedSec = 0; 
-        if(totalElapsedSec > (EXAM_DURATION_MINUTES * 60)) totalElapsedSec = EXAM_DURATION_MINUTES * 60;
+        if(totalElapsedSec < 0) totalElapsedSec = 0; if(totalElapsedSec > (EXAM_DURATION_MINUTES * 60)) totalElapsedSec = EXAM_DURATION_MINUTES * 60;
 
         let formattedTimeTaken = Math.floor(totalElapsedSec / 60) + "m " + (totalElapsedSec % 60) + "s";
-        
-        let totalScore = 0;
-        let summaryReport = "";
+        let totalScore = 0; let summaryReport = "";
 
         document.getElementById('final-submit-btn').style.display = 'none';
         document.getElementById('loading-spinner').style.display = 'block';
 
         QUESTION_BANK.forEach((q, index) => {
-            let qId = "q" + (index + 1);
-            let inputField = document.getElementById(qId);
-            let container = document.getElementById(qId + '-container');
-            let feedback = document.getElementById(qId + '-feedback');
+            let qId = "q" + (index + 1); let inputField = document.getElementById(qId);
+            let container = document.getElementById(qId + '-container'); let feedback = document.getElementById(qId + '-feedback');
             let rawUserAns = inputField.value.trim();
             
-            container.classList.remove('status-correct', 'status-incorrect');
-            inputField.readOnly = true; 
+            let qTimeMs = questionTimes[index] || 0; let qTimeSec = Math.floor(qTimeMs / 1000);
+            let qTimeStr = Math.floor(qTimeSec / 60) + "m " + (qTimeSec % 60) + "s";
 
+            container.classList.remove('status-correct', 'status-incorrect'); inputField.readOnly = true; 
             let isCorrect = false;
 
-if (q.type === "math") {
-    isCorrect = checkMathEquivalence(rawUserAns, q.answer, q.vars);
-} else {
-    // Check if this particular question has a specific decimal tolerance assigned
-    if (q.tolerance !== undefined && rawUserAns.trim() !== "" && !isNaN(parseFloat(rawUserAns))) {
-        let userNum = parseFloat(rawUserAns);
-        let correctNum = parseFloat(q.answer);
-        
-        // Mark as correct if the absolute difference is within your relaxation window
-        isCorrect = Math.abs(userNum - correctNum) <= q.tolerance;
-    } else {
-        // Fall back to a strict literal match for non-numerical problems
-        isCorrect = (rawUserAns.toLowerCase() === q.answer.toLowerCase());
-    }
-}
+            if (q.type === "math") { isCorrect = checkMathEquivalence(rawUserAns, q.answer, q.vars); } 
+            else {
+                if (q.tolerance !== undefined && rawUserAns.trim() !== "" && !isNaN(parseFloat(rawUserAns))) {
+                    let userNum = parseFloat(rawUserAns); let correctNum = parseFloat(q.answer);
+                    isCorrect = Math.abs(userNum - correctNum) <= q.tolerance;
+                } else { isCorrect = (rawUserAns.toLowerCase() === q.answer.toLowerCase()); }
+            }
+
+            // ACCORDION SOLUTION LOGIC
+            let solBtn = `<button type="button" style="background: var(--input-bg); color: var(--mod2-color); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 6px; width: 100%; text-align: left; font-weight: bold; font-family: 'Poppins', sans-serif; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;" onclick="let c=this.nextElementSibling; if(c.style.display==='none'){c.style.display='block'; this.innerHTML='🙈 Hide Detailed Solution'; this.style.borderBottomLeftRadius='0'; this.style.borderBottomRightRadius='0';} else {c.style.display='none'; this.innerHTML='👁️ View Detailed Solution'; this.style.borderBottomLeftRadius='6px'; this.style.borderBottomRightRadius='6px';}">👁️ View Detailed Solution</button>`;
+            let solContent = `<div style="display:none; background: var(--card-bg); padding: 15px; border: 1px solid var(--border-color); border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; overflow-x: auto; max-width: 100%; width: 100%; box-sizing: border-box; font-size: 14px; color: var(--text-color);"><strong>Solution:</strong><br>${q.explanation || '<em style="color: var(--muted-text);">No detailed explanation available.</em>'}</div>`;
+            let accordionHtml = `<div style="margin-top: 15px;">${solBtn}${solContent}</div>`;
 
             if (isCorrect) {
-                container.classList.add('status-correct');
-                feedback.innerHTML = `✓ <strong>Correct!</strong><br>${q.explanation}`;
-                totalScore += q.marks;
-                summaryReport += `Q${index+1}: ${rawUserAns} (Correct - ${q.marks} Marks)\n`;
+                container.classList.add('status-correct'); 
+                feedback.innerHTML = `✓ <strong>Correct!</strong>` + accordionHtml;
+                totalScore += q.marks; summaryReport += `Q${index+1}: ${rawUserAns} (Correct - ${q.marks} Marks) [Time: ${qTimeStr}]\n`;
             } else {
-                container.classList.add('status-incorrect');
-                let emptyMsg = rawUserAns === "" ? "Blank." : "Incorrect.";
-                feedback.innerHTML = `✗ ${emptyMsg} Correct answer: <strong>${q.answer}</strong>.<br><br><strong>Solution:</strong> ${q.explanation}`;
-                summaryReport += `Q${index+1}: ${rawUserAns === "" ? "[Blank]" : rawUserAns} (Wrong - 0 Marks)\n`;
+                container.classList.add('status-incorrect'); let emptyMsg = rawUserAns === "" ? "Blank." : "Incorrect.";
+                feedback.innerHTML = `✗ ${emptyMsg} Correct answer: <strong>${q.answer}</strong>.` + accordionHtml;
+                summaryReport += `Q${index+1}: ${rawUserAns === "" ? "[Blank]" : rawUserAns} (Wrong - 0 Marks) [Time: ${qTimeStr}]\n`;
             }
+            feedback.style.display = 'block';
         });
          
         MathJax.typesetPromise();
 
         const payload = {
-            usn: studentDetails.usn, name: studentDetails.name, email: studentDetails.email,
-            section: studentDetails.section, roll: studentDetails.roll, score: totalScore, maxScore: totalMaxScore,
-            timeTaken: formattedTimeTaken, detailedReport: summaryReport
+            usn: studentDetails.usn, name: studentDetails.name, email: studentDetails.email, 
+            section: studentDetails.section, roll: studentDetails.roll, examCode: studentDetails.examCode, 
+            score: totalScore, maxScore: totalMaxScore, timeTaken: formattedTimeTaken, detailedReport: summaryReport
         };
 
         function attemptSubmission() {
             let spinner = document.getElementById('loading-spinner');
-            
             if (!navigator.onLine) {
                 spinner.innerHTML = "⚠️ <strong>Internet Connection Lost!</strong><br>DO NOT close this tab. We will auto-submit as soon as Wi-Fi reconnects...";
-                spinner.style.color = "var(--timer-color)";
-                setTimeout(attemptSubmission, 3000); 
-                return;
+                spinner.style.color = "var(--timer-color)"; setTimeout(attemptSubmission, 3000); return;
             }
+            spinner.innerHTML = "Saving your results & sending email... Please wait."; spinner.style.color = "var(--mod2-color)";
 
-            spinner.innerHTML = "Saving your results & sending email... Please wait.";
-            spinner.style.color = "#38bdf8";
-
-            fetch(GOOGLE_SHEET_URL, {
-                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-            }).then(() => {
-                safeStorageClear(); 
-                safeStorageSet('testCompleted', 'true'); 
-                document.getElementById('loading-spinner').style.display = 'none';
-                document.getElementById('final-score').style.display = "block";
-                document.getElementById('final-score').innerHTML = `Marks Obtained: <span style="color: ${totalScore >= (totalMaxScore/2) ? 'var(--correct-color)' : 'var(--incorrect-color)'};">${totalScore} / ${totalMaxScore}</span><br>
-                <span style="font-size: 18px; color: var(--timer-color); display: block; margin-top: 5px;">Time Taken: ${formattedTimeTaken}</span><br>
-                <span style="font-size: 16px; color: #94a3b8; font-weight: normal; margin-top: 10px; display: block;">Your answers have been securely saved. You may now close this tab.</span>`;
+            fetch(GOOGLE_SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+            .then(() => {
+                safeStorageClear(); safeStorageSet('testCompleted', 'true'); 
+                document.getElementById('loading-spinner').style.display = 'none'; 
+                
+                let finalScoreDiv = document.getElementById('final-score');
+                finalScoreDiv.style.display = "block";
+                finalScoreDiv.innerHTML = `
+                    <div style="font-size: 26px; margin-bottom: 10px;">Marks Obtained: <span style="color: ${totalScore >= (totalMaxScore/2) ? 'var(--correct-color)' : 'var(--incorrect-color)'};">${totalScore} / ${totalMaxScore}</span></div>
+                    <div style="font-size: 18px; color: var(--timer-color); display: block; margin-bottom: 5px;">Time Taken: ${formattedTimeTaken}</div>
+                    <div style="font-size: 15px; color: var(--muted-text); font-weight: normal; margin-top: 15px; display: block; border-top: 1px dashed var(--border-color); padding-top: 15px;">Your answers have been securely saved. Review your detailed solutions below.</div>
+                `;
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }).catch(() => { 
                 spinner.innerHTML = "⚠️ <strong>Connection interrupted during save!</strong><br>Retrying securely... Do not close tab.";
-                spinner.style.color = "var(--incorrect-color)";
-                setTimeout(attemptSubmission, 3000);
+                spinner.style.color = "var(--incorrect-color)"; setTimeout(attemptSubmission, 3000);
             });
         } 
-
         attemptSubmission();
     }
     
     setInterval(function() {
         if (typeof testActive !== 'undefined' && testActive === true) {
-            let currentAnswers = {};
-            let i = 1;
-            
-            while (document.getElementById("q" + i)) {
-                currentAnswers["q" + i] = document.getElementById("q" + i).value;
-                i++;
-            }
-            
+            let currentAnswers = {}; let i = 1;
+            while (document.getElementById("q" + i)) { currentAnswers["q" + i] = document.getElementById("q" + i).value; i++; }
             currentAnswers["_markedForReview"] = markedForReview;
             
             if (Object.keys(currentAnswers).length > 0 && typeof studentDetails !== 'undefined' && studentDetails.usn) {
-                fetch(GOOGLE_SHEET_URL, {
-                    method: 'POST', 
-                    mode: 'no-cors', 
-                    headers: { 'Content-Type': 'text/plain' }, 
-                    body: JSON.stringify({ 
-                        action: "autosave", 
-                        usn: studentDetails.usn, 
-                        answers: currentAnswers 
-                    })
+                fetch(GOOGLE_SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, 
+                    body: JSON.stringify({ action: "autosave", usn: studentDetails.usn, examCode: studentDetails.examCode, answers: currentAnswers })
                 }).catch(err => console.log("Silent cloud save sync dropped:", err));
             }
         }
