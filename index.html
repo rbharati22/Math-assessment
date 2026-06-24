@@ -592,7 +592,7 @@
             <button type="button" class="submit-btn" id="final-submit-btn" onclick="showSubmitConfirmation()">Submit Assessment</button>
         </div>
         
-        <div id="loading-spinner" class="loading-text" style="margin-bottom: 40px;">Saving your results & sending email... Please wait.</div>
+       <div id="loading-spinner" class="loading-text" style="margin-bottom: 40px;">Saving your results... Please wait.</div>
     </div>
 </div>
 
@@ -694,6 +694,7 @@
      
     let QUESTION_BANK = [];
     let EXAM_DURATION_MINUTES = 60; 
+const SEND_STUDENT_EMAILS = false; // <--- ADD THIS MASTER SWITCH
 
     let studentDetails = {};
     let timerInterval; 
@@ -1745,7 +1746,14 @@ QUESTION_BANK.forEach((q, i) => {
                 spinner.innerHTML = "⚠️ <strong>Internet Connection Lost!</strong><br>DO NOT close this tab. We will auto-submit as soon as Wi-Fi reconnects...";
                 spinner.style.color = "var(--timer-color)"; setTimeout(attemptSubmission, 3000); return;
             }
-            spinner.innerHTML = "Saving your results & sending email... Please wait."; spinner.style.color = "var(--mod2-color)";
+            
+            // --- THE SMART SPINNER TEXT ---
+            if (SEND_STUDENT_EMAILS === true) {
+                spinner.innerHTML = "Saving your results to the database... Please wait.";
+            } else {
+                spinner.innerHTML = "Saving your results... Please wait.";
+            }
+            spinner.style.color = "var(--mod2-color)";
 
             fetch(GOOGLE_SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
             .then(() => {
