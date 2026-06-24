@@ -1379,7 +1379,7 @@ function handleInputBlur() {
     }
 
     function updatePreview(qId, index) {
-        let inputVal = document.getElementById(qId).value; safeStorageSet('ans_' + qId, inputVal);
+        let inputVal = document.getElementById(qId).value; safeStorageSet(studentDetails.usn + '_ans_' + qId, inputVal);
         let qData = QUESTION_BANK[index];
         if(qData.type !== "math") { updateQuestionPaletteState(index); updateSidebarStats(); return; }
 
@@ -1621,9 +1621,9 @@ function handleInputBlur() {
 
         if (cloudDraft["_markedForReview"]) { markedForReview = cloudDraft["_markedForReview"]; }
 
-        QUESTION_BANK.forEach((q, i) => {
-            let qId = "q" + (index + 1);
-            let savedVal = cloudDraft[qId] || safeStorageGet('ans_' + qId) || ""; 
+QUESTION_BANK.forEach((q, i) => {
+            let qId = "q" + (i + 1); // <--- Changed 'index' to 'i'
+           let savedVal = cloudDraft[qId] || safeStorageGet(studentDetails.usn + '_ans_' + qId) || "";
             if (savedVal.trim() !== "") { let box = document.getElementById(qId); if (box) { box.value = savedVal; updatePreview(qId, i); } } 
         });
 
