@@ -28,6 +28,7 @@
             --card-bg: rgba(0,0,0,0.2);
             --divider-bg: rgba(56, 189, 248, 0.2);
             --reg-bg: linear-gradient(145deg, #122b36, #081c24);
+            --vk-height: 0px;
         }
 
         [data-theme="light"] {
@@ -106,8 +107,10 @@
         
         .reg-mode { max-width: 650px; padding: 40px; background: var(--reg-bg); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); margin-top: 5vh; min-height: auto; }
         
-        .exam-mode { max-width: 1000px; padding: 120px 20px 140px 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); min-height: 100vh; }
+        .exam-mode { max-width: 1000px; padding: 120px 20px 140px 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); min-height: 100vh; transition: padding-bottom 0.3s ease; }
         
+        body.vk-active .exam-mode { padding-bottom: calc(100px + var(--vk-height, 280px)) !important; }
+
         .blur-active { filter: blur(15px); pointer-events: none; user-select: none; }
 
         .theme-select { width: auto; min-width: 100px; padding: 6px 10px; border-radius: 6px; background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; outline: none; transition: 0.3s; }
@@ -139,16 +142,16 @@
 
         #mini-palette-placeholder { display: flex; gap: 8px; align-items: center; justify-content: center; flex-grow: 1; }
 
-        .question-sidebar { position: fixed; left: -320px; top: 0; width: 320px; height: 100vh; background: var(--nav-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-right: 1px solid var(--divider-bg); z-index: 1005; transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
-        .question-sidebar:hover { left: 0; }
-        .sidebar-handle { position: absolute; right: -28px; top: 50%; transform: translateY(-50%); width: 28px; height: 80px; background: var(--container-bg); border: 1px solid var(--border-color); border-left: none; border-radius: 0 8px 8px 0; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 4px 0 10px rgba(0,0,0,0.3); color: var(--mod2-color); transition: 0.2s; }
+        .question-sidebar { position: fixed; left: -340px; top: 0; width: 320px; height: 100vh; background: var(--nav-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-right: 1px solid var(--divider-bg); z-index: 10010; transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; box-shadow: none; }
+        .question-sidebar:hover { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.7); }
+        .sidebar-handle { position: absolute; right: -28px; top: 50%; transform: translateY(-50%); width: 28px; height: 80px; background: var(--container-bg); border: 1px solid var(--border-color); border-left: none; border-radius: 0 8px 8px 0; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 4px 0 10px rgba(0,0,0,0.3); color: var(--mod2-color); transition: background 0.2s, color 0.2s, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .question-sidebar:hover .sidebar-handle { background: var(--btn-bg); color: white; border-color: var(--btn-bg); }
         
         .sidebar-content { padding: 25px 20px; overflow-y: auto; flex-grow: 1; }
         .sidebar-title-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--divider-bg); padding-bottom: 10px; margin-bottom: 20px; color: var(--text-color); font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
         .palette-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .palette-btn { width: 40px; height: 40px; border-radius: 6px; border: 2px solid var(--border-color); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .palette-btn { width: 40px; height: 40px; border-radius: 6px; border: 2px solid var(--border-color); font-size: 13px; font-weight: normal; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
         .palette-btn.unanswered { background-color: var(--nav-btn-bg); color: var(--muted-text); border-color: var(--border-color); }
         .palette-btn.answered { background-color: rgba(16, 185, 129, 0.15); border-color: var(--correct-color); color: var(--correct-color); }
         .palette-btn.review { background-color: rgba(251, 191, 36, 0.15); border-color: var(--timer-color); color: var(--timer-color); }
@@ -159,8 +162,8 @@
         .sidebar-content::-webkit-scrollbar-thumb { background: var(--mod2-color); border-radius: 4px; }
 
         .sidebar-footer { padding: 20px; background: var(--container-bg); border-top: 1px solid var(--divider-bg); box-shadow: 0 -4px 15px rgba(0,0,0,0.2); }
-        .stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 12px; color: var(--text-color); font-weight: 600; }
-        .stat-badge { padding: 4px 10px; border-radius: 4px; font-size: 13px; font-weight: bold; min-width: 35px; text-align: center; }
+        .stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 12px; color: var(--text-color); font-weight: normal; }
+        .stat-badge { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: normal; min-width: 35px; text-align: center; }
         .stat-badge.answered { background: rgba(16, 185, 129, 0.15); color: var(--correct-color); border: 1px solid var(--correct-color); }
         .stat-badge.flagged { background: rgba(251, 191, 36, 0.15); color: var(--timer-color); border: 1px solid var(--timer-color); }
         .stat-badge.remaining { background: var(--nav-btn-bg); color: var(--muted-text); border: 1px solid var(--border-color); }
@@ -192,16 +195,29 @@
         .loading-text { text-align: center; color: var(--mod2-color); font-weight: bold; margin-top: 20px;}
         .lockout-msg { text-align: center; color: var(--incorrect-color); font-size: 18px; font-weight: bold; padding: 40px 20px; }
 
-        .quiz-footer-fixed { position: fixed; bottom: 0; left: 0; right: 0; margin: 0 auto; width: 100%; max-width: 1000px; background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--divider-bg); padding: 12px 20px; z-index: 100; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3); display: flex; justify-content: space-between; align-items: center; gap: 15px; transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .quiz-footer-fixed { position: fixed; bottom: 0; left: 0; right: 0; margin: 0 auto; width: 100%; max-width: 1000px; background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--divider-bg); padding: 12px 20px; z-index: 100; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3); display: flex; justify-content: space-between; align-items: center; gap: 15px; transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-radius 0.3s, padding 0.3s; }
+        
+        body.vk-active .quiz-footer-fixed {
+            bottom: var(--vk-height, 280px);
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            padding: 8px 15px !important;
+        }
+        body.vk-active .quiz-footer-fixed .nav-btn,
+        body.vk-active .quiz-footer-fixed #final-submit-btn {
+            font-weight: normal !important;
+            padding: 8px 12px !important;
+            font-size: 13px !important;
+        }
 
-        .nav-controls { display: flex; gap: 10px; flex-grow: 1; margin: 0; }
+        .nav-controls { display: flex; gap: 10px; margin: 0; justify-content: flex-start; align-items: center;}
         .nav-btn { padding: 10px 16px; font-size: 14px; font-weight: 600; border-radius: 6px; border: none; cursor: pointer; background-color: var(--nav-btn-bg); color: var(--text-color); transition: 0.2s; white-space: nowrap; border: 1px solid transparent; }
         .nav-btn:hover:not(:disabled) { background-color: var(--nav-btn-hover); border-color: var(--border-color); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         
         .review-toggle-btn { background-color: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.3); color: var(--timer-color); }
         .review-toggle-btn.active-review { background-color: var(--timer-color); color: #ffffff; }
-        #final-submit-btn { margin-top: 0; width: auto; padding: 10px 20px; font-size: 15px; white-space: nowrap; flex-shrink: 0; }
+        #final-submit-btn { margin-top: 0; margin-left: auto; width: auto; padding: 10px 20px; font-size: 15px; white-space: nowrap; flex-shrink: 0; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(8, 28, 36, 0.96); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; }
         
@@ -223,22 +239,30 @@
         @media (min-width: 801px) {
             body.sidebar-pinned { padding-left: 320px; }
             body.sidebar-pinned .quiz-header-fixed,
-            body.sidebar-pinned .quiz-footer-fixed { 
-                left: 320px; 
-                width: auto; 
-            }
-            body.sidebar-pinned .question-sidebar { left: 0; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
+            body.sidebar-pinned .quiz-footer-fixed { left: 320px; width: auto; right: 0; }
+            body.sidebar-pinned .virtual-math-keyboard { left: 320px; width: calc(100% - 320px); }
+            body.sidebar-pinned .question-sidebar { left: 0; box-shadow: 2px 0 10px rgba(0,0,0,0.2) !important; }
             body.sidebar-pinned .sidebar-handle { display: none; }
         }
 
+        .navigator-tip {
+            display: none; position: fixed; left: 40px; top: 50%; transform: translateY(-50%);
+            background: var(--btn-bg); color: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 99999; max-width: 250px;
+            text-align: left; animation: slideInLeft 0.5s ease;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .navigator-tip::before {
+            content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%);
+            border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid var(--btn-bg);
+        }
+        body.vk-active .navigator-tip, body.vk-active .sidebar-handle { transform: translateY(calc(-50% - var(--vk-height, 280px))); margin-top: 0; }
+
         @media (max-width: 800px) {
             body { padding: 10px 0px; } 
-            
             .reg-mode { padding: 30px 20px; margin-top: 20px; }
             .grid-2 { grid-template-columns: 1fr; gap: 10px; }
-            
             .exam-mode { padding: 220px 10px 160px 10px !important; }
-            
             h1.reg-title { font-size: 24px; }
             .module-section { padding: 15px; border-left-width: 4px; }
             .answer-input, .reg-input { font-size: 16px; padding: 12px; }
@@ -246,14 +270,110 @@
             .quiz-footer-fixed { border-radius: 0; flex-wrap: wrap; padding: 12px; gap: 10px; }
             .nav-controls { width: 100%; justify-content: space-between; }
             .nav-btn { padding: 8px 10px; font-size: 12px; }
-            #final-submit-btn { width: 100%; margin-top: 0px; padding: 14px; font-size: 16px; }
+            #final-submit-btn { width: 100%; margin-top: 0px; margin-left: 0; padding: 14px; font-size: 16px; }
             .header-top-row { flex-wrap: wrap; gap: 8px; justify-content: center; }
             .header-titles { text-align: center; width: 100%; order: 1; margin-bottom: 5px; }
             #mini-palette-placeholder { order: 2; width: 100%; margin-bottom: 5px;}
             .timer-container { order: 3; justify-content: center; width: 100%; font-size: 16px; }
             #pin-sidebar-btn { display: none !important; }
             
-            .sidebar-handle { top: 75%; box-shadow: none !important; border-right: 2px solid var(--border-color); background: var(--nav-bg); }
+            .question-sidebar { box-shadow: none !important; border-right: 1px solid var(--border-color); }
+            .question-sidebar:hover { box-shadow: none !important; }
+            .sidebar-handle { top: 75%; box-shadow: none !important; border-right: 2px solid var(--border-color); background: var(--nav-bg); width: 36px; right: -36px; height: 90px; }
+            .navigator-tip { top: 75%; left: 45px; }
+        }
+
+        /* MORPHING RIGHT SIDE-TABS (Slide from outside) */
+        .vertical-text {
+            writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; text-transform: uppercase;
+        }
+        
+        .right-sidebar-tabs {
+            position: fixed; right: 0; bottom: 85px; display: none; flex-direction: column; gap: 10px; z-index: 10005; 
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); transform: translateX(0);
+        }
+        body.vk-active .right-sidebar-tabs {
+            transform: translateX(100%); 
+        }
+.right-tab-btn {
+    background: var(--nav-bg); border: 1px solid var(--border-color); border-right: none; border-radius: 8px 0 0 8px; color: var(--text-color); cursor: pointer; padding: 12px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px; box-shadow: -4px 0 10px rgba(0,0,0,0.3); transition: 0.3s; width: 26px; height: 90px;
+}
+        .right-tab-btn .icon { font-size: 14px; margin-bottom: 6px; transform: none; writing-mode: horizontal-tb; }
+        .right-tab-btn .text { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+        .right-tab-btn:hover { background: var(--nav-btn-hover); }
+        .right-tab-sys-active { color: var(--mod2-color) !important; background: rgba(56, 189, 248, 0.1) !important; border-color: var(--mod2-color) !important;}
+
+        @media (max-width: 800px) {
+            .right-sidebar-tabs { bottom: 145px; } 
+        }
+
+        /* VIRTUAL MATH KEYBOARD WITH FULL-HEIGHT ATTACHED TABS */
+        .virtual-math-keyboard {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--nav-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid var(--divider-bg); z-index: 10000; padding: 10px; 
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s;
+            transform: translateY(100%); display: flex; justify-content: center; align-items: stretch; gap: 8px; box-shadow: none;
+        }
+        body.vk-active .virtual-math-keyboard {
+            transform: translateY(0); box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        }
+
+        .vk-left-bar { display: flex; align-items: center; justify-content: center; width: 22px; background: transparent; }
+        .vk-left-bar span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; color: var(--mod2-color); font-weight: bold; letter-spacing: 1px; white-space: nowrap; opacity: 0.8; }
+
+        .vk-container { flex: 1; display: flex; gap: 8px; max-width: 800px; flex-wrap: nowrap; justify-content: center; align-items: stretch; width: 100%; }
+        .vk-panel-left { flex: 5.5; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .vk-panel-right { flex: 4.5; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        
+        .vk-right-bar { display: flex; flex-direction: column; gap: 6px; width: 35px; justify-content: space-between; }
+        .vk-right-bar button { flex: 1; border-radius: 6px; border: 1px solid var(--border-color); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 0;}
+        .vk-sys-btn-vert { background: var(--nav-btn-bg); color: var(--text-color); }
+        .vk-sys-btn-vert:hover { background: var(--nav-btn-hover); }
+        .vk-close-vert { background: rgba(239, 68, 68, 0.1); border-color: var(--incorrect-color); color: var(--incorrect-color); }
+        .vk-close-vert:hover { background: var(--incorrect-color); color: white; }
+        .vk-right-bar button .icon { font-size: 14px; margin-bottom: 4px; transform: none; writing-mode: horizontal-tb; }
+        .vk-right-bar button .text { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase;}
+
+        .vk-row { display: flex; gap: 4px; flex: 1; }
+        .vk-btn { flex: 1; padding: 8px 0; font-size: 14px; font-family: monospace; font-weight: bold; background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); min-width: 0; }
+        .vk-btn:hover { background: var(--btn-bg); color: white; border-color: var(--btn-bg); transform: translateY(-2px); }
+        .vk-btn:active { transform: translateY(0); }
+        .vk-btn.vk-action { background: var(--nav-btn-bg); }
+        .vk-btn.vk-action:hover { background: var(--nav-btn-hover); }
+        .vk-btn.vk-fn { background: rgba(56, 189, 248, 0.1); color: var(--mod2-color); border-color: rgba(56, 189, 248, 0.3); }
+        .vk-btn.vk-const { background: rgba(129, 140, 248, 0.1); color: var(--mod5-color); border-color: rgba(129, 140, 248, 0.3); }
+        
+        @media(max-width:800px) {
+            .virtual-math-keyboard { padding: 6px; gap: 4px; }
+            .vk-container { gap: 4px; }
+            .vk-btn { padding: 10px 0; font-size: 13px; }
+            .vk-left-bar { display: none; } 
+            .vk-right-bar { width: 30px; gap: 4px; }
+            .vk-right-bar button .text { font-size: 9px; }
+        }
+
+        /* Fix: Hide right tabs, header, and footer when native system keyboard is active (MOBILE ONLY) */
+        @media (max-width: 800px) {
+            body.sys-kb-active .right-sidebar-tabs {
+                transform: translateX(100%);
+            }
+            body.sys-kb-active .exam-mode {
+                padding-top: 15px !important;
+                padding-bottom: 200px !important; /* Perfect middle-ground to allow short pages to scroll */
+            }
+            body.sys-kb-active .quiz-footer-fixed {
+                transform: translateY(150%);
+                opacity: 0;
+                pointer-events: none;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+            body.sys-kb-active .quiz-header-fixed {
+                transform: translateY(-150%);
+                opacity: 0;
+                pointer-events: none;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
         }
     </style>
     <script>
@@ -345,25 +465,30 @@
     </div>
 </div>
 
-<div id="navigator-tip" style="display: none; position: fixed; left: 40px; top: 50%; transform: translateY(-50%); background: var(--btn-bg); color: white; padding: 15px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 99999; max-width: 250px; text-align: left; animation: slideInLeft 0.5s ease;">
+<div id="navigator-tip" class="navigator-tip">
     <div style="font-weight: bold; margin-bottom: 5px;">💡 Question Navigator</div>
-    <div style="font-size: 13px; margin-bottom: 10px;">Hover over or click the edge panel to view all questions. Click the 🔓 lock icon to pin it permanently!</div>
+    <div style="font-size: 13px; margin-bottom: 10px;">Hover over or click the edge panel to view all questions.</div>
     <button onclick="document.getElementById('navigator-tip').style.display='none'" style="background: white; color: var(--btn-bg); border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; width: 100%;">Got it!</button>
-    <div style="position: absolute; left: -8px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid var(--btn-bg);"></div>
 </div>
 
-<div class="question-sidebar" id="question-sidebar" style="display: none;">
-    <div class="sidebar-handle">
+<div class="question-sidebar" id="question-sidebar" style="display: none;" onmouseenter="triggerLockTip()">
+    <div class="sidebar-handle" onclick="triggerLockTip()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </div>
     
     <div class="sidebar-content">
-        <div class="sidebar-title-row">
+        <div class="sidebar-title-row" style="position: relative;">
             <span>Question Navigator</span>
             <button id="pin-sidebar-btn" onclick="toggleSidebarPin()" title="Pin Sidebar" style="background:none; border:none; color: var(--muted-text); cursor:pointer; padding: 5px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: 0.2s;">
                 <svg id="icon-unlock" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
                 <svg id="icon-lock" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             </button>
+            
+<div id="lock-tip" style="display: none; position: absolute; right: 0; top: 40px; background: var(--btn-bg); color: white; padding: 10px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000; font-size: 12px; width: 170px; text-transform: none; font-weight: normal; letter-spacing: normal;">
+                Click the 🔓 lock icon to pin it permanently!
+                <button onclick="document.getElementById('lock-tip').style.display='none'" style="display: block; width: 100%; margin-top: 5px; background: white; color: var(--btn-bg); border: none; border-radius: 4px; padding: 4px; cursor: pointer; font-weight: bold;">Got it!</button>
+                <div style="position: absolute; right: 12px; top: -6px; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid var(--btn-bg);"></div>
+            </div>
         </div>
         <div class="palette-container" id="sidebar-palette-grid"></div>
     </div>
@@ -384,11 +509,16 @@
         
         <div style="display: flex; justify-content: center; margin-top: 15px; border-top: 1px solid var(--divider-bg); padding-top: 15px;">
             <select class="theme-select" style="width:100%; margin:0;" onchange="changeTheme(this.value)">
-                <option value="zen" selected>🌅 Zen Light</option>
+                <option value="zen">🌅 Zen Light</option>
                 <option value="light">☀️ Light</option>
-                <option value="default">🌊 Oceanic</option>
+                <option value="default" selected>🌊 Oceanic</option>
                 <option value="midnight">🌙 Midnight</option>
             </select>
+        </div>
+        
+        <button type="button" class="submit-btn" style="margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-size: 14px; font-weight: normal; padding: 12px;" onclick="showSubmitConfirmation()">Submit Assessment</button>
+        <div style="text-align: center; margin-top: 15px; font-size: 11px; color: var(--muted-text); opacity: 0.7;">
+            Made by Rakesh Bharati
         </div>
     </div>
 </div>
@@ -401,9 +531,9 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--divider-bg); padding-bottom: 15px;">
             <h1 class="reg-title">Online Assessment</h1>
             <select class="theme-select" id="theme-selector-reg" onchange="changeTheme(this.value)">
-                <option value="light" selected>☀️ Light</option>
+                <option value="light">☀️ Light</option>
                 <option value="zen">🌅 Zen Light</option>   
-                <option value="default">🌊 Oceanic</option>
+                <option value="default" selected>🌊 Oceanic</option>
                 <option value="midnight">🌙 Midnight</option>
             </select>
         </div>
@@ -466,6 +596,99 @@
     </div>
 </div>
 
+<div class="right-sidebar-tabs" id="right-sidebar-tabs">
+    <button type="button" class="right-tab-btn" id="right-tab-sys" onclick="activateSystemKeyboard()">
+        <span class="icon">📱</span><span class="text">SYSTEM</span>
+    </button>
+    <button type="button" class="right-tab-btn" onclick="openKeyboard(activeInputId || document.querySelector('.answer-input').id)">
+        <span class="icon">⌨️</span><span class="text">MATHPAD</span>
+    </button>
+</div>
+
+<div id="virtual-math-keyboard" class="virtual-math-keyboard">
+    <div class="vk-left-bar">
+        <span>⌨️ SMART MATHPAD</span>
+    </div>
+    
+    <div class="vk-container" id="vk-container">
+        <div class="vk-panel-left">
+            <div class="vk-row">
+                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('x')">x</button>
+                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('y')">y</button>
+                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('z')">z</button>
+                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('t')">t</button>
+                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('w')">w</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode(',')">,</button>
+            </div>
+            <div class="vk-row">
+                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c')">c</button>
+                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c1')">c₁</button>
+                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c2')">c₂</button>
+                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c3')">c₃</button>
+                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('k')">k</button>
+                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('m')">m</button>
+                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('l')">l</button>
+            </div>
+            <div class="vk-row">
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('sin()', 1)">sin</button>
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('cos()', 1)">cos</button>
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('tan()', 1)">tan</button>
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('log()', 1)">log</button>
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('ln()', 1)">ln</button>
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('sqrt()', 1)">√</button>
+            </div>
+            <div class="vk-row">
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('(')">(</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode(')')">)</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('^')">^</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('^2')">x²</button>
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('e')">e</button>
+                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('pi')">π</button>
+            </div>
+            <div class="vk-row">
+                <button type="button" class="vk-btn vk-action" style="flex:2;" onclick="insertMathNode(' ')">Space</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('=')">=</button>
+            </div>
+        </div>
+
+        <div class="vk-panel-right">
+            <div class="vk-row">
+                <button type="button" class="vk-btn" onclick="insertMathNode('7')">7</button>
+                <button type="button" class="vk-btn" onclick="insertMathNode('8')">8</button>
+                <button type="button" class="vk-btn" onclick="insertMathNode('9')">9</button>
+                <button type="button" class="vk-btn vk-action" style="color:var(--incorrect-color);" onclick="kbBackspace()">⌫</button>
+            </div>
+            <div class="vk-row">
+                <button type="button" class="vk-btn" onclick="insertMathNode('4')">4</button>
+                <button type="button" class="vk-btn" onclick="insertMathNode('5')">5</button>
+                <button type="button" class="vk-btn" onclick="insertMathNode('6')">6</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('*')">*</button>
+            </div>
+            <div class="vk-row">
+                <button type="button" class="vk-btn" onclick="insertMathNode('1')">1</button>
+                <button type="button" class="vk-btn" onclick="insertMathNode('2')">2</button>
+                <button type="button" class="vk-btn" onclick="insertMathNode('3')">3</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('/')">/</button>
+            </div>
+            <div class="vk-row">
+                <button type="button" class="vk-btn" style="flex: 2.1;" onclick="insertMathNode('0')">0</button>
+                <button type="button" class="vk-btn" onclick="insertMathNode('.')">.</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('+')">+</button>
+                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('-')">-</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="vk-right-bar">
+        <button type="button" class="vk-sys-btn-vert" onclick="activateSystemKeyboard()">
+            <span class="icon">📱</span><span class="text">SYSTEM</span>
+        </button>
+        <button type="button" class="vk-close-vert" onclick="closeKeyboard()">
+            <span class="icon">▼</span><span class="text">HIDE</span>
+        </button>
+    </div>
+</div>
+
 <script>
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyxSXd3ZQQAwzwqLobOUwYNPCYkSeRDLJ685a3nJypnUdt5GEcZqKHREeS7o34BTwW_pQ/exec"; 
      
@@ -491,6 +714,218 @@
     let lastQuestionEntryTime = 0;
     let isSidebarPinned = false;
 
+    // --- KEYBOARD PREFERENCE STATE ---
+    let systemKeyboardPreferred = false;
+
+    // --- SWIPE TO NAVIGATE LOGIC ---
+    let touchStartX = 0; let touchStartY = 0;
+    
+    document.addEventListener('touchstart', e => {
+        if (!testActive) return;
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    document.addEventListener('touchend', e => {
+        if (!testActive) return;
+      if (e.target.closest('.virtual-math-keyboard') || e.target.closest('.question-sidebar') || e.target.tagName.toLowerCase() === 'input' || e.target.closest('.right-sidebar-tabs') || e.target.closest('.question-text') || e.target.closest('.math-preview') || e.target.closest('.feedback')) return;
+        
+        let touchEndX = e.changedTouches[0].screenX;
+        let touchEndY = e.changedTouches[0].screenY;
+        
+        let xDiff = touchStartX - touchEndX;
+        let yDiff = Math.abs(touchStartY - touchEndY);
+        
+        if (Math.abs(xDiff) > 75 && Math.abs(xDiff) > yDiff) {
+            if (xDiff > 0) {
+                if (currentQuestionIndex < QUESTION_BANK.length - 1) navigateQuestion(1);
+            } else {
+                if (currentQuestionIndex > 0) navigateQuestion(-1);
+            }
+        }
+    }, {passive: true});
+
+
+    // --- THE SMART AUTO-SCROLL ENGINE ---
+    let _scrollDebounce = null;
+    function scrollToEnsureVisible(qId) {
+        if (!qId) return;
+        if (_scrollDebounce) clearTimeout(_scrollDebounce);
+        
+        _scrollDebounce = setTimeout(() => {
+            let inputEl = document.getElementById(qId);
+            let previewEl = document.getElementById(qId + '-preview');
+            if (!inputEl) return;
+
+            let inputRect = inputEl.getBoundingClientRect();
+            let topEdge = inputRect.top;
+            let bottomEdge = inputRect.bottom;
+
+            if (previewEl && previewEl.style.display !== 'none') {
+                let pRect = previewEl.getBoundingClientRect();
+                bottomEdge = Math.max(bottomEdge, pRect.bottom);
+            }
+
+            let vkActive = document.body.classList.contains('vk-active');
+            let vkHeight = 0;
+            if(vkActive) {
+                let vk = document.getElementById('virtual-math-keyboard');
+                if (vk) vkHeight = vk.offsetHeight;
+            }
+            
+            // Accurately measure footer height to avoid burying
+            let footer = document.querySelector('.quiz-footer-fixed');
+            let footerHeight = footer ? footer.offsetHeight : 65;
+            
+            let safeBottom = window.innerHeight - vkHeight - footerHeight - 5; 
+            let safeTop = 85; 
+
+            if (bottomEdge > safeBottom + 2) {
+                window.scrollBy({ top: (bottomEdge - safeBottom + 5), behavior: 'smooth' });
+            } else if (topEdge < safeTop - 2) {
+                window.scrollBy({ top: (topEdge - safeTop - 5), behavior: 'smooth' });
+            }
+        }, 300); 
+    }
+
+function alignSysKbMobile(inputId) {
+        if (window.innerWidth > 800) {
+            document.getElementById(inputId).scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        
+        // Target the entire block (Question text + Input box + Preview)
+        let containerEl = document.getElementById(inputId + '-container');
+        
+        if (containerEl) {
+            // Natively glides the top of the question block to the top of the screen
+            containerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+// Trigger auto-scroll specifically when native keyboards pop open and resize the window
+    window.addEventListener('resize', () => {
+        if (testActive && document.activeElement && document.activeElement.tagName === 'INPUT') {
+            if (!systemKeyboardPreferred) {
+                scrollToEnsureVisible(document.activeElement.id);
+            }
+            // Removed the forced system keyboard re-alignment here so you can drag and scroll freely!
+        }
+    });
+
+    // --- VIRTUAL KEYBOARD DUAL-STATE CONTROLS ---
+    let activeInputId = null;
+
+function handleInputBlur() {
+        // Wait a tiny bit to check if we are just switching to another input
+        setTimeout(() => {
+            if (document.activeElement.tagName !== 'INPUT') {
+                document.body.classList.remove('sys-kb-active');
+            }
+        }, 50);
+    }
+
+    function activateSystemKeyboard() {
+        systemKeyboardPreferred = true;
+        if (!activeInputId) {
+            let firstInput = document.querySelector('.answer-input');
+            if(firstInput) activeInputId = firstInput.id;
+        }
+        if (!activeInputId) return;
+        
+        let input = document.getElementById(activeInputId);
+        input.setAttribute('inputmode', 'text');
+        
+        closeKeyboard(); 
+        
+        document.getElementById('right-tab-sys').classList.add('right-tab-sys-active');
+        document.body.classList.add('sys-kb-active'); // Hide footer/tabs/header
+        
+        input.blur(); setTimeout(() => { input.focus({preventScroll: true}); }, 100);
+    }
+
+    function openKeyboard(id) {
+        systemKeyboardPreferred = false;
+        activeInputId = id;
+        document.body.classList.add('vk-active');
+
+        let input = document.getElementById(activeInputId);
+        input.setAttribute('inputmode', 'none'); 
+        
+        document.getElementById('right-tab-sys').classList.remove('right-tab-sys-active');
+        
+        setTimeout(() => {
+            let vk = document.getElementById('virtual-math-keyboard');
+            if(vk) {
+                let h = vk.offsetHeight;
+                document.documentElement.style.setProperty('--vk-height', h + 'px');
+            }
+            scrollToEnsureVisible(activeInputId);
+        }, 150);
+    }
+
+    function closeKeyboard() {
+        document.body.classList.remove('vk-active');
+        document.documentElement.style.setProperty('--vk-height', '0px');
+    }
+
+    function handleInputFocus(id) {
+        activeInputId = id;
+        let input = document.getElementById(id);
+        
+        if (systemKeyboardPreferred) {
+            if (input.getAttribute('inputmode') !== 'text') {
+                input.setAttribute('inputmode', 'text');
+                input.blur();
+                setTimeout(() => { input.focus({preventScroll: true}); }, 50);
+            }
+            document.getElementById('right-tab-sys').classList.add('right-tab-sys-active');
+            document.body.classList.add('sys-kb-active'); // Hide footer/tabs/header
+            
+            // Precision alignment to anchor the preview pane right above the keyboard
+            setTimeout(() => { alignSysKbMobile(id); }, 50);
+            
+            return;
+        }
+        openKeyboard(id);
+    }
+
+    function insertMathNode(text, moveCursorBack = 0) {
+        if (!activeInputId) return;
+        let input = document.getElementById(activeInputId);
+        if(!input || input.readOnly) return;
+
+        let start = input.selectionStart;
+        let end = input.selectionEnd;
+        let val = input.value;
+
+        input.value = val.substring(0, start) + text + val.substring(end);
+        let newPos = start + text.length - moveCursorBack;
+        input.setSelectionRange(newPos, newPos);
+        input.focus({preventScroll: true});
+
+        let index = parseInt(activeInputId.replace('q', '')) - 1;
+        updatePreview(activeInputId, index);
+    }
+
+    function kbBackspace() {
+        if (!activeInputId) return;
+        let input = document.getElementById(activeInputId);
+        if(!input || input.readOnly) return;
+        let start = input.selectionStart;
+        let end = input.selectionEnd;
+        if(start === end && start > 0) {
+            input.value = input.value.substring(0, start - 1) + input.value.substring(end);
+            input.setSelectionRange(start - 1, start - 1);
+        } else if (start !== end) {
+            input.value = input.value.substring(0, start) + input.value.substring(end);
+            input.setSelectionRange(start, start);
+        }
+        input.focus({preventScroll: true});
+        let index = parseInt(activeInputId.replace('q', '')) - 1;
+        updatePreview(activeInputId, index);
+    }
+
     function changeTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('lms_student_theme', theme);
@@ -502,7 +937,7 @@
     }
     
     document.addEventListener('DOMContentLoaded', () => {
-        let savedTheme = localStorage.getItem('lms_student_theme') || 'light';
+        let savedTheme = localStorage.getItem('lms_student_theme') || 'default';
         changeTheme(savedTheme);
     });
 
@@ -523,6 +958,19 @@
             document.body.classList.remove('sidebar-pinned');
             btn.style.color = "var(--muted-text)"; btn.style.background = "none";
             iconUnlock.style.display = "block"; iconLock.style.display = "none";
+        }
+    }
+
+    let lockTipShown = false;
+    function triggerLockTip() {
+        if (window.innerWidth <= 800) return;
+        if (!lockTipShown && !isSidebarPinned) {
+            lockTipShown = true;
+            let lockTip = document.getElementById('lock-tip');
+            if (lockTip) {
+                lockTip.style.display = 'block';
+                setTimeout(() => { lockTip.style.display = 'none'; }, 7000);
+            }
         }
     }
 
@@ -587,13 +1035,14 @@
             let moduleHtml = (q.showModule) ? `<h2 class="module-title">${q.module}</h2>` : "";
             let cleanQuestionHTML = String(q.question).replace(/#1d3b48/g, 'var(--input-bg)').replace(/#475569/g, 'var(--border-color)').replace(/#38bdf8/g, 'var(--mod2-color)').replace(/#94a3b8/g, 'var(--muted-text)');
 
+            // FIX: Added onblur handleInputBlur hook here
             html += `
                 <div class="question-pane" id="pane-${index}" style="display: none;">
                     <div class="module-section">
                         ${moduleHtml}
                         <div class="question-block" id="${qId}-container">
                             <div class="question-text"><strong>Q${index + 1}.</strong> ${cleanQuestionHTML}</div>
-                            <input type="text" class="answer-input" id="${qId}" placeholder="${q.placeholder || ''}" oninput="updatePreview('${qId}', ${index})">
+                            <input type="text" class="answer-input" id="${qId}" placeholder="${q.placeholder || ''}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="none" onfocus="handleInputFocus('${qId}')" onblur="handleInputBlur()" oninput="updatePreview('${qId}', ${index})">
                             <div class="math-preview" id="${qId}-preview"></div>
                             <div class="feedback" id="${qId}-feedback"></div>
                         </div>
@@ -638,16 +1087,36 @@
         else { nextBtn.innerText = "Next →"; nextBtn.disabled = false; }
 
         let reviewBtn = document.getElementById('review-btn');
-        if (markedForReview[currentQuestionIndex]) { reviewBtn.classList.add('active-review'); reviewBtn.innerText = "🚩 Flagged"; } 
-        else { reviewBtn.classList.remove('active-review'); reviewBtn.innerText = "🚩 Flag"; }
+        if (markedForReview[currentQuestionIndex]) { 
+            reviewBtn.classList.add('active-review'); reviewBtn.innerText = "🚩 Flagged"; 
+        } else { 
+            reviewBtn.classList.remove('active-review'); reviewBtn.innerText = "🚩 Flag"; 
+        }
 
         renderMiniPalette(); MathJax.typesetPromise([newPane]).catch(e => {});
+        
+        if(document.getElementById('navigator-tip').style.display !== 'none' && index === 0 && !window.navTipShown) {
+            window.navTipShown = true;
+            setTimeout(() => { 
+                let tip = document.getElementById('navigator-tip');
+                if (tip) {
+                    tip.style.display = 'block'; 
+                    setTimeout(() => { if (tip) tip.style.display = 'none'; }, 7000);
+                }
+            }, 1000);
+        }
     }
 
     function navigateQuestion(direction) { navigateQuestionIndex(currentQuestionIndex + direction); }
     function navigateQuestionIndex(targetIndex) { if (targetIndex >= 0 && targetIndex < QUESTION_BANK.length) { showQuestion(targetIndex); } }
     function jumpToQuestion(index) { showQuestion(index); }
-    function toggleReviewFlag() { markedForReview[currentQuestionIndex] = !markedForReview[currentQuestionIndex]; updateQuestionPaletteState(currentQuestionIndex); updateSidebarStats(); showQuestion(currentQuestionIndex); }
+    
+    function toggleReviewFlag() { 
+        markedForReview[currentQuestionIndex] = !markedForReview[currentQuestionIndex]; 
+        updateQuestionPaletteState(currentQuestionIndex); 
+        updateSidebarStats(); 
+        showQuestion(currentQuestionIndex); 
+    }
 
     function updateQuestionPaletteState(index) {
         let stateClass = getPaletteStateClass(index);
@@ -662,18 +1131,24 @@
         let str = input.toLowerCase();
         
         str = str.replace(/cosec/g, 'csc');
+        str = str.replace(/×/g, '*').replace(/÷/g, '/');
+
         str = str.replace(/(sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt)\^([0-9a-z\.\-\+]+)\s*([a-z0-9]+|\([^\)]+\))/g, '($1($3))^$2');
         str = str.replace(/(sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt)\s+([a-z0-9]+(?:\^[0-9a-z\.\-\+]+)?)/g, '$1($2)');
         str = str.replace(/ln\s*\(/g, 'log(');
         str = str.replace(/([a-z0-9])\s*(sin|cos|tan|sec|csc|cot|log|exp|sqrt)/g, '$1*$2');
+        
+        let funcs = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'exp', 'sqrt'];
+        funcs.forEach((func, idx) => { str = str.split(func).join(`__F${idx}__`); });
+
         str = str.replace(/(\d)\s*([a-z\(])/g, '$1*$2');
         str = str.replace(/([a-z])\s*\(/g, '$1*(');
-        ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'exp', 'sqrt'].forEach(func => { 
-            str = str.split(func + '*(').join(func + '('); 
-        });
         
-        str = str.replace(/([xyztckmab])([xyztckmab])/g, '$1*$2');
-        str = str.replace(/([xyztckmab])([xyztckmab])/g, '$1*$2'); 
+        str = str.replace(/([xyztckmabwl])([xyztckmabwl])/g, '$1*$2');
+        str = str.replace(/([xyztckmabwl])([xyztckmabwl])/g, '$1*$2'); 
+        
+        funcs.forEach((func, idx) => { str = str.split(`__F${idx}__`).join(func); });
+        funcs.forEach(func => { str = str.split(func + '*(').join(func + '('); });
         
         return str;
     }
@@ -708,7 +1183,7 @@
             let uVars = [...uSym].filter(v => !exclusions.includes(v) && typeof math[v] !== 'function');
             let kVars = [...cSym].filter(v => !exclusions.includes(v) && typeof math[v] !== 'function');
             
-            let standardVars = ['x', 'y', 't', 'z'];
+            let standardVars = ['x', 'y', 't', 'z', 'w'];
             let uConsts = uVars.filter(v => !standardVars.includes(v));
             let kConsts = kVars.filter(v => !standardVars.includes(v));
             let kIndVars = kVars.filter(v => standardVars.includes(v));
@@ -740,7 +1215,6 @@
                 return null;
             }
 
-            // NEW: MULTI-CONSTANT PERMUTATION ENGINE (For 1st, 2nd, 3rd Order ODEs)
             if (uConsts.length === kConsts.length && kConsts.length >= 1 && kConsts.length <= 4) {
                 const getPerms = arr => {
                     if (arr.length <= 1) return [arr];
@@ -759,9 +1233,7 @@
                     let signs = [];
                     for(let i=0; i<Math.pow(2, num); i++) {
                         let current = [];
-                        for(let j=0; j<num; j++) {
-                            current.push((i & (1 << j)) ? -1 : 1);
-                        }
+                        for(let j=0; j<num; j++) { current.push((i & (1 << j)) ? -1 : 1); }
                         signs.push(current);
                     }
                     return signs;
@@ -794,7 +1266,6 @@
                 }
             }
 
-            // ARBITRARY CONSTANT MAPPING ENGINE (Root Finder for Non-Linear Constants)
             if (isUserEq && isKeyEq && uConsts.length === 1 && kConsts.length === 1) {
                 let Kc = kConsts[0];
                 let Uc = uConsts[0];
@@ -845,7 +1316,6 @@
                 if (masterMatch) return true;
             }
 
-            // FALLBACK TO STANDARD NUMERICAL EVALUATION
             let activeVars = [...new Set([...uVars, ...kVars])];
             if (activeVars.length === 0) {
                 let fallback = manualVars; 
@@ -932,6 +1402,7 @@
             texStr = texStr.replace(/\\(sin|cos|tan|sec|csc|cot)\\left\((.*?)\\right\)\^\{?([^}]+)\}?/g, '\\left(\\$1\\left($2\\right)\\right)^{$3}');
 
             previewBox.innerHTML = '\\( ' + texStr + ' \\)';
+            // JITTER FIX: Removed the scrollToEnsureVisible call from inside the render loop.
             MathJax.typesetPromise([previewBox]).catch(function (err) { });
         } catch (e) { previewBox.innerHTML = '<span style="color: var(--muted-text); font-size: 14px;"><i>...</i></span>'; }
         updateQuestionPaletteState(index);
@@ -976,6 +1447,7 @@
 
     function triggerLockoutPenalty() {
         isLockedOut = true;
+        closeKeyboard();
         document.getElementById('standard-warning-modal').style.display = 'none';
         document.getElementById('timeout-lockout-modal').style.display = 'flex';
         document.getElementById('lockout-resume-btn').style.display = 'none';
@@ -1110,6 +1582,7 @@
             document.getElementById('registration-section').style.display = 'none';
             document.getElementById('quiz-section').style.display = 'block';
             document.getElementById('question-sidebar').style.display = 'flex';
+            document.getElementById('right-sidebar-tabs').style.display = 'flex'; 
             
             testActive = true; focusDetectionActive = false; setTimeout(() => { focusDetectionActive = true; }, 3000);
             showQuestion(0); updatePaletteStatusAll(); startCountdown();
@@ -1135,6 +1608,7 @@
         document.getElementById('registration-section').style.display = 'none';
         document.getElementById('quiz-section').style.display = 'block';
         document.getElementById('question-sidebar').style.display = 'flex';
+        document.getElementById('right-sidebar-tabs').style.display = 'flex'; 
         
         testActive = true; focusDetectionActive = false; 
         triggerFullscreenFocus(); setTimeout(() => { focusDetectionActive = true; }, 3000);
@@ -1148,7 +1622,7 @@
         if (cloudDraft["_markedForReview"]) { markedForReview = cloudDraft["_markedForReview"]; }
 
         QUESTION_BANK.forEach((q, i) => {
-            let qId = "q" + (i + 1);
+            let qId = "q" + (index + 1);
             let savedVal = cloudDraft[qId] || safeStorageGet('ans_' + qId) || ""; 
             if (savedVal.trim() !== "") { let box = document.getElementById(qId); if (box) { box.value = savedVal; updatePreview(qId, i); } } 
         });
@@ -1156,8 +1630,6 @@
         showQuestion(0); updatePaletteStatusAll();
         if(data.status === "resume") { alert("Session Resumed. Your answers and timer have been recovered from the server."); }
         startCountdown();
-        
-        setTimeout(() => { document.getElementById('navigator-tip').style.display = 'block'; }, 1000);
     }
 
     function showSubmitConfirmation() { if (!testActive) return; document.getElementById('submit-confirm-modal').style.display = 'flex'; }
@@ -1180,9 +1652,15 @@
     }
 
     function evaluateTest() {
-        if (isSidebarPinned) toggleSidebarPin();
+        closeKeyboard();
         let formSection = document.getElementById('quiz-section');
         if (formSection && !testActive && formSection.style.display === 'block' && document.getElementById('final-score').style.display === 'block') return;
+
+        // Force unpin the sidebar so the final solution page centers perfectly
+        if (isSidebarPinned) {
+            document.body.classList.remove('sidebar-pinned');
+            isSidebarPinned = false;
+        }
 
         document.getElementById('main-test-element').classList.remove('blur-active');
         document.getElementById('standard-warning-modal').style.display = 'none'; document.getElementById('timeout-lockout-modal').style.display = 'none'; document.getElementById('navigator-tip').style.display = 'none'; 
@@ -1197,21 +1675,12 @@
         let exitReq = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
         if (exitReq && (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)) { exitReq.call(document).catch(e => {}); }
         
-        let fixedHeader = document.querySelector('.quiz-header-fixed'); 
-        if (fixedHeader) { 
-            fixedHeader.style.position = 'static'; 
-            fixedHeader.style.transform = 'none'; 
-            fixedHeader.innerHTML = '<div style="width: 100%; text-align: center; font-size: 20px; font-weight: bold; color: var(--correct-color); padding: 10px 0;">✅ Assessment Successfully Submitted</div>';
-        }
-        
-        let fixedFooter = document.querySelector('.quiz-footer-fixed'); 
-        if (fixedFooter) { 
-            fixedFooter.style.position = 'static'; 
-            fixedFooter.style.transform = 'none'; 
-        }
+        let fixedHeader = document.querySelector('.quiz-header-fixed'); if (fixedHeader) { fixedHeader.style.position = 'static'; fixedHeader.style.transform = 'none'; }
+        let fixedFooter = document.querySelector('.quiz-footer-fixed'); if (fixedFooter) { fixedFooter.style.position = 'static'; fixedFooter.style.transform = 'none'; }
         
         let containerWrap = document.getElementById('main-test-element'); if (containerWrap) containerWrap.style.padding = '20px';
         document.getElementById('question-sidebar').style.display = 'none';
+        document.getElementById('right-sidebar-tabs').style.display = 'none';
         let navContainer = document.getElementById('pagination-menu-placeholder'); if (navContainer) navContainer.style.display = 'none';
 
         QUESTION_BANK.forEach((q, i) => { let pane = document.getElementById(`pane-${i}`); if (pane) pane.style.display = 'block'; });
