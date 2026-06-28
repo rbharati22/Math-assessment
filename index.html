@@ -1607,7 +1607,7 @@ function sanitizeMath(input) {
             let text = data.reply.replace(/\n/g, '<br>');
             text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             
-            existingBox.innerHTML = `<strong>🤖 AI Tutor Analysis:</strong><br><br>${text}`;
+            existingBox.innerHTML = `<strong>Analysis:</strong><br><br>${text}`;
             MathJax.typesetPromise([existingBox]).catch(e=>{});
             
         } catch (err) {
