@@ -1586,7 +1586,7 @@ function sanitizeMath(input) {
         let tutorBtn = document.getElementById('ai-tutor-btn-' + index);
         if (tutorBtn) tutorBtn.style.display = "none";
         
-        existingBox.innerHTML = "⏳ <em>AI Tutor is securely analyzing your mistake via the backend...</em>";
+        existingBox.innerHTML = "⏳ <em> Analyzing your mistake...</em>";
 
         try {
             let response = await fetch(GOOGLE_SHEET_URL, {
