@@ -116,7 +116,7 @@
         .theme-select { width: auto; min-width: 100px; padding: 6px 10px; border-radius: 6px; background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; outline: none; transition: 0.3s; }
         .theme-select:hover { border-color: var(--mod2-color); }
 
-        h1.reg-title { font-size: 26px; margin: 0; color: var(--text-color); }
+        h1.reg-title { font-size: 26px; margin: 0; color: var(--text-color); cursor: pointer;}
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
@@ -283,7 +283,6 @@
             .navigator-tip { top: 75%; left: 45px; }
         }
 
-        /* MORPHING RIGHT SIDE-TABS (Slide from outside) */
         .vertical-text {
             writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; text-transform: uppercase;
         }
@@ -295,9 +294,9 @@
         body.vk-active .right-sidebar-tabs {
             transform: translateX(100%); 
         }
-.right-tab-btn {
-    background: var(--nav-bg); border: 1px solid var(--border-color); border-right: none; border-radius: 8px 0 0 8px; color: var(--text-color); cursor: pointer; padding: 12px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px; box-shadow: -4px 0 10px rgba(0,0,0,0.3); transition: 0.3s; width: 26px; height: 90px;
-}
+        .right-tab-btn {
+            background: var(--nav-bg); border: 1px solid var(--border-color); border-right: none; border-radius: 8px 0 0 8px; color: var(--text-color); cursor: pointer; padding: 12px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px; box-shadow: -4px 0 10px rgba(0,0,0,0.3); transition: 0.3s; width: 26px; height: 90px;
+        }
         .right-tab-btn .icon { font-size: 14px; margin-bottom: 6px; transform: none; writing-mode: horizontal-tb; }
         .right-tab-btn .text { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
         .right-tab-btn:hover { background: var(--nav-btn-hover); }
@@ -344,6 +343,8 @@
         .vk-btn.vk-fn { background: rgba(56, 189, 248, 0.1); color: var(--mod2-color); border-color: rgba(56, 189, 248, 0.3); }
         .vk-btn.vk-const { background: rgba(129, 140, 248, 0.1); color: var(--mod5-color); border-color: rgba(129, 140, 248, 0.3); }
         
+        .active-shift { background: #d97706 !important; color: white !important; border-color: #b45309 !important; box-shadow: inset 0 3px 6px rgba(0,0,0,0.3) !important; transform: translateY(1px); }
+
         @media(max-width:800px) {
             .virtual-math-keyboard { padding: 6px; gap: 4px; }
             .vk-container { gap: 4px; }
@@ -353,14 +354,13 @@
             .vk-right-bar button .text { font-size: 9px; }
         }
 
-        /* Fix: Hide right tabs, header, and footer when native system keyboard is active (MOBILE ONLY) */
         @media (max-width: 800px) {
             body.sys-kb-active .right-sidebar-tabs {
                 transform: translateX(100%);
             }
             body.sys-kb-active .exam-mode {
                 padding-top: 15px !important;
-                padding-bottom: 200px !important; /* Perfect middle-ground to allow short pages to scroll */
+                padding-bottom: 200px !important; 
             }
             body.sys-kb-active .quiz-footer-fixed {
                 transform: translateY(150%);
@@ -391,12 +391,11 @@
         
         <div style="text-align: left; background: var(--input-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
             <ul style="padding-left: 20px; margin-bottom: 0; color: var(--text-color); line-height: 1.8; font-size: 14px;">
-                <li><strong>Powers & Exponents:</strong> Use <code>^</code> (e.g., type <code>x^2</code> or <code>e^x</code>)</li>
-                <li><strong>Multiplication:</strong> Use <code>*</code> (e.g., type <code>2*x</code>)</li>
-                <li><strong>Trigonometry:</strong> You MUST use parentheses! Type <code>sin(x)</code> or <code>cos(x)</code></li>
-                <li><strong>Logarithms:</strong> Type <code>log(x)</code> or <code>ln(x)</code></li>
-                <li><strong>Constants:</strong> Type <code>pi</code> for π.</li>
-                <li><strong>Equations:</strong> You can type full equations using <code>=</code> (e.g., <code>y*sin(x) = c</code>)</li>
+                <li><strong>Powers & Exponents:</strong> Use <code>^</code> or the dedicated <code>xʸ</code> button.</li>
+                <li><strong>Multiplication:</strong> Use <code>*</code> or simply type a <strong>space</strong> (e.g., <code>2 x</code> becomes <code>2*x</code>).</li>
+                <li><strong>Trigonometry & Functions:</strong> You MUST use parentheses! Type <code>sin(x)</code> or <code>cos(x)</code>.</li>
+                <li><strong>Fractions:</strong> Use the <code>a/b</code> button or format directly as <code>(top) / (bottom)</code>.</li>
+                <li><strong>Advanced Symbols:</strong> Press the <code>⇧ SHIFT</code> key on the Mathpad to access Greek letters (α, β), inverse functions (sin⁻¹), and cube roots.</li>
             </ul>
         </div>
         <button type="button" class="modal-btn modal-btn-confirm" style="width: 100%;" onclick="showFullscreenNotice()">I Understand → Proceed</button>
@@ -465,6 +464,24 @@
     </div>
 </div>
 
+<div id="doubt-report-modal" class="modal-overlay" style="z-index: 999999;">
+    <div class="modal-card">
+        <h3 class="modal-title-warn" style="color: var(--timer-color);">🚩 Report Question Issue</h3>
+        <p class="modal-text" style="font-size:14px; margin-bottom:15px;">Please describe why you believe this question or its expected answer key is incorrect. Your instructor will review this.</p>
+        
+        <textarea id="doubt-issue-text" style="width:100%; min-height:100px; padding:12px; border-radius:6px; background:var(--input-bg); color:var(--text-color); border:1px solid var(--border-color); font-family:'Poppins', sans-serif; resize:vertical; outline:none;" placeholder="Type your explanation here..."></textarea>
+        
+        <input type="hidden" id="doubt-q-id">
+        <input type="hidden" id="doubt-user-ans">
+        <input type="hidden" id="doubt-correct-ans">
+        
+        <div class="modal-btn-group" style="margin-top:20px;">
+            <button type="button" class="modal-btn modal-btn-cancel" onclick="document.getElementById('doubt-report-modal').style.display='none'">Cancel</button>
+            <button type="button" id="submit-doubt-btn" class="modal-btn" style="background:var(--timer-color); color:white;" onclick="submitDoubtReport()">Submit Report</button>
+        </div>
+    </div>
+</div>
+
 <div id="navigator-tip" class="navigator-tip">
     <div style="font-weight: bold; margin-bottom: 5px;">💡 Question Navigator</div>
     <div style="font-size: 13px; margin-bottom: 10px;">Hover over or click the edge panel to view all questions.</div>
@@ -484,7 +501,7 @@
                 <svg id="icon-lock" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             </button>
             
-<div id="lock-tip" style="display: none; position: absolute; right: 0; top: 40px; background: var(--btn-bg); color: white; padding: 10px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000; font-size: 12px; width: 170px; text-transform: none; font-weight: normal; letter-spacing: normal;">
+            <div id="lock-tip" style="display: none; position: absolute; right: 0; top: 40px; background: var(--btn-bg); color: white; padding: 10px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000; font-size: 12px; width: 170px; text-transform: none; font-weight: normal; letter-spacing: normal;">
                 Click the 🔓 lock icon to pin it permanently!
                 <button onclick="document.getElementById('lock-tip').style.display='none'" style="display: block; width: 100%; margin-top: 5px; background: white; color: var(--btn-bg); border: none; border-radius: 4px; padding: 4px; cursor: pointer; font-weight: bold;">Got it!</button>
                 <div style="position: absolute; right: 12px; top: -6px; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid var(--btn-bg);"></div>
@@ -529,7 +546,7 @@
     <div id="registration-section">
         
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--divider-bg); padding-bottom: 15px;">
-            <h1 class="reg-title">Online Assessment</h1>
+            <h1 class="reg-title" id="secret-dev-trigger" title="Click 5 times for Developer Access">Online Assessment</h1>
             <select class="theme-select" id="theme-selector-reg" onchange="changeTheme(this.value)">
                 <option value="light">☀️ Light</option>
                 <option value="zen">🌅 Zen Light</option>   
@@ -565,7 +582,6 @@
         <div id="reg-error" style="color: var(--incorrect-color); text-align: center; margin-bottom: 15px; font-weight: bold; display: none;"></div>
         <div style="display: flex; gap: 10px;">
             <button type="button" id="start-btn" class="submit-btn" onclick="startTest()">Start Assessment</button>
-            <button type="button" id="dev-bypass-btn" class="submit-btn" onclick="launchDeveloperPreview()" style="display: none; background-color: var(--nav-btn-bg); color: var(--text-color); border: 1px solid var(--border-color); box-shadow: none;">Developer Bypass</button>
         </div>
     </div>
 
@@ -592,7 +608,7 @@
             <button type="button" class="submit-btn" id="final-submit-btn" onclick="showSubmitConfirmation()">Submit Assessment</button>
         </div>
         
-       <div id="loading-spinner" class="loading-text" style="margin-bottom: 40px;">Saving your results... Please wait.</div>
+       <div id="loading-spinner" class="loading-text" style="margin-bottom: 40px;">Securely grading your results... Please wait.</div>
     </div>
 </div>
 
@@ -613,41 +629,41 @@
     <div class="vk-container" id="vk-container">
         <div class="vk-panel-left">
             <div class="vk-row">
-                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('x')">x</button>
-                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('y')">y</button>
-                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('z')">z</button>
-                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('t')">t</button>
-                <button type="button" class="vk-btn" style="color:var(--text-color);" onclick="insertMathNode('w')">w</button>
-                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode(',')">,</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="x" data-sec-val="α" data-pri-text="x" data-sec-text="α" onclick="handleDualKey(this)">x</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="y" data-sec-val="β" data-pri-text="y" data-sec-text="β" onclick="handleDualKey(this)">y</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="z" data-sec-val="γ" data-pri-text="z" data-sec-text="γ" onclick="handleDualKey(this)">z</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="t" data-sec-val="δ" data-pri-text="t" data-sec-text="δ" onclick="handleDualKey(this)">t</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="θ" data-sec-val="ϕ" data-pri-text="θ" data-sec-text="ϕ" onclick="handleDualKey(this)">θ</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="," data-sec-val=";" data-pri-text="," data-sec-text=";" style="color:var(--timer-color);" onclick="handleDualKey(this)">,</button>
             </div>
             <div class="vk-row">
-                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c')">c</button>
-                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c1')">c₁</button>
-                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c2')">c₂</button>
-                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('c3')">c₃</button>
-                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('k')">k</button>
-                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('m')">m</button>
-                <button type="button" class="vk-btn vk-const" onclick="insertMathNode('l')">l</button>
+                <button type="button" class="vk-btn vk-dual vk-const" data-pri-val="c" data-sec-val="C" data-pri-text="c" data-sec-text="C" onclick="handleDualKey(this)">c</button>
+                <button type="button" class="vk-btn vk-dual vk-const" data-pri-val="c1" data-sec-val="k1" data-pri-text="c₁" data-sec-text="k1" onclick="handleDualKey(this)">c₁</button>
+                <button type="button" class="vk-btn vk-dual vk-const" data-pri-val="c2" data-sec-val="k2" data-pri-text="c₂" data-sec-text="k2" onclick="handleDualKey(this)">c₂</button>
+                <button type="button" class="vk-btn vk-dual vk-const" data-pri-val="k" data-sec-val="K" data-pri-text="k" data-sec-text="K" onclick="handleDualKey(this)">k</button>
+                <button type="button" class="vk-btn vk-dual vk-const" data-pri-val="m" data-sec-val="M" data-pri-text="m" data-sec-text="M" onclick="handleDualKey(this)">m</button>
+                <button type="button" class="vk-btn vk-dual vk-const" data-pri-val="l" data-sec-val="L" data-pri-text="l" data-sec-text="L" onclick="handleDualKey(this)">l</button>
             </div>
             <div class="vk-row">
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('sin()', 1)">sin</button>
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('cos()', 1)">cos</button>
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('tan()', 1)">tan</button>
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('log()', 1)">log</button>
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('ln()', 1)">ln</button>
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('sqrt()', 1)">√</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="sin()" data-sec-val="sin^-1()" data-pri-text="sin" data-sec-text="sin⁻¹" onclick="handleDualKey(this)">sin</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="cos()" data-sec-val="cos^-1()" data-pri-text="cos" data-sec-text="cos⁻¹" onclick="handleDualKey(this)">cos</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="tan()" data-sec-val="tan^-1()" data-pri-text="tan" data-sec-text="tan⁻¹" onclick="handleDualKey(this)">tan</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="log()" data-sec-val="10^()" data-pri-text="log" data-sec-text="10ˣ" onclick="handleDualKey(this)">log</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="ln()" data-sec-val="e^()" data-pri-text="ln" data-sec-text="eˣ" onclick="handleDualKey(this)">ln</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="√()" data-sec-val="∛()" data-pri-text="√" data-sec-text="∛" onclick="handleDualKey(this)">√</button>
             </div>
             <div class="vk-row">
-                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('(')">(</button>
-                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode(')')">)</button>
-                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('^')">^</button>
-                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('^2')">x²</button>
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('e')">e</button>
-                <button type="button" class="vk-btn vk-fn" onclick="insertMathNode('pi')">π</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="(" data-sec-val="[" data-pri-text="(" data-sec-text="[" style="color:var(--timer-color);" onclick="handleDualKey(this)">(</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val=")" data-sec-val="]" data-pri-text=")" data-sec-text="]" style="color:var(--timer-color);" onclick="handleDualKey(this)">)</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="x²" data-sec-val="x³" data-pri-text="x²" data-sec-text="x³" style="color:var(--timer-color);" onclick="handleDualKey(this)">x²</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="x^y" data-sec-val="x^-1" data-pri-text="xʸ" data-sec-text="x⁻¹" style="color:var(--timer-color);" onclick="handleDualKey(this)">xʸ</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="frac" data-sec-val="abs()" data-pri-text="a/b" data-sec-text="|x|" onclick="handleDualKey(this)">a/b</button>
+                <button type="button" class="vk-btn vk-dual vk-fn" data-pri-val="pi" data-sec-val="e" data-pri-text="π" data-sec-text="e" onclick="handleDualKey(this)">π</button>
             </div>
-            <div class="vk-row">
-                <button type="button" class="vk-btn vk-action" style="flex:2;" onclick="insertMathNode(' ')">Space</button>
-                <button type="button" class="vk-btn" style="color:var(--timer-color);" onclick="insertMathNode('=')">=</button>
+           <div class="vk-row">
+                <button type="button" class="vk-btn" id="vk-shift-btn" style="flex:1; background: var(--timer-color); color: white; border-color: transparent; white-space: nowrap; font-size: 11px; letter-spacing: -0.5px;" onclick="toggleVkShift()">⇧ SHIFT</button>
+                <button type="button" class="vk-btn vk-action" style="flex:1.5; white-space: nowrap;" onclick="insertMathNode(' ')">Space</button>
+                <button type="button" class="vk-btn vk-dual" data-pri-val="=" data-sec-val="≠" data-pri-text="=" data-sec-text="≠" style="flex:1; color:var(--timer-color);" onclick="handleDualKey(this)">=</button>
             </div>
         </div>
 
@@ -690,11 +706,13 @@
 </div>
 
 <script>
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyxSXd3ZQQAwzwqLobOUwYNPCYkSeRDLJ685a3nJypnUdt5GEcZqKHREeS7o34BTwW_pQ/exec"; 
-     
+    // -------------------------------------------------------------
+    // CONFIGURATION SETUP
+    // -------------------------------------------------------------
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzmAJDkec99Pf8TZTkAeDCfSYXEtBh8zgzavSvPtaJC79_Fkkck1YpPg7L25M484XAW/exec"; 
+    
     let QUESTION_BANK = [];
     let EXAM_DURATION_MINUTES = 60; 
-const SEND_STUDENT_EMAILS = false; // <--- ADD THIS MASTER SWITCH
 
     let studentDetails = {};
     let timerInterval; 
@@ -746,8 +764,14 @@ const SEND_STUDENT_EMAILS = false; // <--- ADD THIS MASTER SWITCH
         }
     }, {passive: true});
 
+    // --- UTILITIES ---
+    function escapeHTML(str) {
+        if (!str) return "";
+        return str.replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag]));
+    }
 
-    // --- THE SMART AUTO-SCROLL ENGINE ---
     let _scrollDebounce = null;
     function scrollToEnsureVisible(qId) {
         if (!qId) return;
@@ -774,7 +798,6 @@ const SEND_STUDENT_EMAILS = false; // <--- ADD THIS MASTER SWITCH
                 if (vk) vkHeight = vk.offsetHeight;
             }
             
-            // Accurately measure footer height to avoid burying
             let footer = document.querySelector('.quiz-footer-fixed');
             let footerHeight = footer ? footer.offsetHeight : 65;
             
@@ -789,36 +812,26 @@ const SEND_STUDENT_EMAILS = false; // <--- ADD THIS MASTER SWITCH
         }, 300); 
     }
 
-function alignSysKbMobile(inputId) {
+    function alignSysKbMobile(inputId) {
         if (window.innerWidth > 800) {
             document.getElementById(inputId).scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
-        
-        // Target the entire block (Question text + Input box + Preview)
         let containerEl = document.getElementById(inputId + '-container');
-        
-        if (containerEl) {
-            // Natively glides the top of the question block to the top of the screen
-            containerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (containerEl) { containerEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     }
 
-// Trigger auto-scroll specifically when native keyboards pop open and resize the window
     window.addEventListener('resize', () => {
         if (testActive && document.activeElement && document.activeElement.tagName === 'INPUT') {
             if (!systemKeyboardPreferred) {
                 scrollToEnsureVisible(document.activeElement.id);
             }
-            // Removed the forced system keyboard re-alignment here so you can drag and scroll freely!
         }
     });
 
-    // --- VIRTUAL KEYBOARD DUAL-STATE CONTROLS ---
     let activeInputId = null;
 
-function handleInputBlur() {
-        // Wait a tiny bit to check if we are just switching to another input
+    function handleInputBlur() {
         setTimeout(() => {
             if (document.activeElement.tagName !== 'INPUT') {
                 document.body.classList.remove('sys-kb-active');
@@ -840,18 +853,23 @@ function handleInputBlur() {
         closeKeyboard(); 
         
         document.getElementById('right-tab-sys').classList.add('right-tab-sys-active');
-        document.body.classList.add('sys-kb-active'); // Hide footer/tabs/header
+        document.body.classList.add('sys-kb-active'); 
         
         input.blur(); setTimeout(() => { input.focus({preventScroll: true}); }, 100);
     }
 
-    function openKeyboard(id) {
-        systemKeyboardPreferred = false;
+function openKeyboard(id) {
+        systemKeyboardPreferred = false; // Unlocks the System Keyboard preference
         activeInputId = id;
         document.body.classList.add('vk-active');
 
         let input = document.getElementById(activeInputId);
         input.setAttribute('inputmode', 'none'); 
+        
+        // Force the input to grab the blinking text cursor
+        if (document.activeElement !== input) {
+            input.focus({preventScroll: true});
+        }
         
         document.getElementById('right-tab-sys').classList.remove('right-tab-sys-active');
         
@@ -874,6 +892,7 @@ function handleInputBlur() {
         activeInputId = id;
         let input = document.getElementById(id);
         
+        // If the user explicitly clicked the SYSTEM tab, respect that choice
         if (systemKeyboardPreferred) {
             if (input.getAttribute('inputmode') !== 'text') {
                 input.setAttribute('inputmode', 'text');
@@ -881,14 +900,59 @@ function handleInputBlur() {
                 setTimeout(() => { input.focus({preventScroll: true}); }, 50);
             }
             document.getElementById('right-tab-sys').classList.add('right-tab-sys-active');
-            document.body.classList.add('sys-kb-active'); // Hide footer/tabs/header
+            document.body.classList.add('sys-kb-active'); 
             
-            // Precision alignment to anchor the preview pane right above the keyboard
             setTimeout(() => { alignSysKbMobile(id); }, 50);
-            
             return;
         }
+        
+        // Otherwise, ALWAYS open the Mathpad for every question
         openKeyboard(id);
+    }
+
+    let isVkShifted = false;
+
+    function toggleVkShift() {
+        isVkShifted = !isVkShifted;
+        let shiftBtn = document.getElementById('vk-shift-btn');
+        if (isVkShifted) {
+            shiftBtn.classList.add('active-shift');
+        } else {
+            shiftBtn.classList.remove('active-shift');
+        }
+        
+        document.querySelectorAll('.vk-dual').forEach(btn => {
+            btn.innerHTML = isVkShifted ? btn.getAttribute('data-sec-text') : btn.getAttribute('data-pri-text');
+        });
+    }
+
+    function handleDualKey(btn) {
+        if (!activeInputId) return;
+        let val = isVkShifted ? btn.getAttribute('data-sec-val') : btn.getAttribute('data-pri-val');
+        
+        if (val === 'frac') {
+            insertMathNode('() / ()', 6);
+        } else if (val === 'abs()') {
+            insertMathNode('abs()', 1);
+        } else if (val === 'cbrt()') {
+            insertMathNode('cbrt()', 1);
+        } else if (val === '10^()') {
+            insertMathNode('10^()', 1);
+        } else if (val === 'e^()') {
+            insertMathNode('e^()', 1);
+        } else if (val.endsWith('()')) {
+            insertMathNode(val, 1);
+        } else if (val === 'x^y') {
+            insertMathNode('^', 0);
+        } else if (val === 'x^-1') {
+            insertMathNode('^-1', 0);
+        } else if (val === 'x²') {
+            insertMathNode('^2', 0);
+        } else if (val === 'x³') {
+            insertMathNode('^3', 0);
+        } else {
+            insertMathNode(val, 0);
+        }
     }
 
     function insertMathNode(text, moveCursorBack = 0) {
@@ -955,6 +1019,9 @@ function handleInputBlur() {
             btn.style.color = "var(--mod2-color)"; btn.style.background = "var(--card-bg)";
             iconUnlock.style.display = "none"; iconLock.style.display = "block";
             if(tip) tip.style.display = 'none'; 
+            clearTimeout(lockTipTimer);
+            let lockTip = document.getElementById('lock-tip');
+            if (lockTip) lockTip.style.display = 'none';
         } else {
             document.body.classList.remove('sidebar-pinned');
             btn.style.color = "var(--muted-text)"; btn.style.background = "none";
@@ -963,6 +1030,7 @@ function handleInputBlur() {
     }
 
     let lockTipShown = false;
+    let lockTipTimer = null;
     function triggerLockTip() {
         if (window.innerWidth <= 800) return;
         if (!lockTipShown && !isSidebarPinned) {
@@ -970,7 +1038,8 @@ function handleInputBlur() {
             let lockTip = document.getElementById('lock-tip');
             if (lockTip) {
                 lockTip.style.display = 'block';
-                setTimeout(() => { lockTip.style.display = 'none'; }, 7000);
+                clearTimeout(lockTipTimer);
+                lockTipTimer = setTimeout(() => { lockTip.style.display = 'none'; }, 7000);
             }
         }
     }
@@ -1033,17 +1102,28 @@ function handleInputBlur() {
 
         QUESTION_BANK.forEach((q, index) => {
             let qId = "q" + (index + 1); totalMaxScore += q.marks;
-            let moduleHtml = (q.showModule) ? `<h2 class="module-title">${q.module}</h2>` : "";
-            let cleanQuestionHTML = String(q.question).replace(/#1d3b48/g, 'var(--input-bg)').replace(/#475569/g, 'var(--border-color)').replace(/#38bdf8/g, 'var(--mod2-color)').replace(/#94a3b8/g, 'var(--muted-text)');
+            let moduleHtml = (q.showModule) ? `<h2 class="module-title">${escapeHTML(q.module)}</h2>` : "";
+            
+            let cleanQuestionHTML = String(q.question || "[No Question Text]").replace(/#1d3b48/g, 'var(--input-bg)').replace(/#475569/g, 'var(--border-color)').replace(/#38bdf8/g, 'var(--mod2-color)').replace(/#94a3b8/g, 'var(--muted-text)').replace(/\n/g, '<br>');
 
-            // FIX: Added onblur handleInputBlur hook here
+            let mcqHtml = "";
+            if(q.type === "mcq") {
+                mcqHtml = `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; margin-bottom: 15px; font-size:14px; color:var(--text-color);">
+                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>A)</strong> ${escapeHTML(q.optA || "")}</div>
+                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>B)</strong> ${escapeHTML(q.optB || "")}</div>
+                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>C)</strong> ${escapeHTML(q.optC || "")}</div>
+                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>D)</strong> ${escapeHTML(q.optD || "")}</div>
+                </div>`;
+            }
+
             html += `
                 <div class="question-pane" id="pane-${index}" style="display: none;">
                     <div class="module-section">
                         ${moduleHtml}
                         <div class="question-block" id="${qId}-container">
                             <div class="question-text"><strong>Q${index + 1}.</strong> ${cleanQuestionHTML}</div>
-                            <input type="text" class="answer-input" id="${qId}" placeholder="${q.placeholder || ''}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="none" onfocus="handleInputFocus('${qId}')" onblur="handleInputBlur()" oninput="updatePreview('${qId}', ${index})">
+                            ${mcqHtml}
+                         <input type="text" class="answer-input" id="${qId}" placeholder="${q.placeholder || ''}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="none" onfocus="handleInputFocus('${qId}')" onclick="handleInputFocus('${qId}')" onblur="handleInputBlur()" oninput="updatePreview('${qId}', ${index})">
                             <div class="math-preview" id="${qId}-preview"></div>
                             <div class="feedback" id="${qId}-feedback"></div>
                         </div>
@@ -1128,255 +1208,46 @@ function handleInputBlur() {
     }
     function updatePaletteStatusAll() { QUESTION_BANK.forEach((q, i) => { updateQuestionPaletteState(i); }); updateSidebarStats(); }
 
-    function sanitizeMath(input) {
+function sanitizeMath(input) {
         let str = input.toLowerCase();
         
+        str = str.replace(/√/g, 'sqrt');
+        str = str.replace(/∛/g, 'cbrt');
+        str = str.replace(/sin\^-1/g, 'asin');
+        str = str.replace(/cos\^-1/g, 'acos');
+        str = str.replace(/tan\^-1/g, 'atan');
+
+        str = str.replace(/α/g, 'alpha').replace(/β/g, 'beta').replace(/γ/g, 'gamma')
+                 .replace(/δ/g, 'delta').replace(/θ/g, 'theta').replace(/ϕ/g, 'phi');
+
         str = str.replace(/cosec/g, 'csc');
         str = str.replace(/×/g, '*').replace(/÷/g, '/');
 
-        str = str.replace(/(sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt)\^([0-9a-z\.\-\+]+)\s*([a-z0-9]+|\([^\)]+\))/g, '($1($3))^$2');
-        str = str.replace(/(sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt)\s+([a-z0-9]+(?:\^[0-9a-z\.\-\+]+)?)/g, '$1($2)');
+        str = str.replace(/(asin|acos|atan|sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt|cbrt)\^([0-9a-z\.\-\+]+)\s*([a-z0-9]+|\([^\)]+\))/g, '($1($3))^$2');
+        str = str.replace(/(asin|acos|atan|sin|cos|tan|sec|csc|cot|log|ln|exp|sqrt|cbrt)\s+([a-z0-9]+(?:\^[0-9a-z\.\-\+]+)?)/g, '$1($2)');
         str = str.replace(/ln\s*\(/g, 'log(');
-        str = str.replace(/([a-z0-9])\s*(sin|cos|tan|sec|csc|cot|log|exp|sqrt)/g, '$1*$2');
         
-        let funcs = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'exp', 'sqrt'];
-        funcs.forEach((func, idx) => { str = str.split(func).join(`__F${idx}__`); });
+        let funcs = ['asin', 'acos', 'atan', 'cbrt', 'sqrt', 'abs', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'exp', 'ln'];
+        let greekVars = ['alpha', 'gamma', 'delta', 'theta', 'beta', 'phi'];
+        
+        funcs.forEach((func, idx) => { str = str.split(func).join(`@F${idx}@`); });
+        greekVars.forEach((gVar, idx) => { str = str.split(gVar).join(`@G${idx}@`); });
 
-        str = str.replace(/(\d)\s*([a-z\(])/g, '$1*$2');
-        str = str.replace(/([a-z])\s*\(/g, '$1*(');
-        
-        str = str.replace(/([xyztckmabwl])([xyztckmabwl])/g, '$1*$2');
+        str = str.replace(/([a-z0-9\)@])\s+([a-z0-9\(@])/g, '$1*$2');
+
+        str = str.replace(/([a-z0-9\)])(@[FG])/g, '$1*$2'); 
+        str = str.replace(/(@G\d+@)([a-z0-9\(@])/g, '$1*$2'); 
+        str = str.replace(/(\d)([a-z\(])/g, '$1*$2'); 
+        str = str.replace(/([a-z])\(/g, '$1*('); 
+        str = str.replace(/([xyztckmabwl])([xyztckmabwl])/g, '$1*$2'); 
         str = str.replace(/([xyztckmabwl])([xyztckmabwl])/g, '$1*$2'); 
         
-        funcs.forEach((func, idx) => { str = str.split(`__F${idx}__`).join(func); });
+        funcs.forEach((func, idx) => { str = str.split(`@F${idx}@`).join(func); });
+        greekVars.forEach((gVar, idx) => { str = str.split(`@G${idx}@`).join(gVar); });
+        
         funcs.forEach(func => { str = str.split(func + '*(').join(func + '('); });
         
         return str;
-    }
-
-    function checkMathEquivalence(userStr, correctStr, manualVars) {
-        try {
-            if(!userStr || userStr.trim() === "") return false;
-            
-            function processEquation(str) {
-                if (str.includes('=')) {
-                    let parts = str.split('=');
-                    return `(${parts[0]}) - (${parts[1]})`;
-                }
-                return str;
-            }
-
-            let isUserEq = userStr.includes('=');
-            let isKeyEq = correctStr.includes('=');
-
-            let uStr = processEquation(sanitizeMath(userStr)); 
-            let cStr = processEquation(sanitizeMath(correctStr));
-
-            let compiledUser = math.compile(uStr);
-            let compiledKey = math.compile(cStr);
-
-            let uSym = new Set(), cSym = new Set();
-            try { math.parse(uStr).traverse(n => { if (n.isSymbolNode) uSym.add(n.name); }); } catch(e){}
-            try { math.parse(cStr).traverse(n => { if (n.isSymbolNode) cSym.add(n.name); }); } catch(e){}
-            
-            let exclusions = ['pi', 'e', 'i', 'inf', 'nan', 'true', 'false', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'log', 'ln', 'exp', 'sqrt'];
-            
-            let uVars = [...uSym].filter(v => !exclusions.includes(v) && typeof math[v] !== 'function');
-            let kVars = [...cSym].filter(v => !exclusions.includes(v) && typeof math[v] !== 'function');
-            
-            let standardVars = ['x', 'y', 't', 'z', 'w'];
-            let uConsts = uVars.filter(v => !standardVars.includes(v));
-            let kConsts = kVars.filter(v => !standardVars.includes(v));
-            let kIndVars = kVars.filter(v => standardVars.includes(v));
-            
-            function findRoot(compiledEq, targetVar, scope) {
-                let x0 = scope[targetVar] || (Math.random() * 2 + 0.1);
-                let x1 = x0 + 0.1;
-                for (let i = 0; i < 30; i++) {
-                    scope[targetVar] = x0; let f0 = compiledEq.evaluate(scope);
-                    scope[targetVar] = x1; let f1 = compiledEq.evaluate(scope);
-                    if (Math.abs(f1) < 1e-6) return x1;
-                    if (f1 - f0 === 0) break;
-                    let x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
-                    x0 = x1; x1 = x2;
-                    if (isNaN(x1) || !isFinite(x1)) break;
-                }
-                for(let j=0; j<5; j++) {
-                    x0 = Math.random() * 10 - 5; x1 = x0 + 0.1;
-                    for (let i = 0; i < 30; i++) {
-                        scope[targetVar] = x0; let f0 = compiledEq.evaluate(scope);
-                        scope[targetVar] = x1; let f1 = compiledEq.evaluate(scope);
-                        if (Math.abs(f1) < 1e-6) return x1;
-                        if (f1 - f0 === 0) break;
-                        let x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
-                        x0 = x1; x1 = x2;
-                        if (isNaN(x1) || !isFinite(x1)) break;
-                    }
-                }
-                return null;
-            }
-
-            if (uConsts.length === kConsts.length && kConsts.length >= 1 && kConsts.length <= 4) {
-                const getPerms = arr => {
-                    if (arr.length <= 1) return [arr];
-                    let perms = [];
-                    for (let i = 0; i < arr.length; i++) {
-                        let rest = getPerms(arr.slice(0, i).concat(arr.slice(i + 1)));
-                        for (let j = 0; j < rest.length; j++) { perms.push([arr[i]].concat(rest[j])); }
-                    }
-                    return perms;
-                };
-
-                let kPerms = getPerms(kConsts);
-                let activeVarsAll = [...new Set([...uVars, ...kVars])];
-                
-                const getSignPerms = num => {
-                    let signs = [];
-                    for(let i=0; i<Math.pow(2, num); i++) {
-                        let current = [];
-                        for(let j=0; j<num; j++) { current.push((i & (1 << j)) ? -1 : 1); }
-                        signs.push(current);
-                    }
-                    return signs;
-                };
-                let signPerms = getSignPerms(kConsts.length);
-
-                for (let perm of kPerms) {
-                    for (let signs of signPerms) {
-                        let permMatch = true;
-                        for(let i=0; i<3; i++) {
-                            let scope = {};
-                            activeVarsAll.forEach(v => { scope[v] = Math.random() * 1.5 + 0.1; });
-                            
-                            let cVal = compiledKey.evaluate(scope);
-                            
-                            let uScope = { ...scope };
-                            for (let j = 0; j < uConsts.length; j++) {
-                                uScope[uConsts[j]] = scope[perm[j]] * signs[j]; 
-                            }
-                            let uVal = compiledUser.evaluate(uScope);
-                            
-                            let diff1 = Math.abs(uVal - cVal); let diff2 = Math.abs(uVal + cVal);
-                            let denom = Math.abs(cVal) + 1e-10;
-                            if (!((diff1 <= 1e-5 || diff1 / denom <= 1e-5) || (diff2 <= 1e-5 || diff2 / denom <= 1e-5))) {
-                                permMatch = false; break;
-                            }
-                        }
-                        if (permMatch) return true;
-                    }
-                }
-            }
-
-            if (isUserEq && isKeyEq && uConsts.length === 1 && kConsts.length === 1) {
-                let Kc = kConsts[0];
-                let Uc = uConsts[0];
-                let solveVar = kIndVars.length > 0 ? kIndVars[0] : 'x';
-                let otherVars = kIndVars.filter(v => v !== solveVar);
-                if (otherVars.length === 0 && solveVar !== 'x') otherVars = ['x']; 
-                if (otherVars.length === 0) otherVars = ['y'];
-
-                let masterMatch = false;
-                for (let masterAttempt = 0; masterAttempt < 3; masterAttempt++) {
-                    let validPoints = [];
-                    let attempts = 0;
-                    let testKc = Math.random() * 5 + 1; 
-                    
-                    while(validPoints.length < 3 && attempts < 80) {
-                        attempts++;
-                        let scope = {};
-                        scope[Kc] = testKc;
-                        otherVars.forEach(v => scope[v] = Math.random() * 6 - 3); 
-                        
-                        let root = findRoot(compiledKey, solveVar, scope);
-                        if (root !== null) {
-                            scope[solveVar] = root;
-                            if (Math.abs(compiledKey.evaluate(scope)) < 1e-4) {
-                                validPoints.push({...scope});
-                            }
-                        }
-                    }
-                    
-                    if (validPoints.length >= 3) {
-                        let scope0 = {...validPoints[0]};
-                        delete scope0[Kc];
-                        let userRoot = findRoot(compiledUser, Uc, scope0);
-                        
-                        if (userRoot !== null) {
-                            let allMatch = true;
-                            for(let i=1; i<validPoints.length; i++) {
-                                let testScope = {...validPoints[i]};
-                                delete testScope[Kc];
-                                testScope[Uc] = userRoot;
-                                let uVal = compiledUser.evaluate(testScope);
-                                if (Math.abs(uVal) > 1e-3) { allMatch = false; break; }
-                            }
-                            if (allMatch) { masterMatch = true; break; }
-                        }
-                    }
-                }
-                if (masterMatch) return true;
-            }
-
-            let activeVars = [...new Set([...uVars, ...kVars])];
-            if (activeVars.length === 0) {
-                let fallback = manualVars; 
-                if (typeof manualVars === 'string') fallback = manualVars.split(',').map(s=>s.trim());
-                activeVars = fallback;
-            }
-
-            if (isUserEq && isKeyEq) {
-                let validPoints = [];
-                let attempts = 0;
-                
-                while (validPoints.length < 3 && attempts < 80) {
-                    attempts++;
-                    let scope = {};
-                    activeVars.forEach(v => scope[v] = Math.random() * 2.0 + 0.5); 
-                    
-                    let solveVar = activeVars[Math.floor(Math.random() * activeVars.length)];
-                    if (!solveVar) break;
-                    
-                    let root = findRoot(compiledKey, solveVar, scope);
-                    if (root !== null) {
-                        scope[solveVar] = root;
-                        validPoints.push({...scope});
-                    }
-                }
-                
-                if (validPoints.length >= 3) {
-                    let allMatch = true;
-                    for(let i=0; i<validPoints.length; i++) {
-                        let uVal = compiledUser.evaluate(validPoints[i]);
-                        if (Math.abs(uVal) > 1e-3) { allMatch = false; break; }
-                    }
-                    if (allMatch) return true; 
-                }
-            }
-
-            for(let i=0; i<3; i++) {
-                let scope = {}; activeVars.forEach(v => { scope[v] = Math.random() * 1.5 + 0.1; });
-                let cVal = compiledKey.evaluate(scope);
-                let uVal = compiledUser.evaluate(scope);
-                
-                function checkMatch(u, c) {
-                    let diff1 = Math.abs(u - c); let diff2 = Math.abs(u + c);
-                    let denom = Math.abs(c) + 1e-10;
-                    return (diff1 <= 1e-5 || diff1 / denom <= 1e-5) || (diff2 <= 1e-5 || diff2 / denom <= 1e-5);
-                }
-
-                let matchFound = checkMatch(uVal, cVal);
-                
-                if (!matchFound && scope.hasOwnProperty('c1') && scope.hasOwnProperty('c2')) {
-                    let swappedScope = { ...scope }; swappedScope['c1'] = scope['c2']; swappedScope['c2'] = scope['c1'];
-                    let uValSwapped = compiledUser.evaluate(swappedScope); 
-                    matchFound = checkMatch(uValSwapped, cVal);
-                }
-                
-                if (!matchFound) return false;
-            }
-            return true;
-
-        } catch(e) { return false; }
     }
 
     function updatePreview(qId, index) {
@@ -1400,12 +1271,18 @@ function handleInputBlur() {
                 texStr = math.parse(parsedStr).toTex({parenthesis: 'auto'});
             }
             
+            texStr = texStr.replace(/\\arcsin/g, '\\sin^{-1}')
+                           .replace(/\\arccos/g, '\\cos^{-1}')
+                           .replace(/\\arctan/g, '\\tan^{-1}');
+            
+            texStr = texStr.replace(/(?:\\mathrm\{cbrt\}|cbrt)\\left\((.*?)\\right\)/g, '\\sqrt[3]{$1}');
             texStr = texStr.replace(/\\(sin|cos|tan|sec|csc|cot)\\left\((.*?)\\right\)\^\{?([^}]+)\}?/g, '\\left(\\$1\\left($2\\right)\\right)^{$3}');
 
             previewBox.innerHTML = '\\( ' + texStr + ' \\)';
-            // JITTER FIX: Removed the scrollToEnsureVisible call from inside the render loop.
             MathJax.typesetPromise([previewBox]).catch(function (err) { });
-        } catch (e) { previewBox.innerHTML = '<span style="color: var(--muted-text); font-size: 14px;"><i>...</i></span>'; }
+        } catch (e) { 
+            previewBox.innerHTML = '<span style="color: var(--muted-text); font-size: 14px;"><i>...</i></span>'; 
+        }
         updateQuestionPaletteState(index);
         updateSidebarStats();
     }
@@ -1424,7 +1301,13 @@ function handleInputBlur() {
     function handleFullscreenBreakout() {
         if (testActive && focusDetectionActive && !isLockedOut && document.getElementById('submit-confirm-modal').style.display !== 'flex') {
             let isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-            if (!isFullscreen) { registerSecurityStrike("Fullscreen Mode unexpectedly exited."); }
+            if (!isFullscreen) { 
+                if (document.exitFullscreen && document.exitFullscreen.toString().indexOf('[native code]') === -1) {
+                    registerSecurityStrike("Anti-cheat protocol tampered with or disabled.");
+                } else {
+                    registerSecurityStrike("Fullscreen Mode unexpectedly exited."); 
+                }
+            }
         }
     }
     document.addEventListener('fullscreenchange', handleFullscreenBreakout); document.addEventListener('webkitfullscreenchange', handleFullscreenBreakout);
@@ -1543,6 +1426,7 @@ function handleInputBlur() {
                 cachedServerResponseData = data; cachedStudentRegistrationPackage = { name, email, usn, section, roll, examCode };
                 startBtn.innerText = "Start Assessment"; startBtn.disabled = false;
                 document.getElementById('math-guide-modal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }).catch(error => {
             errorMsg.innerText = "⚠️ Could not connect. Please check your internet connection."; errorMsg.style.display = "block";
@@ -1554,19 +1438,40 @@ function handleInputBlur() {
         document.getElementById('math-guide-modal').style.display = 'none'; document.getElementById('fullscreen-notice-modal').style.display = 'flex';
     }
 
-    function launchDeveloperPreview() {
-        console.warn("🔧 DEVELOPER PREVIEW ACTIVE: Fetching live questions from server while bypassing credentials.");
-        let examCode = document.getElementById('reg-examcode').value.trim();
-        let devBtn = document.getElementById('dev-bypass-btn'); let originalText = devBtn.innerText; devBtn.innerText = "Loading Live Setup..."; devBtn.disabled = true;
+    // 🔧 HIDDEN DEVELOPER BYPASS (Click Title 5 Times)
+    let devClickCount = 0;
+    let devClickTimer = null;
+    
+    document.getElementById('secret-dev-trigger').addEventListener('click', () => {
+        devClickCount++;
+        clearTimeout(devClickTimer);
+        
+        if(devClickCount >= 5) {
+            devClickCount = 0;
+            let pin = prompt("🔧 Developer Mode\nEnter Admin PIN:");
+            if(pin === "778899") { 
+                launchDeveloperPreview(pin);
+            } else if (pin !== null && pin !== "") {
+                alert("Incorrect PIN.");
+            }
+        }
+        
+        devClickTimer = setTimeout(() => { devClickCount = 0; }, 1500);
+    });
 
-        let url = GOOGLE_SHEET_URL + "?developer_bypass=true&examCode=" + encodeURIComponent(examCode);
+    function launchDeveloperPreview(pin) {
+        let examCode = document.getElementById('reg-examcode').value.trim() || "GENERAL";
+        let startBtn = document.getElementById('start-btn');
+        startBtn.innerText = "Loading Live Setup..."; startBtn.disabled = true;
+
+        let url = GOOGLE_SHEET_URL + "?developer_bypass=" + encodeURIComponent(pin) + "&examCode=" + encodeURIComponent(examCode);
 
         fetch(url) 
         .then(response => response.json())
         .then(data => {
-            if(data.status === "error") { alert("⚠️ " + data.message); devBtn.innerText = originalText; devBtn.disabled = false; return; }
+            if(data.status === "error") { alert("⚠️ " + data.message); startBtn.innerText = "Start Assessment"; startBtn.disabled = false; return; }
             if (data && data.questions && data.questions.length > 0) { QUESTION_BANK = data.questions; } 
-            else { alert("Configuration Error: No active questions found in the Google Sheet for this Exam Code. Please check the 'Status' column."); devBtn.innerText = originalText; devBtn.disabled = false; return; }
+            else { alert("Configuration Error: No active questions found in the Google Sheet for this Exam Code."); startBtn.innerText = "Start Assessment"; startBtn.disabled = false; return; }
 
             if (data && data.duration) { EXAM_DURATION_MINUTES = parseInt(data.duration); }
             initializeQuiz();
@@ -1575,6 +1480,7 @@ function handleInputBlur() {
             cachedServerResponseData = data;
 
             document.getElementById('fullscreen-notice-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
             studentDetails = cachedStudentRegistrationPackage; testEndTime = Date.now() + data.remaining;
             
             let testElem = document.getElementById('main-test-element');
@@ -1590,11 +1496,12 @@ function handleInputBlur() {
             
             setTimeout(() => { document.getElementById('navigator-tip').style.display = 'block'; }, 1000);
             alert(`🔧 Dev Mode Engaged!\nLive layout loaded for Exam Code [${examCode}]. Passwords bypassed.`);
-        }).catch(error => { alert("⚠️ Could not connect to fetch live questions."); devBtn.innerText = originalText; devBtn.disabled = false; });
+        }).catch(error => { alert("⚠️ Could not connect to fetch live questions."); startBtn.innerText = "Start Assessment"; startBtn.disabled = false; });
     }
 
     function acceptFullscreenAndStart() {
         document.getElementById('fullscreen-notice-modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
         let data = cachedServerResponseData; studentDetails = cachedStudentRegistrationPackage;
         
         if (data && data.questions && data.questions.length > 0) { QUESTION_BANK = data.questions; } 
@@ -1622,8 +1529,8 @@ function handleInputBlur() {
 
         if (cloudDraft["_markedForReview"]) { markedForReview = cloudDraft["_markedForReview"]; }
 
-QUESTION_BANK.forEach((q, i) => {
-            let qId = "q" + (i + 1); // <--- Changed 'index' to 'i'
+        QUESTION_BANK.forEach((q, i) => {
+            let qId = "q" + (i + 1); 
            let savedVal = cloudDraft[qId] || safeStorageGet(studentDetails.usn + '_ans_' + qId) || "";
             if (savedVal.trim() !== "") { let box = document.getElementById(qId); if (box) { box.value = savedVal; updatePreview(qId, i); } } 
         });
@@ -1652,12 +1559,67 @@ QUESTION_BANK.forEach((q, i) => {
         }, 1000);
     }
 
+    // -------------------------------------------------------------
+    // SECURE AI POST-TEST TUTOR LOGIC
+    // -------------------------------------------------------------
+    async function askAITutor(index) {
+        let qId = "q" + (index + 1);
+        let userAns = document.getElementById(qId).value.trim();
+        let qData = QUESTION_BANK[index];
+        let feedbackDiv = document.getElementById(qId + '-feedback');
+
+        let aiBoxId = 'ai-tutor-box-' + index;
+        let existingBox = document.getElementById(aiBoxId);
+        if (!existingBox) {
+            existingBox = document.createElement('div');
+            existingBox.id = aiBoxId;
+            existingBox.style.marginTop = "15px";
+            existingBox.style.padding = "15px";
+            existingBox.style.borderRadius = "8px";
+            existingBox.style.backgroundColor = "rgba(129, 140, 248, 0.1)";
+            existingBox.style.border = "1px solid var(--mod5-color)";
+            existingBox.style.color = "var(--text-color)";
+            existingBox.style.fontSize = "14px";
+            feedbackDiv.appendChild(existingBox);
+        }
+        
+        let tutorBtn = document.getElementById('ai-tutor-btn-' + index);
+        if (tutorBtn) tutorBtn.style.display = "none";
+        
+        existingBox.innerHTML = "⏳ <em>AI Tutor is securely analyzing your mistake via the backend...</em>";
+
+        try {
+            let response = await fetch(GOOGLE_SHEET_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify({
+                    action: "ask_ai_tutor",
+                    questionId: qData.id,
+                    userAnswer: userAns
+                })
+            });
+
+            if(!response.ok) throw new Error("Network request failed.");
+            
+            let data = await response.json();
+            if(data.status !== "success") throw new Error(data.message);
+            
+            let text = data.reply.replace(/\n/g, '<br>');
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            existingBox.innerHTML = `<strong>🤖 AI Tutor Analysis:</strong><br><br>${text}`;
+            MathJax.typesetPromise([existingBox]).catch(e=>{});
+            
+        } catch (err) {
+            existingBox.innerHTML = `⚠️ <strong>AI Tutor Error:</strong> ${err.message}. <a href="#" onclick="document.getElementById('ai-tutor-btn-${index}').style.display='block'; this.parentElement.style.display='none'; return false;" style="color:var(--mod5-color);">Try again</a>.`;
+        }
+    }
+
     function evaluateTest() {
         closeKeyboard();
         let formSection = document.getElementById('quiz-section');
         if (formSection && !testActive && formSection.style.display === 'block' && document.getElementById('final-score').style.display === 'block') return;
 
-        // Force unpin the sidebar so the final solution page centers perfectly
         if (isSidebarPinned) {
             document.body.classList.remove('sidebar-pinned');
             isSidebarPinned = false;
@@ -1676,8 +1638,8 @@ QUESTION_BANK.forEach((q, i) => {
         let exitReq = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
         if (exitReq && (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)) { exitReq.call(document).catch(e => {}); }
         
-        let fixedHeader = document.querySelector('.quiz-header-fixed'); if (fixedHeader) { fixedHeader.style.position = 'static'; fixedHeader.style.transform = 'none'; }
-        let fixedFooter = document.querySelector('.quiz-footer-fixed'); if (fixedFooter) { fixedFooter.style.position = 'static'; fixedFooter.style.transform = 'none'; }
+        let fixedHeader = document.querySelector('.quiz-header-fixed'); if (fixedHeader) { fixedHeader.style.display = 'none'; }
+        let fixedFooter = document.querySelector('.quiz-footer-fixed'); if (fixedFooter) { fixedFooter.style.display = 'none'; }
         
         let containerWrap = document.getElementById('main-test-element'); if (containerWrap) containerWrap.style.padding = '20px';
         document.getElementById('question-sidebar').style.display = 'none';
@@ -1688,89 +1650,106 @@ QUESTION_BANK.forEach((q, i) => {
         
         let totalElapsedSec = Math.floor(((EXAM_DURATION_MINUTES * 60 * 1000) - (testEndTime - Date.now())) / 1000);
         if(totalElapsedSec < 0) totalElapsedSec = 0; if(totalElapsedSec > (EXAM_DURATION_MINUTES * 60)) totalElapsedSec = EXAM_DURATION_MINUTES * 60;
-
         let formattedTimeTaken = Math.floor(totalElapsedSec / 60) + "m " + (totalElapsedSec % 60) + "s";
-        let totalScore = 0; let summaryReport = "";
 
         document.getElementById('final-submit-btn').style.display = 'none';
-        document.getElementById('loading-spinner').style.display = 'block';
+        
+        let spinner = document.getElementById('loading-spinner');
+        spinner.style.display = 'block';
 
+        let studentAnswers = {};
+        let questionOrder = [];
         QUESTION_BANK.forEach((q, index) => {
-            let qId = "q" + (index + 1); let inputField = document.getElementById(qId);
-            let container = document.getElementById(qId + '-container'); let feedback = document.getElementById(qId + '-feedback');
-            let rawUserAns = inputField.value.trim();
-            
-            let qTimeMs = questionTimes[index] || 0; let qTimeSec = Math.floor(qTimeMs / 1000);
-            let qTimeStr = Math.floor(qTimeSec / 60) + "m " + (qTimeSec % 60) + "s";
-
-            container.classList.remove('status-correct', 'status-incorrect'); inputField.readOnly = true; 
-            let isCorrect = false;
-
-            if (q.type === "math") { 
-                isCorrect = checkMathEquivalence(rawUserAns, q.answer, q.vars); 
-            } 
-            else {
-                if (q.tolerance !== undefined && rawUserAns.trim() !== "" && !isNaN(parseFloat(rawUserAns))) {
-                    let userNum = parseFloat(rawUserAns); let correctNum = parseFloat(q.answer);
-                    isCorrect = Math.abs(userNum - correctNum) <= q.tolerance;
-                } else { isCorrect = (rawUserAns.toLowerCase() === q.answer.toLowerCase()); }
-            }
-
-            let solBtn = `<button type="button" style="background: var(--input-bg); color: var(--mod2-color); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 6px; width: 100%; text-align: left; font-weight: bold; font-family: 'Poppins', sans-serif; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;" onclick="let c=this.nextElementSibling; if(c.style.display==='none'){c.style.display='block'; this.innerHTML='🙈 Hide Detailed Solution'; this.style.borderBottomLeftRadius='0'; this.style.borderBottomRightRadius='0';} else {c.style.display='none'; this.innerHTML='👁️ View Detailed Solution'; this.style.borderBottomLeftRadius='6px'; this.style.borderBottomRightRadius='6px';}">👁️ View Detailed Solution</button>`;
-            let solContent = `<div style="display:none; background: var(--card-bg); padding: 15px; border: 1px solid var(--border-color); border-top: none; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; overflow-x: auto; max-width: 100%; width: 100%; box-sizing: border-box; font-size: 14px; color: var(--text-color);"><strong>Solution:</strong><br>${q.explanation || '<em style="color: var(--muted-text);">No detailed explanation available.</em>'}</div>`;
-            let accordionHtml = `<div style="margin-top: 15px;">${solBtn}${solContent}</div>`;
-
-            if (isCorrect) {
-                container.classList.add('status-correct'); 
-                feedback.innerHTML = `✓ <strong>Correct!</strong>` + accordionHtml;
-                totalScore += q.marks; summaryReport += `Q${index+1}: ${rawUserAns} (Correct - ${q.marks} Marks) [Time: ${qTimeStr}]\n`;
-            } else {
-                container.classList.add('status-incorrect'); let emptyMsg = rawUserAns === "" ? "Blank." : "Incorrect.";
-                feedback.innerHTML = `✗ ${emptyMsg} Correct answer: <strong>${q.answer}</strong>.` + accordionHtml;
-                summaryReport += `Q${index+1}: ${rawUserAns === "" ? "[Blank]" : rawUserAns} (Wrong - 0 Marks) [Time: ${qTimeStr}]\n`;
-            }
-            feedback.style.display = 'block';
+            let qId = "q" + (index + 1);
+            studentAnswers[q.id] = document.getElementById(qId).value.trim();
+            questionOrder.push(q.id);
         });
-         
-        MathJax.typesetPromise();
 
         const payload = {
+            action: "submit_exam",
             usn: studentDetails.usn, name: studentDetails.name, email: studentDetails.email, 
             section: studentDetails.section, roll: studentDetails.roll, examCode: studentDetails.examCode, 
-            score: totalScore, maxScore: totalMaxScore, timeTaken: formattedTimeTaken, detailedReport: summaryReport
+            answers: studentAnswers, questionOrder: questionOrder, timeTaken: formattedTimeTaken
         };
 
         function attemptSubmission() {
-            let spinner = document.getElementById('loading-spinner');
             if (!navigator.onLine) {
                 spinner.innerHTML = "⚠️ <strong>Internet Connection Lost!</strong><br>DO NOT close this tab. We will auto-submit as soon as Wi-Fi reconnects...";
                 spinner.style.color = "var(--timer-color)"; setTimeout(attemptSubmission, 3000); return;
             }
             
-            // --- THE SMART SPINNER TEXT ---
-            if (SEND_STUDENT_EMAILS === true) {
-                spinner.innerHTML = "Saving your results to the database... Please wait.";
-            } else {
-                spinner.innerHTML = "Saving your results... Please wait.";
-            }
+            spinner.innerHTML = "Securely grading and saving your results... Please wait.";
             spinner.style.color = "var(--mod2-color)";
 
-            fetch(GOOGLE_SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-            .then(() => {
-                safeStorageClear(); safeStorageSet('testCompleted', 'true'); 
-                document.getElementById('loading-spinner').style.display = 'none'; 
+            fetch(GOOGLE_SHEET_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'text/plain' }, 
+                body: JSON.stringify(payload) 
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.status !== "success") { throw new Error(data.message); }
                 
+                safeStorageClear(); safeStorageSet('testCompleted', 'true'); 
+                spinner.style.display = 'none'; 
+                
+                QUESTION_BANK.forEach((q, index) => {
+                    let qId = "q" + (index + 1);
+                    let container = document.getElementById(qId + '-container');
+                    let feedback = document.getElementById(qId + '-feedback');
+                    let inputField = document.getElementById(qId);
+                    let rawUserAns = inputField.value.trim();
+                    
+                    inputField.readOnly = true; 
+                    
+                    let result = data.gradedResults.find(r => String(r.id) === String(q.id));
+                    if(!result) return;
+
+                    let cleanAns = String(result.answer || "[No Answer]").replace(/\n/g, '<br>');
+                    let qExp = String(result.explanation || '<em style="color: var(--muted-text);">No detailed explanation available.</em>').replace(/\n/g, '<br>');
+
+                    // Create a unique ID for the collapsible solution div
+                    let solContentId = `sol-content-${index}`;
+
+                    // Update button to take 50% width (flex: 1), shrink text slightly to fit, and use ID targeting
+                    let solBtn = `<button type="button" style="flex: 1; background: var(--input-bg); color: var(--mod2-color); border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-family: 'Poppins', sans-serif; font-size: 13px; cursor: pointer; transition: 0.2s;" onclick="let c=document.getElementById('${solContentId}'); if(c.style.display==='none'){c.style.display='block'; this.innerHTML='🙈 Hide Solution';} else {c.style.display='none'; this.innerHTML='👁️ View Solution';}">👁️ View Solution</button>`;
+                    
+                    let solContent = `<div id="${solContentId}" style="display:none; background: var(--card-bg); padding: 15px; border: 1px solid var(--border-color); margin-top: 10px; border-radius: 6px; overflow-x: auto; max-width: 100%; width: 100%; box-sizing: border-box; font-size: 14px; color: var(--text-color);"><strong>Solution:</strong><br>${qExp}</div>`;
+
+                    // Report Button UI
+                    let safeUserAns = escapeHTML(rawUserAns).replace(/'/g, "\\'");
+                    let safeCorrectAns = escapeHTML(result.answer).replace(/'/g, "\\'");
+                    let reportBtnHtml = `<button type="button" class="submit-btn" style="background:rgba(251, 191, 36, 0.1); color:var(--timer-color); border:1px solid var(--timer-color); margin-top:10px; padding: 10px 15px; font-size: 13px; width: 100%; box-shadow: none; border-radius: 6px;" onclick="openDoubtModal('${q.id}', '${safeUserAns}', '${safeCorrectAns}')">🚩 Report Issue with Question / Answer Key</button>`;
+
+                    if (result.isCorrect) {
+                        container.classList.add('status-correct'); 
+                        feedback.innerHTML = `✓ <strong>Correct!</strong><div style="margin-top: 15px; display: flex; gap: 10px;">${solBtn}</div>${solContent}${reportBtnHtml}`;
+                    } else {
+                        container.classList.add('status-incorrect'); 
+                        let emptyMsg = inputField.value.trim() === "" ? "Blank." : "Incorrect.";
+                        // Update AI button to be flex: 1 and match new height
+                        let aiTutorBtn = `<button type="button" id="ai-tutor-btn-${index}" class="submit-btn" style="flex: 1; background:var(--mod5-color); margin-top: 0; padding: 10px; font-size: 13px; box-shadow: none; border-radius: 6px;" onclick="askAITutor(${index})">🤖 Analyze Mistake</button>`;
+                        
+                        // Group the two buttons side-by-side in a flexbox row
+                        feedback.innerHTML = `✗ ${emptyMsg} Correct answer: <strong>${cleanAns}</strong>.<div style="margin-top: 15px; display: flex; gap: 10px;">${solBtn}${aiTutorBtn}</div>${solContent}${reportBtnHtml}`;
+                    }
+                    feedback.style.display = 'block';
+                });
+
+                MathJax.typesetPromise();
+
                 let finalScoreDiv = document.getElementById('final-score');
                 finalScoreDiv.style.display = "block";
                 finalScoreDiv.innerHTML = `
-                    <div style="font-size: 26px; margin-bottom: 10px;">Marks Obtained: <span style="color: ${totalScore >= (totalMaxScore/2) ? 'var(--correct-color)' : 'var(--incorrect-color)'};">${totalScore} / ${totalMaxScore}</span></div>
+                    <div style="font-size: 26px; margin-bottom: 10px;">Marks Obtained: <span style="color: ${data.score >= (data.maxScore/2) ? 'var(--correct-color)' : 'var(--incorrect-color)'};">${data.score} / ${data.maxScore}</span></div>
                     <div style="font-size: 18px; color: var(--timer-color); display: block; margin-bottom: 5px;">Time Taken: ${formattedTimeTaken}</div>
-                    <div style="font-size: 15px; color: var(--muted-text); font-weight: normal; margin-top: 15px; display: block; border-top: 1px dashed var(--border-color); padding-top: 15px;">Your answers have been securely saved. Review your detailed solutions below.</div>
+                    <div style="font-size: 15px; color: var(--muted-text); font-weight: normal; margin-top: 15px; display: block; border-top: 1px dashed var(--border-color); padding-top: 15px;">Your answers have been securely evaluated by the server.</div>
                 `;
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }).catch(() => { 
-                spinner.innerHTML = "⚠️ <strong>Connection interrupted during save!</strong><br>Retrying securely... Do not close tab.";
+            }).catch((err) => { 
+                console.error("Submission Error:", err);
+                spinner.innerHTML = "⚠️ <strong>Connection interrupted or server error!</strong><br>Retrying securely... Do not close tab.";
                 spinner.style.color = "var(--incorrect-color)"; setTimeout(attemptSubmission, 3000);
             });
         } 
@@ -1784,12 +1763,67 @@ QUESTION_BANK.forEach((q, i) => {
             currentAnswers["_markedForReview"] = markedForReview;
             
             if (Object.keys(currentAnswers).length > 0 && typeof studentDetails !== 'undefined' && studentDetails.usn) {
-                fetch(GOOGLE_SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, 
-                    body: JSON.stringify({ action: "autosave", usn: studentDetails.usn, examCode: studentDetails.examCode, answers: currentAnswers })
-                }).catch(err => console.log("Silent cloud save sync dropped:", err));
+                safeStorageSet('lms_draft_' + studentDetails.usn, JSON.stringify(currentAnswers));
+                
+                if(navigator.onLine) {
+                    fetch(GOOGLE_SHEET_URL, { 
+                        method: 'POST', 
+                        headers: { 'Content-Type': 'text/plain' }, 
+                        body: JSON.stringify({ action: "autosave", usn: studentDetails.usn, examCode: studentDetails.examCode, answers: currentAnswers })
+                    }).then(() => {
+                        console.log("Autosave ping sent.");
+                    }).catch(err => console.log("Silent cloud save sync dropped:", err));
+                }
             }
         }
     }, 30000);
+
+    // 🚩 DOUBT REPORTING LOGIC
+    function openDoubtModal(qId, userAns, correctAns) {
+        document.getElementById('doubt-q-id').value = qId;
+        document.getElementById('doubt-user-ans').value = userAns;
+        document.getElementById('doubt-correct-ans').value = correctAns;
+        document.getElementById('doubt-issue-text').value = '';
+        document.getElementById('doubt-report-modal').style.display = 'flex';
+    }
+
+    function submitDoubtReport() {
+        let qId = document.getElementById('doubt-q-id').value;
+        let userAns = document.getElementById('doubt-user-ans').value;
+        let correctAns = document.getElementById('doubt-correct-ans').value;
+        let issueText = document.getElementById('doubt-issue-text').value.trim();
+
+        if(!issueText) { alert("⚠️ Please describe the issue before submitting."); return; }
+
+        let btn = document.getElementById('submit-doubt-btn');
+        btn.innerText = "Submitting..."; btn.disabled = true;
+
+        fetch(GOOGLE_SHEET_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+                action: "submit_doubt_report",
+                usn: studentDetails.usn || "N/A",
+                name: studentDetails.name || "N/A",
+                examCode: studentDetails.examCode || "GENERAL",
+                questionId: qId,
+                userAnswer: userAns,
+                correctAnswer: correctAns,
+                issueText: issueText
+            })
+        }).then(res => res.json()).then(data => {
+            if(data.status === "success") {
+                alert("✅ Report submitted successfully. Your instructor will review it in the Admin Dashboard.");
+                document.getElementById('doubt-report-modal').style.display = 'none';
+            } else {
+                alert("⚠️ Error: " + data.message);
+            }
+        }).catch(err => {
+            alert("⚠️ Network error submitting report. Please try again.");
+        }).finally(() => {
+            btn.innerText = "Submit Report"; btn.disabled = false;
+        });
+    }
 </script> 
 
 </body>
