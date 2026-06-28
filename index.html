@@ -1728,7 +1728,7 @@ function sanitizeMath(input) {
                         container.classList.add('status-incorrect'); 
                         let emptyMsg = inputField.value.trim() === "" ? "Blank." : "Incorrect.";
                         // Update AI button to be flex: 1 and match new height
-                        let aiTutorBtn = `<button type="button" id="ai-tutor-btn-${index}" class="submit-btn" style="flex: 1; background:var(--mod5-color); margin-top: 0; padding: 10px; font-size: 13px; box-shadow: none; border-radius: 6px;" onclick="askAITutor(${index})">🤖 Analyze Mistake</button>`;
+                        let aiTutorBtn = `<button type="button" id="ai-tutor-btn-${index}" class="submit-btn" style="flex: 1; background:var(--mod5-color); margin-top: 0; padding: 10px; font-size: 13px; box-shadow: none; border-radius: 6px;" onclick="askAITutor(${index})">Analyze Mistake</button>`;
                         
                         // Group the two buttons side-by-side in a flexbox row
                         feedback.innerHTML = `✗ ${emptyMsg} Correct answer: <strong>${cleanAns}</strong>.<div style="margin-top: 15px; display: flex; gap: 10px;">${solBtn}${aiTutorBtn}</div>${solContent}${reportBtnHtml}`;
