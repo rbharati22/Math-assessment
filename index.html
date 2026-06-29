@@ -7,6 +7,9 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+    .mcq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; margin-bottom: 15px; font-size: 14px; color: var(--text-color); }
+    .mcq-option { background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color); overflow-x: auto; max-width: 100%; }
+    @media (max-width: 800px) { .mcq-grid { grid-template-columns: 1fr; } }
       :root {
             --bg-color: #081c24; 
             --container-bg: #122b36; 
@@ -1107,12 +1110,12 @@ function openKeyboard(id) {
             let cleanQuestionHTML = String(q.question || "[No Question Text]").replace(/#1d3b48/g, 'var(--input-bg)').replace(/#475569/g, 'var(--border-color)').replace(/#38bdf8/g, 'var(--mod2-color)').replace(/#94a3b8/g, 'var(--muted-text)').replace(/\n/g, '<br>');
 
             let mcqHtml = "";
-            if(q.type === "mcq") {
-                mcqHtml = `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; margin-bottom: 15px; font-size:14px; color:var(--text-color);">
-                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>A)</strong> ${escapeHTML(q.optA || "")}</div>
-                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>B)</strong> ${escapeHTML(q.optB || "")}</div>
-                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>C)</strong> ${escapeHTML(q.optC || "")}</div>
-                    <div style="background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);"><strong>D)</strong> ${escapeHTML(q.optD || "")}</div>
+if(q.type === "mcq") {
+                mcqHtml = `<div class="mcq-grid">
+                    <div class="mcq-option"><strong>A)</strong> \\(${escapeHTML(q.optA || "")}\\)</div>
+                    <div class="mcq-option"><strong>B)</strong> \\(${escapeHTML(q.optB || "")}\\)</div>
+                    <div class="mcq-option"><strong>C)</strong> \\(${escapeHTML(q.optC || "")}\\)</div>
+                    <div class="mcq-option"><strong>D)</strong> \\(${escapeHTML(q.optD || "")}\\)</div>
                 </div>`;
             }
 
@@ -1611,7 +1614,7 @@ function sanitizeMath(input) {
             MathJax.typesetPromise([existingBox]).catch(e=>{});
             
         } catch (err) {
-            existingBox.innerHTML = `⚠️ <strong>AI Tutor Error:</strong> ${err.message}. <a href="#" onclick="document.getElementById('ai-tutor-btn-${index}').style.display='block'; this.parentElement.style.display='none'; return false;" style="color:var(--mod5-color);">Try again</a>.`;
+            existingBox.innerHTML = `⚠️ <strong>Error:</strong> ${err.message}. <a href="#" onclick="document.getElementById('ai-tutor-btn-${index}').style.display='block'; this.parentElement.style.display='none'; return false;" style="color:var(--mod5-color);">Try again</a>.`;
         }
     }
 
